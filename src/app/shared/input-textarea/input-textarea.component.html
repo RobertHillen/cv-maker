@@ -1,0 +1,14 @@
+<div class="form-group">
+  <label *ngIf="hasLabel()" for="{{name}}">{{label}}</label>
+  <textarea class="form-control form-control-sm"
+            name="{{name}}"
+            id="{{name}}"
+            rows={{rows}}
+            required="{{!!isRequired}}"
+            #inputField="ngModel"
+            [ngModel]="value"
+            (blur)="valueChanged(inputField.value)"
+            [ngClass]="{'is-invalid': inputField.invalid }"
+            placeholder="{{placeHolder}}">
+    </textarea>
+</div>

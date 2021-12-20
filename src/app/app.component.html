@@ -1,0 +1,307 @@
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">CV MAKER</a>
+    <div class="d-flex flex-row-reverse">
+      <div class="p-2">
+        <button type="button" class="btn btn-light btn-sm" (click)="resetCv()"><i class="fas fa-file" aria-hidden="true"> Reset</i></button>
+      </div>
+      <div class="p-2">
+        <button type="button" class="btn btn-light btn-sm" (click)="exportCv()"><i class="fas fa-download" aria-hidden="true"> Export</i></button>
+      </div>
+      <div class="p-2">
+        <button type="button" class="btn btn-light btn-sm" (click)="uploader.click()"><i class="fas fa-upload" aria-hidden="true"> Import</i></button>
+        <input hidden type="file" #uploader (change)="importCv($event)" />
+      </div>
+      <div class="p-2">
+        <button type="button" class="btn btn-light btn-sm" (click)="createPdf()"><i class="fas fa-file" aria-hidden="true"> Create PDF</i></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<form #cvForm="ngForm">
+  <div class="container">
+    <div class="card border-primary mb-3">
+      <div class="card-header">
+        <h4 class="card-title d-flex justify-content-between">Persoonlijke gegevens
+          <div class="form-group">
+            <div class="form-check form-switch right">
+              <label for="checked">{{ isInfoMoreChecked ? "Minder" : "Meer"}}</label>
+              <input type="checkbox" class="form-control form-check-input" name="checked" id="checked" [(ngModel)]="isInfoMoreChecked">
+            </div>
+          </div>
+        </h4>
+      </div>
+      <div class="card-body text-primary">
+        <div class="row row-margin">
+          <div class="col-md-6">
+            <input-text [name]="'title'" [label]="'Titel'" [isRequired]=true [value]="cv.info.title" [placeHolder]="'Voer een titel in'" (onBlur)="changeInfo(enumInfo.title, $event)"></input-text>
+          </div>
+          <div class="col-md-6">
+            <avatar-upload (onChange)="changeInfo(enumInfo.avatar, $event)"></avatar-upload>
+          </div>
+        </div>
+        <div class="row row-margin">
+          <div class="col-md-6">
+            <input-text [name]="'firstName'" [label]="'Voornaam'" [isRequired]=true [value]="cv.person.firstName" [placeHolder]="'Wat is uw voornaam'" (onBlur)="changePerson(enumPerson.firstName, $event)"></input-text>
+          </div>
+          <div class="col-md-6">
+            <input-text [name]="'lastName'" [label]="'Achternaam'" [isRequired]=true [value]="cv.person.lastName" [placeHolder]="'Wat is uw achternaam'" (onBlur)="changePerson(enumPerson.lastName, $event)"></input-text>
+          </div>
+        </div>
+        <div class="row row-margin">
+          <div class="col-md-6">
+            <input-text [name]="'eMail'" [label]="'E-mail'" [isRequired]=true [value]="cv.person.email" [placeHolder]="'Wat is uw e-mail adres'" (onBlur)="changePerson(enumPerson.email, $event)"></input-text>
+          </div>
+          <div class="col-md-6">
+            <input-text [name]="'phone'" [label]="'Telefoon'" [value]="cv.person.phone" [placeHolder]="'Wat is uw telefoon nummer'" (onBlur)="changePerson(enumPerson.phone, $event)"></input-text>
+          </div>
+        </div>
+        <div *ngIf="isInfoMoreChecked">
+          <div class="row row-margin">
+            <div class="col-md-6">
+              <input-text [name]="'address'" [label]="'Adres'" [value]="cv.person.address" [placeHolder]="'Wat is uw woonadres'" (onBlur)="changePerson(enumPerson.address, $event)"></input-text>
+            </div>
+            <div class="col-md-6">
+              <input-text [name]="'zipCode'" [label]="'Postcode'" [value]="cv.person.zipCode" [placeHolder]="'Wat is uw postcode'" (onBlur)="changePerson(enumPerson.zipCode, $event)"></input-text>
+            </div>
+          </div>
+          <div class="row row-margin">
+            <div class="col-md-6">
+              <input-text [name]="'place'" [label]="'Woonplaats'" [isRequired]=true [value]="cv.person.city" [placeHolder]="'Wat is uw woonplaats'" (onBlur)="changePerson(enumPerson.city, $event)"></input-text>
+            </div>
+            <div class="col-md-6">
+              <input-text [name]="'country'" [label]="'Land'" [value]="cv.person.country" [placeHolder]="'In welk land woont u'" (onBlur)="changePerson(enumPerson.country, $event)"></input-text>
+            </div>
+          </div>
+          <div class="row row-margin">
+            <div class="col-md-6">
+              <input-text [name]="'birthDate'" [label]="'Geboortedatum'" [value]="cv.person.birthDate" [placeHolder]="'Op welke datum bent u geboren'" (onBlur)="changePerson(enumPerson.birthDate, $event)"></input-text>
+            </div>
+            <div class="col-md-6">
+              <input-text [name]="'birthCity'" [label]="'Geboorteplaats'" [value]="cv.person.birthCity" [placeHolder]="'In welke plaats bent u geboren'" (onBlur)="changePerson(enumPerson.birthCity, $event)"></input-text>
+            </div>
+          </div>
+          <div class="row row-margin">
+            <div class="col-md-6">
+              <input-text [name]="'driverLicense'" [label]="'Rijbewijs'" [value]="cv.person.driverLicense" [placeHolder]="'Welke rijbewijzen bezit u'" (onBlur)="changePerson(enumPerson.driverLicense, $event)"></input-text>
+            </div>
+            <div class="col-md-6">
+              <input-text [name]="'nationality'" [label]="'Nationaliteit'" [value]="cv.person.nationality" [placeHolder]="'Welke nationaliteit heeft u'" (onBlur)="changePerson(enumPerson.nationality, $event)"></input-text>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-primary mb-3">
+      <div class="card-header">
+        <h4 class="card-title d-flex justify-content-between">Persoonlijk profiel</h4>
+      </div>
+      <div class="card-body text-primary">
+        <quill-editor [(ngModel)]="cv.info.profile" name="profile" placeholder="Enter Text"></quill-editor>
+      </div>
+    </div>
+
+    <div class="card border-primary mb-3">
+      <div class="card-header">
+        <h4 class="card-title d-flex justify-content-between">Werkervaring
+          <button type="button" class="btn btn-outline-primary" (click)="addExperience()">+</button>
+        </h4>
+      </div>
+      <div class="card-body text-primary">
+        <div class="container">
+          <div *ngFor="let experience of cv.experiences; let i=index">
+            <div class="row mb-1">
+              <div class="col-md-1">
+                <span class="badge rounded-pill bg-primary">{{i+1}}</span>
+              </div>
+              <div class="col-md-2">
+                <input-text [name]="'expStartDate{{i}}'" [value]="experience.startDate" [placeHolder]="'Start datum'" (onBlur)="changeExperience(i, enumExperience.startDate, $event)"></input-text>
+              </div>
+              <div class="col-md-2">
+                <input-text [name]="'expEndDate{{i}}'" [value]="experience.endDate" [placeHolder]="'Einde datum'" (onBlur)="changeExperience(i, enumExperience.endDate, $event)"></input-text>
+              </div>
+              <div class="col-md-4">
+                <input-text [name]="'expEmployer{{i}}'" [value]="experience.employer" [placeHolder]="'Werkgever'" (onBlur)="changeExperience(i, enumExperience.employer, $event)"></input-text>
+              </div>
+              <div class="col-md-3">
+                <input-text [name]="'expCity{{i}}'" [value]="experience.city" [placeHolder]="'Plaats'" (onBlur)="changeExperience(i, enumExperience.city, $event)"></input-text>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <input-text [name]="'expFunction{{i}}'" [value]="experience.function" [placeHolder]="'Functie'" (onBlur)="changeExperience(i, enumExperience.function, $event)"></input-text>
+              </div>
+              <div class="col-md-8">
+                <input-textarea [name]="'expDescription{{i}}'" [value]="experience.description" [placeHolder]="'Omschrijving'" (onBlur)="changeExperience(i, enumExperience.description, $event)"></input-textarea>
+              </div>
+              <div class="col-md-1">
+                <button type="button" class="btn btn-outline-primary right" (click)="removeExperience(i)">-</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-primary mb-3">
+      <div class="card-header">
+        <h4 class="card-title d-flex justify-content-between">Opleiding
+          <button type="button" class="btn btn-outline-primary" (click)="addEducation()">+</button>
+        </h4>
+      </div>
+      <div class="card-body text-primary">
+        <div class="container">
+          <div *ngFor="let education of cv.educations; let i=index">
+            <div class="row mb-1">
+              <div class="col-md-1">
+                <span class="badge rounded-pill bg-primary">{{i+1}}</span>
+              </div>
+              <div class="col-md-2">
+                <input-text [name]="'eduStartDate{{i}}'" [value]="education.startDate" [placeHolder]="'Start datum'" (onBlur)="changeEducation(i, enumEducation.startDate, $event)"></input-text>
+              </div>
+              <div class="col-md-2">
+                <input-text [name]="'eduEndDate{{i}}'" [value]="education.endDate" [placeHolder]="'Einde datum'" (onBlur)="changeEducation(i, enumEducation.endDate, $event)"></input-text>
+              </div>
+              <div class="col-md-4">
+                <input-text [name]="'eduEmployer{{i}}'" [value]="education.school" [placeHolder]="'School'" (onBlur)="changeEducation(i, enumEducation.school, $event)"></input-text>
+              </div>
+              <div class="col-md-3">
+                <input-text [name]="'eduCity{{i}}'" [value]="education.city" [placeHolder]="'Plaats'" (onBlur)="changeEducation(i, enumEducation.city, $event)"></input-text>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <input-text [name]="'eduFunction{{i}}'" [value]="education.study" [placeHolder]="'Studierichting'" (onBlur)="changeEducation(i, enumEducation.study, $event)"></input-text>
+              </div>
+              <div class="col-md-8">
+                <input-textarea [name]="'eduDescription{{i}}'" [value]="education.description" [placeHolder]="'Omschrijving'" (onBlur)="changeEducation(i, enumEducation.description, $event)"></input-textarea>
+              </div>
+              <div class="col-md-1">
+                <button type="button" class="btn btn-outline-primary right" (click)="removeEducation(i)">-</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-primary mb-3">
+      <div class="card-header">
+        <h4 class="card-title d-flex justify-content-between">Websites & social media-links
+          <button type="button" class="btn btn-outline-primary" (click)="addSocialMedia()">+</button>
+        </h4>
+      </div>
+      <div class="card-body text-primary">
+        <div class="container">
+          <div *ngFor="let socialMedia of cv.socialMedias; let i=index">
+            <div class="row mb-1">
+              <div class="col-md-1">
+                <span class="badge rounded-pill bg-primary">{{i+1}}</span>
+              </div>
+              <div class="col-md-5">
+                <input-text [name]="'smLabel{{i}}'" [value]="socialMedia.label" [placeHolder]="'Label'" (onBlur)="changeSocialMedia(i, enumSocialMedia.label, $event)"></input-text>
+              </div>
+              <div class="col-md-5">
+                <input-text [name]="'smLink{{i}}'" [value]="socialMedia.link" [placeHolder]="'Link'" (onBlur)="changeSocialMedia(i, enumSocialMedia.link, $event)"></input-text>
+              </div>
+              <div class="col-md-1">
+                <button type="button" class="btn btn-outline-primary right" (click)="removeSocialMedia(i)">-</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-primary mb-3">
+      <div class="card-header">
+        <h4 class="card-title d-flex justify-content-between">Vaardigheden
+          <button type="button" class="btn btn-outline-primary" (click)="addSkill()">+</button>
+        </h4>
+      </div>
+      <div class="card-body text-primary">
+        <div class="container">
+          <div *ngFor="let skill of cv.skills; let i=index">
+            <div class="row mb-1">
+              <div class="col-md-1">
+                <span class="badge rounded-pill bg-primary">{{i+1}}</span>
+              </div>
+              <div class="col-md-10">
+                <input-text [name]="'skiAbility{{i}}'" [value]="skill.ability" [placeHolder]="'Bekwaamheid'" (onBlur)="changeSkill(i, enumSkill.ability, $event)"></input-text>
+              </div>
+              <div class="col-md-1">
+                <button type="button" class="btn btn-outline-primary right" (click)="removeSkill(i)">-</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="card border-secondary mt-2">
+      <div class="card-body">
+        <h4 class="card-title d-flex justify-content-between">Order Details
+          <button type="button" class="btn btn-outline-primary" (click)="addProduct()">+</button>
+        </h4>
+        <div class="row">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="25%">Product</th>
+                <th width="25%">Price</th>
+                <th width="25%">Quantity</th>
+                <th width="25%">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of invoice.products; let i=index">
+                  <td scope="row">
+                  <input type="text" class="form-control" name="productName{{i}}"
+                    [ngClass]="{'is-invalid': cvForm.submitted && ProductName.invalid}" id="productName"
+                    [(ngModel)]="product.name" #ProductName="ngModel" required>
+                </td>
+                <td>
+                  <input type="number" class="form-control" name="price{{i}}" id="price"
+                    [ngClass]="{'is-invalid': cvForm.submitted && ProductPrice.invalid}"
+                    [(ngModel)]="product.price" #ProductPrice="ngModel" required>
+                </td>
+                <td>
+                  <input type="number" class="form-control" name="quantity{{i}}" id="quantity"
+                    [ngClass]="{'is-invalid': cvForm.submitted && ProductQty.invalid}" [(ngModel)]="product.qty"
+                    #ProductQty="ngModel" required>
+                </td>
+                <td>
+                  {{product.price * product.qty || ''}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="card border-secondary mt-2">
+                    <div class="card-body">
+                        <h4 class="card-title">Additional Details</h4>
+                        <div class="form-group">
+                            <textarea class="form-control" name="additionalDetails" rows="3"
+                                [(ngModel)]="invoice.additionalDetails"></textarea>
+                        </div>
+                    </div>
+                </div> -->
+
+  </div>
+
+  <!-- <div class="col-md-6">
+                <button type="button" class="btn btn-secondary btn-lg btn-block"
+                    (click)="cvForm.valid ? generatePDF('download') : ''">Download Invoice</button>
+                <button type="button" class="btn btn-secondary btn-lg btn-block"
+                    (click)="cvForm.valid ? generatePDF('print') : ''">Print
+                    Invoice</button>
+                <button type="submit" class="btn btn-secondary btn-lg btn-block"
+                    (click)="cvForm.valid ? generatePDF() : ''">Open
+                    Invoice</button>
+            </div> -->
+</form>
