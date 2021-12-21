@@ -12,7 +12,10 @@ import { SocialMedia } from './models/socialMedia';
 import { Skill } from './models/skill';
 import { enumSKill } from './enums/enumSkill';
 import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
-import { pdfCreator } from './pdfCreate/pdfCreator';
+import { pdfCreator } from './pdf/pdfCreator';
+import { ScriptService } from './pdf/script.service';
+
+declare let pdfMake: any ;
 
 @Component({
   selector: 'app-root',
@@ -30,32 +33,17 @@ export class AppComponent implements OnInit {
   enumSocialMedia = enumSocialMedia;
   enumSkill = enumSKill;
 
-  constructor (public datepipe: DatePipe) { }
+  constructor (public datepipe: DatePipe, private scriptService: ScriptService) {
+    this.cv = JSON.parse(sessionStorage.getItem('cv')) || new Cv();
 
-  ngOnInit(): void {
-    // this.cv.info.title = 'Senior Product Software Engineer';
-    // this.cv.info.profile = 'Software developer met meer dan 30 jaar ervaring in software ontwikkeling in elke stadium van het proces zoals coderen, testen, debuggen, onderhouden en releasen. Van in de eerste jaren applicaties voor MS-DOS en SCO Unix naar Windows desktop applicaties tot cloud development op dit moment. Er wordt gewerkt onder Azure en Azure DevOps in een Agile omgeving waar ik ook scrum master ben. Visual Studio Code en Visual Studio zijn tools die dagelijks gebruikt worden.';
-    // this.cv.person.firstName = 'Robert';
-    // this.cv.person.lastName = 'Hillen';
-    // this.cv.person.address = 'Romeyn de Hooghestraat 67';
-    // this.cv.person.zipCode = '7425 PT';
-    // this.cv.person.city = 'Deventer';
-    // this.cv.person.country = 'NL';
-    // this.cv.person.email = 'robert@hilting.nl';
-    // this.cv.person.phone = '06 46722604';
-    // this.cv.person.driverLicense = 'AB';
-    // this.cv.person.nationality = 'Nederlandse';
-    // this.cv.person.birthCity = 'Amsterdam';
-    // this.cv.person.birthDate = '29 april 1962';
-    // this.cv.experiences.push(new Experience());
-    // this.cv.educations.push(new Education());
-    // this.cv.socialMedias.push(new SocialMedia());
-    // this.cv.skills.push(new Skill());
+    console.log('Loading External Scripts');
+    this.scriptService.load('pdfMake', 'vfsFonts');
   }
 
+  ngOnInit(): void { }
 
-  importCv(evt) {
-    var f = evt.target.files[0];
+  importCv(event) {
+    var f = event.target.files[0];
     console.log('Importing data from [' + f + ']');
 
     var reader = new FileReader();
@@ -84,8 +72,8 @@ export class AppComponent implements OnInit {
   }
 
   createPdf() {
-    pdfCreator.buildPdf();
-    pdfCreator.generatePDF();
+    sessionStorage.setItem('resume', JSON.stringify(this.cv));
+    pdfCreator.generatePDF(this.cv);
   }
 
   changeInfo(key: enumInfo, newValue: string) {
