@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
@@ -8,9 +8,9 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 })
 
 export class AvatarUploadComponent {
+  @Input() imageURL: string;
   @Output() onChange = new EventEmitter<string>();
 
-  imageURL: string;
   avatarForm: FormGroup;
 
   constructor(public fb: FormBuilder) {

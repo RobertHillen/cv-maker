@@ -1,5 +1,6 @@
 export enum enumInfo {
   title,
   avatar,
-  profile
+  profile,
+  language
 }

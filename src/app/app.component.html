@@ -1,19 +1,33 @@
 <nav class="navbar navbar-dark bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">CV MAKER</a>
+
     <div class="d-flex flex-row-reverse">
       <div class="p-2">
-        <button type="button" class="btn btn-light btn-sm" (click)="resetCv()"><i class="fas fa-file" aria-hidden="true"> Reset</i></button>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="cv.info.language" id="{{enumLanguage.dutch}}" type="radio" value="{{enumLanguage.dutch}}" name="radio">
+          <label class="form-check-label white" for="{{enumLanguage.dutch}}">&nbsp;Nederlands</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="cv.info.language" id="{{enumLanguage.english}}" type="radio" value="{{enumLanguage.english}}" name="radio">
+          <label class="form-check-label white" for="{{enumLanguage.english}}">&nbsp;Engels</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row-reverse">
+      <div class="p-2">
+        <button type="button" class="btn btn-primary btn-sm" (click)="resetCv()"><i class="bi bi-x-octagon"> Reset</i></button>
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-light btn-sm" (click)="exportCv()"><i class="fas fa-download" aria-hidden="true"> Export</i></button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="exportCv()"><i class="bi bi-box-arrow-down"> Export</i></button>
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-light btn-sm" (click)="uploader.click()"><i class="fas fa-upload" aria-hidden="true"> Import</i></button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="uploader.click()"><i class="bi bi-box-arrow-up"> Import</i></button>
         <input hidden type="file" #uploader (change)="importCv($event)" />
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-light btn-sm" (click)="createPdf()"><i class="fas fa-file" aria-hidden="true"> Create PDF</i></button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="createPdf()"><i class="bi bi-file-pdf"> Create PDF</i></button>
       </div>
     </div>
   </div>
@@ -38,7 +52,7 @@
             <input-text [name]="'title'" [label]="'Titel'" [isRequired]=true [value]="cv.info.title" [placeHolder]="'Voer een titel in'" (onBlur)="changeInfo(enumInfo.title, $event)"></input-text>
           </div>
           <div class="col-md-6">
-            <avatar-upload (onChange)="changeInfo(enumInfo.avatar, $event)"></avatar-upload>
+            <avatar-upload [imageURL]="cv.info.avatar" (onChange)="changeInfo(enumInfo.avatar, $event)"></avatar-upload>
           </div>
         </div>
         <div class="row row-margin">
@@ -99,14 +113,14 @@
         <h4 class="card-title d-flex justify-content-between">Persoonlijk profiel</h4>
       </div>
       <div class="card-body text-primary">
-        <quill-editor [(ngModel)]="cv.info.profile" name="profile" placeholder="Enter Text"></quill-editor>
+        <input-textarea [name]="'profile'" [value]="cv.info.profile" [placeHolder]="'Enter profile text'" (onBlur)="changeInfo(enumInfo.profile, $event)"></input-textarea>
       </div>
     </div>
 
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between">Werkervaring
-          <button type="button" class="btn btn-outline-primary" (click)="addExperience()">+</button>
+          <button type="button" class="btn btn-outline-primary" (click)="addExperience()"><i class="bi bi-plus-lg"></i></button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -137,7 +151,7 @@
                 <input-textarea [name]="'expDescription{{i}}'" [value]="experience.description" [placeHolder]="'Omschrijving'" (onBlur)="changeExperience(i, enumExperience.description, $event)"></input-textarea>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary right" (click)="removeExperience(i)">-</button>
+                <button type="button" class="btn btn-outline-primary right" (click)="removeExperience(i)"><i class="bi bi-dash-lg"></i></button>
               </div>
             </div>
           </div>
@@ -148,7 +162,7 @@
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between">Opleiding
-          <button type="button" class="btn btn-outline-primary" (click)="addEducation()">+</button>
+          <button type="button" class="btn btn-outline-primary" (click)="addEducation()"><i class="bi bi-plus-lg"></i></button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -179,7 +193,7 @@
                 <input-textarea [name]="'eduDescription{{i}}'" [value]="education.description" [placeHolder]="'Omschrijving'" (onBlur)="changeEducation(i, enumEducation.description, $event)"></input-textarea>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary right" (click)="removeEducation(i)">-</button>
+                <button type="button" class="btn btn-outline-primary right" (click)="removeEducation(i)"><i class="bi bi-dash-lg"></i></button>
               </div>
             </div>
           </div>
@@ -190,7 +204,7 @@
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between">Websites & social media-links
-          <button type="button" class="btn btn-outline-primary" (click)="addSocialMedia()">+</button>
+          <button type="button" class="btn btn-outline-primary" (click)="addSocialMedia()"><i class="bi bi-plus-lg"></i></button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -207,7 +221,7 @@
                 <input-text [name]="'smLink{{i}}'" [value]="socialMedia.link" [placeHolder]="'Link'" (onBlur)="changeSocialMedia(i, enumSocialMedia.link, $event)"></input-text>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary right" (click)="removeSocialMedia(i)">-</button>
+                <button type="button" class="btn btn-outline-primary right" (click)="removeSocialMedia(i)"><i class="bi bi-dash-lg"></i></button>
               </div>
             </div>
           </div>
@@ -218,7 +232,7 @@
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between">Vaardigheden
-          <button type="button" class="btn btn-outline-primary" (click)="addSkill()">+</button>
+          <button type="button" class="btn btn-outline-primary" (click)="addSkill()"><i class="bi bi-plus-lg"></i></button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -232,7 +246,7 @@
                 <input-text [name]="'skiAbility{{i}}'" [value]="skill.ability" [placeHolder]="'Bekwaamheid'" (onBlur)="changeSkill(i, enumSkill.ability, $event)"></input-text>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary right" (click)="removeSkill(i)">-</button>
+                <button type="button" class="btn btn-outline-primary right" (click)="removeSkill(i)"><i class="bi bi-dash-lg"></i></button>
               </div>
             </div>
           </div>
