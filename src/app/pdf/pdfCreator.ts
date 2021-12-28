@@ -16,14 +16,13 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export class PdfCreator {
   private static _instance = new PdfCreator();
 
-  dutch: Localization[] = DutchJson;
-  english: Localization[] = EnglishJson;
-
   static get instance() {
     return this._instance;
   }
 
-  private getDocumentDefinition(cv: Cv, sv: Localization[]) {
+  private getDocumentDefinition(cv: Cv) {
+    const sv: Localization[] = cv.info.language === enumLanguage.dutch ? DutchJson : EnglishJson;
+
     return {
       pageSize: 'A4',
       info: {
@@ -289,13 +288,7 @@ export class PdfCreator {
   }
 
   generatePDF(cv: Cv, action = 'open') {
-    let docDefinition;
-
-    if (cv.info.language === enumLanguage.dutch) {
-      docDefinition = this.getDocumentDefinition(cv, this.dutch);
-    } else {
-      docDefinition = this.getDocumentDefinition(cv, this.english);
-    }
+    const docDefinition = this.getDocumentDefinition(cv);
 
     if (action === 'download') {
       pdfMake.createPdf(docDefinition).download();
