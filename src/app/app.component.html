@@ -5,11 +5,11 @@
     <div class="d-flex flex-row-reverse">
       <div class="p-2">
         <div class="form-check form-check-inline">
-          <input [(ngModel)]="cv.info.language" id="{{enumLanguage.dutch}}" type="radio" value="{{enumLanguage.dutch}}" name="radio">
+          <input [(ngModel)]="cv.info.language" id="{{enumLanguage.dutch}}" type="radio" value="{{enumLanguage.dutch}}" name="radio" (click)="changelanguage()">
           <label class="form-check-label white" for="{{enumLanguage.dutch}}">&nbsp;Nederlands</label>
         </div>
         <div class="form-check form-check-inline">
-          <input [(ngModel)]="cv.info.language" id="{{enumLanguage.english}}" type="radio" value="{{enumLanguage.english}}" name="radio">
+          <input [(ngModel)]="cv.info.language" id="{{enumLanguage.english}}" type="radio" value="{{enumLanguage.english}}" name="radio" (click)="changelanguage()">
           <label class="form-check-label white" for="{{enumLanguage.english}}">&nbsp;Engels</label>
         </div>
       </div>
@@ -17,17 +17,17 @@
 
     <div class="d-flex flex-row-reverse">
       <div class="p-2">
-        <button type="button" class="btn btn-primary btn-sm" (click)="resetCv()"><i class="bi bi-x-octagon"> Reset</i></button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="resetCv()"><i class="bi bi-x-octagon"> Herstellen</i></button>
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-primary btn-sm" (click)="exportCv()"><i class="bi bi-box-arrow-down"> Export</i></button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="exportCv()"><i class="bi bi-box-arrow-down"> Exporteren</i></button>
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-primary btn-sm" (click)="uploader.click()"><i class="bi bi-box-arrow-up"> Import</i></button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="uploader.click()"><i class="bi bi-box-arrow-up"> Importeren</i></button>
         <input hidden type="file" #uploader (change)="importCv($event)" />
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-primary btn-sm" (click)="createPdf()"><i class="bi bi-file-pdf"> Create PDF</i></button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="createPdf()"><i class="bi bi-file-pdf"> Aanmaken PDF</i></button>
       </div>
     </div>
   </div>

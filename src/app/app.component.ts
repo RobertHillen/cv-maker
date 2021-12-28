@@ -15,7 +15,7 @@ import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
 import { pdfCreator } from './pdf/pdfCreator';
 import { ScriptService } from './pdf/script.service';
 import { enumLanguage } from './enums/enumLanguage';
-declare let pdfMake: any ;
+import { LocalizationFunctions } from './core/LocalizationFunctions';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,6 @@ declare let pdfMake: any ;
 export class AppComponent implements OnInit {
   isInfoMoreChecked = true;
   cv: Cv = new Cv();
-  cvLanguage: enumLanguage;
 
   enumInfo = enumInfo;
   enumPerson = enumPerson;
@@ -35,11 +34,17 @@ export class AppComponent implements OnInit {
   enumSkill = enumSKill;
   enumLanguage = enumLanguage;
 
-  constructor (public datepipe: DatePipe, private scriptService: ScriptService) {
+  constructor (public datepipe: DatePipe,
+               private scriptService: ScriptService,
+               private localize: LocalizationFunctions) {
     this.scriptService.load('pdfMake', 'vfsFonts');
   }
 
   ngOnInit(): void { }
+
+  public changelanguage() {
+    this.localize.current = this.cv.info.language;
+  }
 
   importCv(event) {
     var f = event.target.files[0];
@@ -71,7 +76,7 @@ export class AppComponent implements OnInit {
   }
 
   createPdf() {
-    pdfCreator.generatePDF(this.cv);
+   pdfCreator.generatePDF(this.cv);
   }
 
   changeInfo(key: enumInfo, newValue: string) {
@@ -92,7 +97,6 @@ export class AppComponent implements OnInit {
         console.log('Cv Info for key [' + key + '] not found');
         break;
     }
-    this.consoleCv();
   }
 
   changePerson(key: enumPerson, newValue: string) {
@@ -137,7 +141,6 @@ export class AppComponent implements OnInit {
         console.log('Cv Person for key [' + key + '] not found');
         break;
     }
-    this.consoleCv();
   }
 
   changeExperience(i: number, key: enumExperience, newValue: string) {
@@ -164,7 +167,6 @@ export class AppComponent implements OnInit {
         console.log('Cv Experience '+ i + ' for key [' + key + '] not found');
         break;
     }
-    this.consoleCv();
   }
 
   changeEducation(i: number, key: enumEducation, newValue: string) {
@@ -191,7 +193,6 @@ export class AppComponent implements OnInit {
         console.log('Cv Education '+ i + ' for key [' + key + '] not found');
         break;
     }
-    this.consoleCv();
   }
 
   changeSocialMedia(i: number, key: enumSocialMedia, newValue: string) {
@@ -206,7 +207,6 @@ export class AppComponent implements OnInit {
         console.log('Cv SocialMedia '+ i + ' for key [' + key + '] not found');
         break;
     }
-    this.consoleCv();
   }
 
   changeSkill(i: number, key: enumSKill, newValue: string) {
@@ -218,7 +218,6 @@ export class AppComponent implements OnInit {
         console.log('Cv Skill '+ i + ' for key [' + key + '] not found');
         break;
     }
-    this.consoleCv();
   }
 
   onProfileChanged(event) {
@@ -231,7 +230,6 @@ export class AppComponent implements OnInit {
 
   removeExperience(key: number) {
     this.cv.experiences.splice(key, 1);
-    this.consoleCv();
   }
 
   addEducation() {
@@ -240,7 +238,6 @@ export class AppComponent implements OnInit {
 
   removeEducation(key: number) {
     this.cv.educations.splice(key, 1);
-    this.consoleCv();
   }
 
   addSocialMedia() {
@@ -249,7 +246,6 @@ export class AppComponent implements OnInit {
 
   removeSocialMedia(key: number) {
     this.cv.socialMedias.splice(key, 1);
-    this.consoleCv();
   }
 
   addSkill() {
@@ -258,57 +254,5 @@ export class AppComponent implements OnInit {
 
   removeSkill(key: number) {
     this.cv.skills.splice(key, 1);
-    this.consoleCv();
-  }
-
-  consoleCv() {
-    // console.log('Title [' + this.cv.info.title + ']');
-    // if (this.cv.info.avatar !== undefined) {
-    //   console.log('Avatar.length [' + this.cv.info.avatar.length + ']');
-    // }
-    // console.log('Profile [' + this.cv.info.profile + ']');
-    // console.log('Language [' + this.cv.info.language + ']');
-
-    // console.log('FirstName [' + this.cv.person.firstName + ']');
-    // console.log('LastName [' + this.cv.person.lastName + ']');
-    // console.log('Email [' + this.cv.person.email + ']');
-    // console.log('Phone [' + this.cv.person.phone + ']');
-    // console.log('Address [' + this.cv.person.address + ']');
-    // console.log('Zipcode [' + this.cv.person.zipCode + ']');
-    // console.log('City [' + this.cv.person.city + ']');
-    // console.log('Country [' + this.cv.person.country + ']');
-    // console.log('BirthCity [' + this.cv.person.birthCity + ']');
-    // console.log('BirthDate [' + this.cv.person.birthDate + ']');
-    // console.log('DriverLicense [' + this.cv.person.driverLicense + ']');
-    // console.log('Nationality [' + this.cv.person.nationality + ']');
-
-    // this.cv.experiences.forEach(function (experience) {
-    //   console.log('Experience.startDate [' + experience.startDate + ']');
-    //   console.log('Experience.endDate [' + experience.endDate + ']');
-    //   console.log('Experience.employer [' + experience.employer + ']');
-    //   console.log('Experience.city [' + experience.city + ']');
-    //   console.log('Experience.function [' + experience.function + ']');
-    //   console.log('Experience.description [' + experience.description + ']');
-    // });
-
-    // this.cv.educations.forEach(function (education) {
-    //   console.log('Education.startDate [' + education.startDate + ']');
-    //   console.log('Education.endDate [' + education.endDate + ']');
-    //   console.log('Education.school [' + education.school + ']');
-    //   console.log('Education.city [' + education.city + ']');
-    //   console.log('Education.study [' + education.study + ']');
-    //   console.log('Education.description [' + education.description + ']');
-    // });
-
-    // this.cv.socialMedias.forEach(function (socialMedia) {
-    //   console.log('socialMedia.label [' + socialMedia.label + ']');
-    //   console.log('socialMedia.link [' + socialMedia.link + ']');
-    // });
-
-    // this.cv.skills.forEach(function (skill) {
-    //   console.log('skill.ability [' + skill.ability + ']');
-    // });
-
-    // console.log('------------------------------');
   }
 }
