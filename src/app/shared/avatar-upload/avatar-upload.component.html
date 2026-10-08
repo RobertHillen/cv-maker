@@ -8,7 +8,7 @@
       </div>
       <div class="col-md-4">
         <div class="imagePreview" *ngIf="imageURL && imageURL !== ''">
-          <img [src]="imageURL" [alt]="avatarForm.value.name" height="60px">
+          <img [src]="imageURL" [alt]="avatarForm.value.name" height="60px" decoding="async">
         </div>
       </div>
       <span class="placeholder col-md-4"></span>

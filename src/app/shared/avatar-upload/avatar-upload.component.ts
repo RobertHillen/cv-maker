@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
   selector: 'avatar-upload',
+  standalone: false,
   templateUrl: './avatar-upload.component.html',
   styleUrls: ['./avatar-upload.component.scss']
 })

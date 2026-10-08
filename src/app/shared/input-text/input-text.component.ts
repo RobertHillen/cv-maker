@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angu
 
 @Component({
   selector: 'input-text',
+  standalone: false,
   templateUrl: './input-text.component.html',
   styleUrls: ['./input-text.component.scss']
 })

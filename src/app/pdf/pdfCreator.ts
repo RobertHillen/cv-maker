@@ -240,7 +240,7 @@ export class PdfCreator {
               text: ''
             },
             {
-              text: cv.person.phone,
+              text: cv.person.phone + ' / ' + cv.person.birthDate,
             }],
             [{
               text: '',

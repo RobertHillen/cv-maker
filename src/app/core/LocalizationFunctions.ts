@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Localization } from "src/app/models/localization";
+import { Localization } from '../models/localization';
 import { enumLanguage } from '../enums/enumLanguage';
 
 import DutchJson from '../../assets/dutch.json';

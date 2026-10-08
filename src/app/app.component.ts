@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common'
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Cv } from './models/cv';
 import { Education } from './models/education';
 import { Experience } from './models/experience';
@@ -19,6 +19,7 @@ import { LocalizationFunctions } from './core/LocalizationFunctions';
 
 @Component({
   selector: 'app-root',
+  standalone: false,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -36,7 +37,8 @@ export class AppComponent implements OnInit {
 
   constructor (public datepipe: DatePipe,
                private scriptService: ScriptService,
-               private localize: LocalizationFunctions) {
+               private localize: LocalizationFunctions,
+               private changeDetector: ChangeDetectorRef) {
     this.scriptService.load('pdfMake', 'vfsFonts');
   }
 
@@ -58,6 +60,7 @@ export class AppComponent implements OnInit {
           alert('ex when trying to parse json = ' + ex);
           this.resetCv();
       }
+      this.changeDetector.detectChanges();
     }
 
     reader.readAsText(f);

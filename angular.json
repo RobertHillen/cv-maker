@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-pdfmake-invoice:build"
+            "buildTarget": "angular-pdfmake-invoice:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-pdfmake-invoice:build:production"
+              "buildTarget": "angular-pdfmake-invoice:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-pdfmake-invoice:build"
+            "buildTarget": "angular-pdfmake-invoice:build"
           }
         },
         "test": {
@@ -111,6 +111,5 @@
           }
         }
       }
-    }},
-  "defaultProject": "angular-pdfmake-invoice"
+    }}
 }

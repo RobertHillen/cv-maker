@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angu
 
 @Component({
   selector: 'input-textarea',
+  standalone: false,
   templateUrl: './input-textarea.component.html',
   styleUrls: ['./input-textarea.component.scss']
 })
