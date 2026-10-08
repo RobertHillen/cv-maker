@@ -136,6 +136,19 @@ export class PdfCreator {
           alignment: 'justify',
           margin: [10, 0, 0, 10]
         },
+        personalDescription: {
+          alignment: 'justify',
+          margin: [10, 0, 0, 10],
+        },
+        personalDetail: {
+          italics: true,
+          fontSize: 10
+        },
+        personalLink: {
+          decoration: 'underline',
+          color: '#4682B4',
+          fontSize: 10
+        },
         parTitle: {
           fontSize: 12,
           bold: true
@@ -189,6 +202,8 @@ export class PdfCreator {
   }
 
   private getPersonalAndSocialMedias(cv: Cv, sv: Localization[]) {
+    console.log(cv);
+    console.log(sv);
     const pas = [];
 
     cv.socialMedias.forEach(socialMedia => {
@@ -199,7 +214,7 @@ export class PdfCreator {
         {
           text:socialMedia.label,
           link: socialMedia.link,
-          style: 'link'
+          style: 'personalLink'
          }],
       );
     });
@@ -218,38 +233,35 @@ export class PdfCreator {
               style: 'parHeader'
             }],
             [{
-              rowSpan: 5 + cv.socialMedias.length,
+              rowSpan: 4 + cv.socialMedias.length,
               text: cv.info.profile,
-              style: 'parDescription',
+              style: 'personalDescription',
             },
             {
-              text: ''
+              text: cv.person.address,
+              style: 'personalDetail'
             }],
             [{
               text: ''
             },
             {
-              text: cv.person.address
-            }],
-            [{
-              text: ''
-            },
-            {
-              text: this.createString([cv.person.zipCode, cv.person.city.toUpperCase()], ' ')
+              text: this.createString([cv.person.zipCode, cv.person.city.toUpperCase()], ' '),
+              style: 'personalDetail'
             }],
             [{
               text: ''
             },
             {
               text: cv.person.phone + ' / ' + cv.person.birthDate,
+              style: 'personalDetail'
             }],
             [{
-              text: '',
+              text: ''
             },
             {
               text: cv.person.email,
               link: 'mailto:' + cv.person.email,
-              style: 'link'
+              style: 'personalLink'
             }],
             ...pas
           ]
