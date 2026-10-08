@@ -131,24 +131,24 @@
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
               </div>
               <div class="col-md-2">
-                <input-text [name]="'expStartDate{{i}}'" [value]="experience.startDate" [placeHolder]="'Start datum'" (onBlur)="changeExperience(i, enumExperience.startDate, $event)"></input-text>
+                <input-text [name]="'expStartDate' + i" [value]="experience.startDate" [placeHolder]="'Start datum'" (onBlur)="changeExperience(i, enumExperience.startDate, $event)"></input-text>
               </div>
               <div class="col-md-2">
-                <input-text [name]="'expEndDate{{i}}'" [value]="experience.endDate" [placeHolder]="'Einde datum'" (onBlur)="changeExperience(i, enumExperience.endDate, $event)"></input-text>
+                <input-text [name]="'expEndDate' + i" [value]="experience.endDate" [placeHolder]="'Einde datum'" (onBlur)="changeExperience(i, enumExperience.endDate, $event)"></input-text>
               </div>
               <div class="col-md-4">
-                <input-text [name]="'expEmployer{{i}}'" [value]="experience.employer" [placeHolder]="'Werkgever'" (onBlur)="changeExperience(i, enumExperience.employer, $event)"></input-text>
+                <input-text [name]="'expEmployer' + i" [value]="experience.employer" [placeHolder]="'Werkgever'" (onBlur)="changeExperience(i, enumExperience.employer, $event)"></input-text>
               </div>
               <div class="col-md-3">
-                <input-text [name]="'expCity{{i}}'" [value]="experience.city" [placeHolder]="'Plaats'" (onBlur)="changeExperience(i, enumExperience.city, $event)"></input-text>
+                <input-text [name]="'expCity' + i" [value]="experience.city" [placeHolder]="'Plaats'" (onBlur)="changeExperience(i, enumExperience.city, $event)"></input-text>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-3">
-                <input-text [name]="'expFunction{{i}}'" [value]="experience.function" [placeHolder]="'Functie'" (onBlur)="changeExperience(i, enumExperience.function, $event)"></input-text>
+                <input-text [name]="'expFunction' + i" [value]="experience.function" [placeHolder]="'Functie'" (onBlur)="changeExperience(i, enumExperience.function, $event)"></input-text>
               </div>
               <div class="col-md-8">
-                <input-textarea [name]="'expDescription{{i}}'" [value]="experience.description" [placeHolder]="'Omschrijving'" (onBlur)="changeExperience(i, enumExperience.description, $event)"></input-textarea>
+                <input-textarea [name]="'expDescription' + i" [value]="experience.description" [placeHolder]="'Omschrijving'" (onBlur)="changeExperience(i, enumExperience.description, $event)"></input-textarea>
               </div>
               <div class="col-md-1">
                 <button type="button" class="btn btn-outline-primary right" (click)="removeExperience(i)"><i class="bi bi-dash-lg"></i></button>
@@ -173,24 +173,24 @@
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
               </div>
               <div class="col-md-2">
-                <input-text [name]="'eduStartDate{{i}}'" [value]="education.startDate" [placeHolder]="'Start datum'" (onBlur)="changeEducation(i, enumEducation.startDate, $event)"></input-text>
+                <input-text [name]="'eduStartDate' + i" [value]="education.startDate" [placeHolder]="'Start datum'" (onBlur)="changeEducation(i, enumEducation.startDate, $event)"></input-text>
               </div>
               <div class="col-md-2">
-                <input-text [name]="'eduEndDate{{i}}'" [value]="education.endDate" [placeHolder]="'Einde datum'" (onBlur)="changeEducation(i, enumEducation.endDate, $event)"></input-text>
+                <input-text [name]="'eduEndDate' + i" [value]="education.endDate" [placeHolder]="'Einde datum'" (onBlur)="changeEducation(i, enumEducation.endDate, $event)"></input-text>
               </div>
               <div class="col-md-4">
-                <input-text [name]="'eduEmployer{{i}}'" [value]="education.school" [placeHolder]="'School'" (onBlur)="changeEducation(i, enumEducation.school, $event)"></input-text>
+                <input-text [name]="'eduEmployer' + i" [value]="education.school" [placeHolder]="'School'" (onBlur)="changeEducation(i, enumEducation.school, $event)"></input-text>
               </div>
               <div class="col-md-3">
-                <input-text [name]="'eduCity{{i}}'" [value]="education.city" [placeHolder]="'Plaats'" (onBlur)="changeEducation(i, enumEducation.city, $event)"></input-text>
+                <input-text [name]="'eduCity' + i" [value]="education.city" [placeHolder]="'Plaats'" (onBlur)="changeEducation(i, enumEducation.city, $event)"></input-text>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-3">
-                <input-text [name]="'eduFunction{{i}}'" [value]="education.study" [placeHolder]="'Studierichting'" (onBlur)="changeEducation(i, enumEducation.study, $event)"></input-text>
+                <input-text [name]="'eduFunction' + i" [value]="education.study" [placeHolder]="'Studierichting'" (onBlur)="changeEducation(i, enumEducation.study, $event)"></input-text>
               </div>
               <div class="col-md-8">
-                <input-textarea [name]="'eduDescription{{i}}'" [value]="education.description" [placeHolder]="'Omschrijving'" (onBlur)="changeEducation(i, enumEducation.description, $event)"></input-textarea>
+                <input-textarea [name]="'eduDescription' + i" [value]="education.description" [placeHolder]="'Omschrijving'" (onBlur)="changeEducation(i, enumEducation.description, $event)"></input-textarea>
               </div>
               <div class="col-md-1">
                 <button type="button" class="btn btn-outline-primary right" (click)="removeEducation(i)"><i class="bi bi-dash-lg"></i></button>
@@ -215,10 +215,10 @@
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
               </div>
               <div class="col-md-5">
-                <input-text [name]="'smLabel{{i}}'" [value]="socialMedia.label" [placeHolder]="'Label'" (onBlur)="changeSocialMedia(i, enumSocialMedia.label, $event)"></input-text>
+                <input-text [name]="'smLabel' + i" [value]="socialMedia.label" [placeHolder]="'Label'" (onBlur)="changeSocialMedia(i, enumSocialMedia.label, $event)"></input-text>
               </div>
               <div class="col-md-5">
-                <input-text [name]="'smLink{{i}}'" [value]="socialMedia.link" [placeHolder]="'Link'" (onBlur)="changeSocialMedia(i, enumSocialMedia.link, $event)"></input-text>
+                <input-text [name]="'smLink' + i" [value]="socialMedia.link" [placeHolder]="'Link'" (onBlur)="changeSocialMedia(i, enumSocialMedia.link, $event)"></input-text>
               </div>
               <div class="col-md-1">
                 <button type="button" class="btn btn-outline-primary right" (click)="removeSocialMedia(i)"><i class="bi bi-dash-lg"></i></button>
@@ -243,7 +243,7 @@
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
               </div>
               <div class="col-md-10">
-                <input-text [name]="'skiAbility{{i}}'" [value]="skill.ability" [placeHolder]="'Bekwaamheid'" (onBlur)="changeSkill(i, enumSkill.ability, $event)"></input-text>
+                <input-text [name]="'skiAbility' + i" [value]="skill.ability" [placeHolder]="'Bekwaamheid'" (onBlur)="changeSkill(i, enumSkill.ability, $event)"></input-text>
               </div>
               <div class="col-md-1">
                 <button type="button" class="btn btn-outline-primary right" (click)="removeSkill(i)"><i class="bi bi-dash-lg"></i></button>

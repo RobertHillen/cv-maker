@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
 
   importCv(event) {
     var f = event.target.files[0];
-    console.log('Importing data from [' + f + ']');
+    console.log('Importing data from [' + f.name + ']');
 
     var reader = new FileReader();
     reader.onload = e => {

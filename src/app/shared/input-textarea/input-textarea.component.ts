@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ControlContainer, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'input-textarea',
   standalone: false,
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
   templateUrl: './input-textarea.component.html',
   styleUrls: ['./input-textarea.component.scss']
 })

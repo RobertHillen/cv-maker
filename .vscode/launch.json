@@ -10,6 +10,10 @@
             "name": "ng serve + Chrome",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}",
+            "resolveSourceMapLocations": [
+                "**",
+                "!**/node_modules/pdfmake/**"
+            ],
             "preLaunchTask": "npm: start"
         }
     ]
