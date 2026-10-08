@@ -3,15 +3,16 @@ import { Experience } from "../models/experience";
 import { Education } from '../models/education';
 import { Person } from "../models/person";
 import { Localization } from '../models/localization';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
+import { enumLanguage } from '../enums/enumLanguage';
 
 import DutchJson from '../../assets/dutch.json';
 import EnglishJson from '../../assets/english.json';
 
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-import { enumLanguage } from '../enums/enumLanguage';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.addVirtualFileSystem(pdfFonts);
 
 export class PdfCreator {
   private static _instance = new PdfCreator();
@@ -20,7 +21,7 @@ export class PdfCreator {
     return this._instance;
   }
 
-  private getDocumentDefinition(cv: Cv) {
+  private getDocumentDefinition(cv: Cv): TDocumentDefinitions {
     const sv: Localization[] = cv.info.language === enumLanguage.dutch ? DutchJson : EnglishJson;
 
     return {

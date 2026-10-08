@@ -27,13 +27,14 @@
     "file-saver": "^2.0.5",
     "ngx-quill": "^31.0.1",
     "parchment": "^3.0.0",
-    "pdfmake": "^0.1.72",
+    "pdfmake": "^0.3.11",
     "quill": "^2.0.3",
     "rxjs": "^7.8.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.16.3"
   },
   "devDependencies": {
+    "@angular/build": "22.2.0",
     "@angular-devkit/build-angular": "^22.2.0",
     "@angular/cli": "^22.2.0",
     "@angular/compiler-cli": "^22.2.0",
@@ -41,6 +42,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^22.20.0",
+    "@types/pdfmake": "^0.3.3",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
