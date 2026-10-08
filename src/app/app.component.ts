@@ -13,7 +13,6 @@ import { Skill } from './models/skill';
 import { enumSKill } from './enums/enumSkill';
 import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
 import { pdfCreator } from './pdf/pdfCreator';
-import { ScriptService } from './pdf/script.service';
 import { enumLanguage } from './enums/enumLanguage';
 import { LocalizationFunctions } from './core/LocalizationFunctions';
 
@@ -36,11 +35,8 @@ export class AppComponent implements OnInit {
   enumLanguage = enumLanguage;
 
   constructor (public datepipe: DatePipe,
-               private scriptService: ScriptService,
                private localize: LocalizationFunctions,
-               private changeDetector: ChangeDetectorRef) {
-    this.scriptService.load('pdfMake', 'vfsFonts');
-  }
+               private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void { }
 
