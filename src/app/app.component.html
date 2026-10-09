@@ -54,7 +54,7 @@
             </p-floatlabel>
           </div>
           <div class="col-md-6">
-            <avatar-upload [imageURL]="cv.info.avatar" (onChange)="changeInfo(enumInfo.avatar, $event)"></avatar-upload>
+            <avatar-upload [imageURL]="cv.info.avatar" (imageLoaded)="changeInfo(enumInfo.avatar, $event)"></avatar-upload>
           </div>
         </div>
         <div class="row row-margin">

@@ -7,9 +7,11 @@
         </p-fileupload>
       </div>
       <div class="col-md-4">
-        <div class="imagePreview" *ngIf="imageURL && imageURL !== ''">
-          <img [src]="imageURL" [alt]="avatarForm.value.name" height="60px" decoding="async">
-        </div>
+        @if (imageURL && imageURL !== '') {
+          <div class="imagePreview">
+            <img [src]="imageURL" [alt]="avatarForm.value.name" height="60px" decoding="async">
+          </div>
+        }
       </div>
     </div>
   </div>
