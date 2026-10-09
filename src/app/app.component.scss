@@ -1,3 +1,67 @@
+.cv-navbar {
+  background-color: #73C2FB;
+}
+
+.cv-navbar p-button {
+  --p-button-primary-background: #0F52BA;
+  --p-button-primary-border-color: #0F52BA;
+  --p-button-primary-color: #ffffff;
+  --p-button-primary-hover-background: #0d47a1;
+  --p-button-primary-hover-border-color: #0d47a1;
+  --p-button-primary-hover-color: #ffffff;
+  --p-button-primary-active-background: #0b3c88;
+  --p-button-primary-active-border-color: #0b3c88;
+  --p-button-primary-active-color: #ffffff;
+  --p-button-primary-focus-ring-color: #0F52BA;
+}
+
+.cv-navbar p-radiobutton {
+  --p-radiobutton-checked-background: #0F52BA;
+  --p-radiobutton-checked-border-color: #0F52BA;
+  --p-radiobutton-checked-hover-background: #0d47a1;
+  --p-radiobutton-checked-hover-border-color: #0d47a1;
+  --p-radiobutton-checked-focus-border-color: #0F52BA;
+  --p-radiobutton-focus-border-color: #0F52BA;
+  --p-radiobutton-focus-ring-color: #0F52BA;
+  --p-radiobutton-icon-checked-color: #ffffff;
+  --p-radiobutton-icon-checked-hover-color: #ffffff;
+}
+
+p-selectbutton {
+  --p-togglebutton-background: #ffffff;
+  --p-togglebutton-color: #0F52BA;
+  --p-togglebutton-border-color: #0F52BA;
+  --p-togglebutton-hover-background: #e8f1ff;
+  --p-togglebutton-hover-color: #0F52BA;
+  --p-togglebutton-checked-background: #0F52BA;
+  --p-togglebutton-checked-border-color: #0F52BA;
+  --p-togglebutton-checked-color: #ffffff;
+  --p-togglebutton-content-checked-background: #0F52BA;
+  --p-togglebutton-content-checked-shadow: none;
+  --p-togglebutton-focus-ring-color: #0F52BA;
+}
+
+p-button.add-entry-button,
+p-button.remove-entry-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  --p-button-primary-background: #ffffff;
+  --p-button-primary-border-color: #0F52BA;
+  --p-button-primary-color: #0F52BA;
+  --p-button-primary-hover-background: #e8f1ff;
+  --p-button-primary-hover-border-color: #0F52BA;
+  --p-button-primary-hover-color: #0F52BA;
+  --p-button-primary-active-background: #d6e7ff;
+  --p-button-primary-active-border-color: #0F52BA;
+  --p-button-primary-active-color: #0F52BA;
+  --p-button-primary-focus-ring-color: #0F52BA;
+}
+
+.brand-logo {
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .right {
   float: right;
   font-size: smaller;

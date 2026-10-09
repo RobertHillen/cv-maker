@@ -1,10 +1,5 @@
-import { Person } from './person';
-import { Info } from './info';
-import { Experience } from './experience';
-import { Education } from './education';
-import { SocialMedia } from './socialMedia';
-import { Skill } from './skill';
-import { enumLanguage } from '../enums/enumLanguage';
+import { Person, Info, Experience, Education, SocialMedia, Skill } from './modelCv';
+import { enumLanguage } from '../enums/enumCv';
 
 export class Cv {
   info: Info;

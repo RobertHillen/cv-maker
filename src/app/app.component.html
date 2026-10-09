@@ -1,33 +1,36 @@
-<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-light cv-navbar">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">CV MAKER</a>
+    <div class="navbar-brand d-flex align-items-center gap-2">
+      <img class="brand-logo" src="assets/cv-logo.png" width="32" height="32">
+      Curriculum Vitae
+    </div>
 
     <div class="d-flex flex-row-reverse">
-      <div class="p-2">
-        <div class="form-check form-check-inline">
-          <input [(ngModel)]="cv.info.language" id="{{enumLanguage.dutch}}" type="radio" value="{{enumLanguage.dutch}}" name="radio" (click)="changelanguage()">
-          <label class="form-check-label white" for="{{enumLanguage.dutch}}">&nbsp;Nederlands</label>
+      <div class="p-2 d-flex flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <p-radiobutton [(ngModel)]="cv.info.language" [inputId]="enumLanguage.dutch" [value]="enumLanguage.dutch" name="language" (ngModelChange)="changelanguage($event)"></p-radiobutton>
+          <label [for]="enumLanguage.dutch">Nederlands</label>
         </div>
-        <div class="form-check form-check-inline">
-          <input [(ngModel)]="cv.info.language" id="{{enumLanguage.english}}" type="radio" value="{{enumLanguage.english}}" name="radio" (click)="changelanguage()">
-          <label class="form-check-label white" for="{{enumLanguage.english}}">&nbsp;Engels</label>
+        <div class="d-flex align-items-center gap-2">
+          <p-radiobutton [(ngModel)]="cv.info.language" [inputId]="enumLanguage.english" [value]="enumLanguage.english" name="language" (ngModelChange)="changelanguage($event)"></p-radiobutton>
+          <label [for]="enumLanguage.english">Engels</label>
         </div>
       </div>
     </div>
 
     <div class="d-flex flex-row-reverse">
       <div class="p-2">
-        <button type="button" class="btn btn-primary btn-sm" (click)="resetCv()"><i class="bi bi-x-octagon"> Herstellen</i></button>
+        <p-button type="button" size="small" icon="bi bi-x-octagon" label="Herstellen" (onClick)="resetCv()"></p-button>
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-primary btn-sm" (click)="exportCv()"><i class="bi bi-box-arrow-down"> Exporteren</i></button>
+        <p-button type="button" size="small" icon="bi bi-box-arrow-down" label="Exporteren" (onClick)="exportCv()"></p-button>
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-primary btn-sm" (click)="uploader.click()"><i class="bi bi-box-arrow-up"> Importeren</i></button>
+        <p-button type="button" size="small" icon="bi bi-box-arrow-up" label="Importeren" (onClick)="uploader.click()"></p-button>
         <input hidden type="file" #uploader (change)="importCv($event)" />
       </div>
       <div class="p-2">
-        <button type="button" class="btn btn-primary btn-sm" (click)="createPdf()"><i class="bi bi-file-pdf"> Aanmaken PDF</i></button>
+        <p-button type="button" size="small" icon="bi bi-file-pdf" label="Aanmaken PDF" (onClick)="createPdf()"></p-button>
       </div>
     </div>
   </div>
@@ -35,21 +38,20 @@
 
 <form #cvForm="ngForm">
   <div class="container">
-    <div class="card border-primary mb-3">
+    <div class="card border-primary mt-3 mb-3">
       <div class="card-header">
-        <h4 class="card-title d-flex justify-content-between">Persoonlijke gegevens
-          <div class="form-group">
-            <div class="form-check form-switch right">
-              <label for="checked">{{ isInfoMoreChecked ? "Minder" : "Meer"}}</label>
-              <input type="checkbox" class="form-control form-check-input" name="checked" id="checked" [(ngModel)]="isInfoMoreChecked">
-            </div>
-          </div>
+        <h4 class="card-title d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <span id="personal-info-heading">Persoonlijke gegevens</span>
+          <p-selectbutton [options]="infoVisibilityOptions" optionLabel="label" optionValue="value" [(ngModel)]="isInfoMoreChecked" name="checked" [allowEmpty]="false" size="small" ariaLabelledBy="personal-info-heading"></p-selectbutton>
         </h4>
       </div>
       <div class="card-body text-primary">
         <div class="row row-margin">
           <div class="col-md-6">
-            <input-text [name]="'title'" [label]="'Titel'" [isRequired]=true [value]="cv.info.title" [placeHolder]="'Voer een titel in'" (onBlur)="changeInfo(enumInfo.title, $event)"></input-text>
+            <p-floatlabel variant="on">
+              <input pInputText type="text" pSize="small" [fluid]="true" name="title" id="title" required #titleField="ngModel" [ngModel]="cv.info.title" [invalid]="titleField.invalid" (blur)="changeInfo(enumInfo.title, titleField.value)">
+              <label for="title">Titel</label>
+            </p-floatlabel>
           </div>
           <div class="col-md-6">
             <avatar-upload [imageURL]="cv.info.avatar" (onChange)="changeInfo(enumInfo.avatar, $event)"></avatar-upload>
@@ -57,51 +59,87 @@
         </div>
         <div class="row row-margin">
           <div class="col-md-6">
-            <input-text [name]="'firstName'" [label]="'Voornaam'" [isRequired]=true [value]="cv.person.firstName" [placeHolder]="'Wat is uw voornaam'" (onBlur)="changePerson(enumPerson.firstName, $event)"></input-text>
+            <p-floatlabel variant="on">
+              <input pInputText type="text" pSize="small" [fluid]="true" name="firstName" id="firstName" required #firstNameField="ngModel" [ngModel]="cv.person.firstName" [invalid]="firstNameField.invalid" (blur)="changePerson(enumPerson.firstName, firstNameField.value)">
+              <label for="firstName">Voornaam</label>
+            </p-floatlabel>
           </div>
           <div class="col-md-6">
-            <input-text [name]="'lastName'" [label]="'Achternaam'" [isRequired]=true [value]="cv.person.lastName" [placeHolder]="'Wat is uw achternaam'" (onBlur)="changePerson(enumPerson.lastName, $event)"></input-text>
+            <p-floatlabel variant="on">
+              <input pInputText type="text" pSize="small" [fluid]="true" name="lastName" id="lastName" required #lastNameField="ngModel" [ngModel]="cv.person.lastName" [invalid]="lastNameField.invalid" (blur)="changePerson(enumPerson.lastName, lastNameField.value)">
+              <label for="lastName">Achternaam</label>
+            </p-floatlabel>
           </div>
         </div>
         <div class="row row-margin">
           <div class="col-md-6">
-            <input-text [name]="'eMail'" [label]="'E-mail'" [isRequired]=true [value]="cv.person.email" [placeHolder]="'Wat is uw e-mail adres'" (onBlur)="changePerson(enumPerson.email, $event)"></input-text>
+            <p-floatlabel variant="on">
+              <input pInputText type="text" pSize="small" [fluid]="true" name="eMail" id="eMail" required #emailField="ngModel" [ngModel]="cv.person.email" [invalid]="emailField.invalid" (blur)="changePerson(enumPerson.email, emailField.value)">
+              <label for="eMail">E-mail</label>
+            </p-floatlabel>
           </div>
           <div class="col-md-6">
-            <input-text [name]="'phone'" [label]="'Telefoon'" [value]="cv.person.phone" [placeHolder]="'Wat is uw telefoon nummer'" (onBlur)="changePerson(enumPerson.phone, $event)"></input-text>
+            <p-floatlabel variant="on">
+              <input pInputText type="text" pSize="small" [fluid]="true" name="phone" id="phone" #phoneField="ngModel" [ngModel]="cv.person.phone" [invalid]="phoneField.invalid" (blur)="changePerson(enumPerson.phone, phoneField.value)">
+              <label for="phone">Telefoon</label>
+            </p-floatlabel>
           </div>
         </div>
         <div *ngIf="isInfoMoreChecked">
           <div class="row row-margin">
             <div class="col-md-6">
-              <input-text [name]="'address'" [label]="'Adres'" [value]="cv.person.address" [placeHolder]="'Wat is uw woonadres'" (onBlur)="changePerson(enumPerson.address, $event)"></input-text>
+              <p-floatlabel variant="on">
+                <input pInputText type="text" pSize="small" [fluid]="true" name="address" id="address" #addressField="ngModel" [ngModel]="cv.person.address" [invalid]="addressField.invalid" (blur)="changePerson(enumPerson.address, addressField.value)">
+                <label for="address">Adres</label>
+              </p-floatlabel>
             </div>
             <div class="col-md-6">
-              <input-text [name]="'zipCode'" [label]="'Postcode'" [value]="cv.person.zipCode" [placeHolder]="'Wat is uw postcode'" (onBlur)="changePerson(enumPerson.zipCode, $event)"></input-text>
-            </div>
-          </div>
-          <div class="row row-margin">
-            <div class="col-md-6">
-              <input-text [name]="'place'" [label]="'Woonplaats'" [isRequired]=true [value]="cv.person.city" [placeHolder]="'Wat is uw woonplaats'" (onBlur)="changePerson(enumPerson.city, $event)"></input-text>
-            </div>
-            <div class="col-md-6">
-              <input-text [name]="'country'" [label]="'Land'" [value]="cv.person.country" [placeHolder]="'In welk land woont u'" (onBlur)="changePerson(enumPerson.country, $event)"></input-text>
+              <p-floatlabel variant="on">
+                <input pInputText type="text" pSize="small" [fluid]="true" name="zipCode" id="zipCode" #zipCodeField="ngModel" [ngModel]="cv.person.zipCode" [invalid]="zipCodeField.invalid" (blur)="changePerson(enumPerson.zipCode, zipCodeField.value)">
+                <label for="zipCode">Postcode</label>
+              </p-floatlabel>
             </div>
           </div>
           <div class="row row-margin">
             <div class="col-md-6">
-              <input-text [name]="'birthDate'" [label]="'Geboortedatum'" [value]="cv.person.birthDate" [placeHolder]="'Op welke datum bent u geboren'" (onBlur)="changePerson(enumPerson.birthDate, $event)"></input-text>
+              <p-floatlabel variant="on">
+                <input pInputText type="text" pSize="small" [fluid]="true" name="place" id="place" required #cityField="ngModel" [ngModel]="cv.person.city" [invalid]="cityField.invalid" (blur)="changePerson(enumPerson.city, cityField.value)">
+                <label for="place">Woonplaats</label>
+              </p-floatlabel>
             </div>
             <div class="col-md-6">
-              <input-text [name]="'birthCity'" [label]="'Geboorteplaats'" [value]="cv.person.birthCity" [placeHolder]="'In welke plaats bent u geboren'" (onBlur)="changePerson(enumPerson.birthCity, $event)"></input-text>
+              <p-floatlabel variant="on">
+                <input pInputText type="text" pSize="small" [fluid]="true" name="country" id="country" #countryField="ngModel" [ngModel]="cv.person.country" [invalid]="countryField.invalid"  (blur)="changePerson(enumPerson.country, countryField.value)">
+                <label for="country">Land</label>
+              </p-floatlabel>
             </div>
           </div>
           <div class="row row-margin">
             <div class="col-md-6">
-              <input-text [name]="'driverLicense'" [label]="'Rijbewijs'" [value]="cv.person.driverLicense" [placeHolder]="'Welke rijbewijzen bezit u'" (onBlur)="changePerson(enumPerson.driverLicense, $event)"></input-text>
+              <p-floatlabel variant="on">
+                <input pInputText type="text" pSize="small" [fluid]="true" name="birthDate" id="birthDate" #birthDateField="ngModel" [ngModel]="cv.person.birthDate" [invalid]="birthDateField.invalid" (blur)="changePerson(enumPerson.birthDate, birthDateField.value)">
+                <label for="birthDate">Geboortedatum</label>
+              </p-floatlabel>
             </div>
             <div class="col-md-6">
-              <input-text [name]="'nationality'" [label]="'Nationaliteit'" [value]="cv.person.nationality" [placeHolder]="'Welke nationaliteit heeft u'" (onBlur)="changePerson(enumPerson.nationality, $event)"></input-text>
+              <p-floatlabel variant="on">
+                <input pInputText type="text" pSize="small" [fluid]="true" name="birthCity" id="birthCity" #birthCityField="ngModel" [ngModel]="cv.person.birthCity" [invalid]="birthCityField.invalid" (blur)="changePerson(enumPerson.birthCity, birthCityField.value)">
+                <label for="birthCity">Geboorteplaats</label>
+              </p-floatlabel>
+            </div>
+          </div>
+          <div class="row row-margin">
+            <div class="col-md-6">
+              <p-floatlabel variant="on">
+                <input pInputText type="text" pSize="small" [fluid]="true" name="driverLicense" id="driverLicense" #driverLicenseField="ngModel" [ngModel]="cv.person.driverLicense" [invalid]="driverLicenseField.invalid" (blur)="changePerson(enumPerson.driverLicense, driverLicenseField.value)">
+                <label for="driverLicense">Rijbewijs</label>
+              </p-floatlabel>
+            </div>
+            <div class="col-md-6">
+              <p-floatlabel variant="on">
+                <input pInputText type="text" pSize="small" [fluid]="true" name="nationality" id="nationality" #nationalityField="ngModel" [ngModel]="cv.person.nationality" [invalid]="nationalityField.invalid" (blur)="changePerson(enumPerson.nationality, nationalityField.value)">
+                <label for="nationality">Nationaliteit</label>
+              </p-floatlabel>
             </div>
           </div>
         </div>
@@ -113,14 +151,18 @@
         <h4 class="card-title d-flex justify-content-between">Persoonlijk profiel</h4>
       </div>
       <div class="card-body text-primary">
-        <input-textarea [name]="'profile'" [value]="cv.info.profile" [placeHolder]="'Enter profile text'" (onBlur)="changeInfo(enumInfo.profile, $event)"></input-textarea>
+        <p-floatlabel variant="on">
+          <textarea pTextarea pSize="small" [fluid]="true" name="profile" id="profile" rows="3" #profileField="ngModel" [ngModel]="cv.info.profile" [invalid]="profileField.invalid" (blur)="changeInfo(enumInfo.profile, profileField.value)"></textarea>
+          <label for="profile">Profiel</label>
+        </p-floatlabel>
       </div>
     </div>
 
     <div class="card border-primary mb-3">
       <div class="card-header">
-        <h4 class="card-title d-flex justify-content-between">Werkervaring
-          <button type="button" class="btn btn-outline-primary" (click)="addExperience()"><i class="bi bi-plus-lg"></i></button>
+        <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
+          <span>Werkervaring</span>
+          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addExperience()"></p-button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -131,27 +173,45 @@
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
               </div>
               <div class="col-md-2">
-                <input-text [name]="'expStartDate' + i" [value]="experience.startDate" [placeHolder]="'Start datum'" (onBlur)="changeExperience(i, enumExperience.startDate, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expStartDate' + i" [id]="'expStartDate' + i" #expStartDateField="ngModel" [ngModel]="experience.startDate" [invalid]="expStartDateField.invalid" (blur)="changeExperience(i, enumExperience.startDate, expStartDateField.value)">
+                  <label [for]="'expStartDate' + i">Start datum</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-2">
-                <input-text [name]="'expEndDate' + i" [value]="experience.endDate" [placeHolder]="'Einde datum'" (onBlur)="changeExperience(i, enumExperience.endDate, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expEndDate' + i" [id]="'expEndDate' + i" #expEndDateField="ngModel" [ngModel]="experience.endDate" [invalid]="expEndDateField.invalid" (blur)="changeExperience(i, enumExperience.endDate, expEndDateField.value)">
+                  <label [for]="'expEndDate' + i">Einde datum</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-4">
-                <input-text [name]="'expEmployer' + i" [value]="experience.employer" [placeHolder]="'Werkgever'" (onBlur)="changeExperience(i, enumExperience.employer, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expEmployer' + i" [id]="'expEmployer' + i" #expEmployerField="ngModel" [ngModel]="experience.employer" [invalid]="expEmployerField.invalid" (blur)="changeExperience(i, enumExperience.employer, expEmployerField.value)">
+                  <label [for]="'expEmployer' + i">Werkgever</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-3">
-                <input-text [name]="'expCity' + i" [value]="experience.city" [placeHolder]="'Plaats'" (onBlur)="changeExperience(i, enumExperience.city, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expCity' + i" [id]="'expCity' + i" #expCityField="ngModel" [ngModel]="experience.city" [invalid]="expCityField.invalid" (blur)="changeExperience(i, enumExperience.city, expCityField.value)">
+                  <label [for]="'expCity' + i">Plaats</label>
+                </p-floatlabel>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-3">
-                <input-text [name]="'expFunction' + i" [value]="experience.function" [placeHolder]="'Functie'" (onBlur)="changeExperience(i, enumExperience.function, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expFunction' + i" [id]="'expFunction' + i" #expFunctionField="ngModel" [ngModel]="experience.function" [invalid]="expFunctionField.invalid"  (blur)="changeExperience(i, enumExperience.function, expFunctionField.value)">
+                  <label [for]="'expFunction' + i">Functie</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-8">
-                <input-textarea [name]="'expDescription' + i" [value]="experience.description" [placeHolder]="'Omschrijving'" (onBlur)="changeExperience(i, enumExperience.description, $event)"></input-textarea>
+                <p-floatlabel variant="on">
+                  <textarea pTextarea pSize="small" [fluid]="true" [name]="'expDescription' + i" [id]="'expDescription' + i" rows="3" #expDescriptionField="ngModel" [ngModel]="experience.description" [invalid]="expDescriptionField.invalid" (blur)="changeExperience(i, enumExperience.description, expDescriptionField.value)"></textarea>
+                  <label [for]="'expDescription' + i">Omschrijving</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary right" (click)="removeExperience(i)"><i class="bi bi-dash-lg"></i></button>
+                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeExperience(i)"></p-button>
               </div>
             </div>
           </div>
@@ -161,8 +221,9 @@
 
     <div class="card border-primary mb-3">
       <div class="card-header">
-        <h4 class="card-title d-flex justify-content-between">Opleiding
-          <button type="button" class="btn btn-outline-primary" (click)="addEducation()"><i class="bi bi-plus-lg"></i></button>
+        <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
+          <span>Opleiding</span>
+          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addEducation()"></p-button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -173,27 +234,45 @@
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
               </div>
               <div class="col-md-2">
-                <input-text [name]="'eduStartDate' + i" [value]="education.startDate" [placeHolder]="'Start datum'" (onBlur)="changeEducation(i, enumEducation.startDate, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduStartDate' + i" [id]="'eduStartDate' + i" #eduStartDateField="ngModel" [ngModel]="education.startDate" [invalid]="eduStartDateField.invalid" (blur)="changeEducation(i, enumEducation.startDate, eduStartDateField.value)">
+                  <label [for]="'eduStartDate' + i">Start datum</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-2">
-                <input-text [name]="'eduEndDate' + i" [value]="education.endDate" [placeHolder]="'Einde datum'" (onBlur)="changeEducation(i, enumEducation.endDate, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduEndDate' + i" [id]="'eduEndDate' + i" #eduEndDateField="ngModel" [ngModel]="education.endDate" [invalid]="eduEndDateField.invalid"  (blur)="changeEducation(i, enumEducation.endDate, eduEndDateField.value)">
+                  <label [for]="'eduEndDate' + i">Einde datum</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-4">
-                <input-text [name]="'eduEmployer' + i" [value]="education.school" [placeHolder]="'School'" (onBlur)="changeEducation(i, enumEducation.school, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduEmployer' + i" [id]="'eduEmployer' + i" #eduSchoolField="ngModel" [ngModel]="education.school" [invalid]="eduSchoolField.invalid" (blur)="changeEducation(i, enumEducation.school, eduSchoolField.value)">
+                  <label [for]="'eduEmployer' + i">School</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-3">
-                <input-text [name]="'eduCity' + i" [value]="education.city" [placeHolder]="'Plaats'" (onBlur)="changeEducation(i, enumEducation.city, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduCity' + i" [id]="'eduCity' + i" #eduCityField="ngModel" [ngModel]="education.city" [invalid]="eduCityField.invalid" (blur)="changeEducation(i, enumEducation.city, eduCityField.value)">
+                  <label [for]="'eduCity' + i">Plaats</label>
+                </p-floatlabel>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-3">
-                <input-text [name]="'eduFunction' + i" [value]="education.study" [placeHolder]="'Studierichting'" (onBlur)="changeEducation(i, enumEducation.study, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduFunction' + i" [id]="'eduFunction' + i" #eduStudyField="ngModel" [ngModel]="education.study" [invalid]="eduStudyField.invalid" (blur)="changeEducation(i, enumEducation.study, eduStudyField.value)">
+                  <label [for]="'eduFunction' + i">Studierichting</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-8">
-                <input-textarea [name]="'eduDescription' + i" [value]="education.description" [placeHolder]="'Omschrijving'" (onBlur)="changeEducation(i, enumEducation.description, $event)"></input-textarea>
+                <p-floatlabel variant="on">
+                  <textarea pTextarea pSize="small" [fluid]="true" [name]="'eduDescription' + i" [id]="'eduDescription' + i" rows="3" #eduDescriptionField="ngModel" [ngModel]="education.description" [invalid]="eduDescriptionField.invalid" (blur)="changeEducation(i, enumEducation.description, eduDescriptionField.value)"></textarea>
+                  <label [for]="'eduDescription' + i">Omschrijving</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary right" (click)="removeEducation(i)"><i class="bi bi-dash-lg"></i></button>
+                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeEducation(i)"></p-button>
               </div>
             </div>
           </div>
@@ -203,8 +282,9 @@
 
     <div class="card border-primary mb-3">
       <div class="card-header">
-        <h4 class="card-title d-flex justify-content-between">Websites & social media-links
-          <button type="button" class="btn btn-outline-primary" (click)="addSocialMedia()"><i class="bi bi-plus-lg"></i></button>
+        <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
+          <span>Websites & social media-links</span>
+          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addSocialMedia()"></p-button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -215,13 +295,19 @@
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
               </div>
               <div class="col-md-5">
-                <input-text [name]="'smLabel' + i" [value]="socialMedia.label" [placeHolder]="'Label'" (onBlur)="changeSocialMedia(i, enumSocialMedia.label, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'smLabel' + i" [id]="'smLabel' + i" #smLabelField="ngModel" [ngModel]="socialMedia.label" [invalid]="smLabelField.invalid" (blur)="changeSocialMedia(i, enumSocialMedia.label, smLabelField.value)">
+                  <label [for]="'smLabel' + i">Label</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-5">
-                <input-text [name]="'smLink' + i" [value]="socialMedia.link" [placeHolder]="'Link'" (onBlur)="changeSocialMedia(i, enumSocialMedia.link, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'smLink' + i" [id]="'smLink' + i" #smLinkField="ngModel" [ngModel]="socialMedia.link" [invalid]="smLinkField.invalid" (blur)="changeSocialMedia(i, enumSocialMedia.link, smLinkField.value)">
+                  <label [for]="'smLink' + i">Link</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary right" (click)="removeSocialMedia(i)"><i class="bi bi-dash-lg"></i></button>
+                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeSocialMedia(i)"></p-button>
               </div>
             </div>
           </div>
@@ -231,8 +317,9 @@
 
     <div class="card border-primary mb-3">
       <div class="card-header">
-        <h4 class="card-title d-flex justify-content-between">Vaardigheden
-          <button type="button" class="btn btn-outline-primary" (click)="addSkill()"><i class="bi bi-plus-lg"></i></button>
+        <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
+          <span>Vaardigheden</span>
+          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" ariaLabel="Vaardigheid toevoegen" (onClick)="addSkill()"></p-button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -243,10 +330,13 @@
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
               </div>
               <div class="col-md-10">
-                <input-text [name]="'skiAbility' + i" [value]="skill.ability" [placeHolder]="'Bekwaamheid'" (onBlur)="changeSkill(i, enumSkill.ability, $event)"></input-text>
+                <p-floatlabel variant="on">
+                  <input pInputText type="text" pSize="small" [fluid]="true" [name]="'skiAbility' + i" [id]="'skiAbility' + i" #skillAbilityField="ngModel" [ngModel]="skill.ability" [invalid]="skillAbilityField.invalid" (blur)="changeSkill(i, enumSkill.ability, skillAbilityField.value)">
+                  <label [for]="'skiAbility' + i">Bekwaamheid</label>
+                </p-floatlabel>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary right" (click)="removeSkill(i)"><i class="bi bi-dash-lg"></i></button>
+                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" ariaLabel="Vaardigheid verwijderen" (onClick)="removeSkill(i)"></p-button>
               </div>
             </div>
           </div>

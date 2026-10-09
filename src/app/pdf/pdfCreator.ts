@@ -1,10 +1,7 @@
 import { Cv } from "../models/cv";
-import { Experience } from "../models/experience";
-import { Education } from '../models/education';
-import { Person } from "../models/person";
-import { Localization } from '../models/localization';
+import { Experience, Education, Person, Localization } from "../models/modelCv";
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
-import { enumLanguage } from '../enums/enumLanguage';
+import { enumLanguage } from '../enums/enumCv';
 
 import DutchJson from '../../assets/dutch.json';
 import EnglishJson from '../../assets/english.json';
@@ -202,8 +199,6 @@ export class PdfCreator {
   }
 
   private getPersonalAndSocialMedias(cv: Cv, sv: Localization[]) {
-    console.log(cv);
-    console.log(sv);
     const pas = [];
 
     cv.socialMedias.forEach(socialMedia => {

@@ -1,19 +1,10 @@
 import { DatePipe } from '@angular/common'
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Cv } from './models/cv';
-import { Education } from './models/education';
-import { Experience } from './models/experience';
-import { enumInfo } from './enums/enumInfo';
-import { enumPerson } from './enums/enumPerson';
-import { enumExperience } from './enums/enumExperience';
-import { enumEducation } from './enums/enumEducation';
-import { enumSocialMedia } from './enums/enumSocialMedia';
-import { SocialMedia } from './models/socialMedia';
-import { Skill } from './models/skill';
-import { enumSKill } from './enums/enumSkill';
+import { Education, Experience, SocialMedia, Skill } from './models/modelCv';
+import { enumEducation, enumExperience, enumInfo, enumLanguage, enumPerson, enumSKill, enumSocialMedia } from './enums/enumCv';
 import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
 import { pdfCreator } from './pdf/pdfCreator';
-import { enumLanguage } from './enums/enumLanguage';
 import { LocalizationFunctions } from './core/LocalizationFunctions';
 
 @Component({
@@ -24,7 +15,11 @@ import { LocalizationFunctions } from './core/LocalizationFunctions';
 })
 export class AppComponent implements OnInit {
   isInfoMoreChecked = true;
-  cv: Cv = new Cv();
+  infoVisibilityOptions = [
+    { label: 'Minder', value: false },
+    { label: 'Meer', value: true }
+  ];
+  cv: Cv;
 
   enumInfo = enumInfo;
   enumPerson = enumPerson;
@@ -38,16 +33,16 @@ export class AppComponent implements OnInit {
                private localize: LocalizationFunctions,
                private changeDetector: ChangeDetectorRef) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.resetCv();
+   }
 
-  public changelanguage() {
-    this.localize.current = this.cv.info.language;
+  public changelanguage(language: enumLanguage) {
+    this.localize.current = language;
   }
 
   importCv(event) {
     var f = event.target.files[0];
-    console.log('Importing data from [' + f.name + ']');
-
     var reader = new FileReader();
     reader.onload = e => {
       try {
@@ -56,7 +51,7 @@ export class AppComponent implements OnInit {
           alert('ex when trying to parse json = ' + ex);
           this.resetCv();
       }
-      this.changeDetector.detectChanges();
+      this.changeDetector.markForCheck();
     }
 
     reader.readAsText(f);
@@ -64,8 +59,6 @@ export class AppComponent implements OnInit {
 
   exportCv() {
     const filename = "cvmaker_" + this.datepipe.transform(new Date(), 'yyyyMMdd_HHmmss' ) + ".json";
-    console.log('Exporting data to [' + filename + ']');
-
     const dataURI = "data:text/plain;base64," + encodeBase64(JSON.stringify(this.cv));
     saveAs(dataURI, filename);
   }

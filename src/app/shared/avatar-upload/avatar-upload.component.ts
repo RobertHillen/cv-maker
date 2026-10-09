@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { FileSelectEvent } from '@openng/optimus-ui/fileupload';
 
 @Component({
   selector: 'avatar-upload',
@@ -21,10 +22,15 @@ export class AvatarUploadComponent {
     })
   }
 
-  showPreview(event) {
-    const file = (event.target as HTMLInputElement).files[0];
+  showPreview(event: FileSelectEvent) {
+    const file = event.currentFiles[0];
+    if (!file) {
+      return;
+    }
+
     this.avatarForm.patchValue({
-      avatar: file
+      avatar: file,
+      name: file.name
     });
     this.avatarForm.get('avatar').updateValueAndValidity()
 
