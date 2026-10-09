@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light cv-navbar">
   <div class="container-fluid">
     <div class="navbar-brand d-flex align-items-center gap-2">
-      <img class="brand-logo" src="assets/cv-logo.png" width="32" height="32">
+      <img class="brand-logo" src="assets/cv-logo.png" alt="CV logo" width="32" height="32">
       Curriculum Vitae
     </div>
 
@@ -85,7 +85,7 @@
             </p-floatlabel>
           </div>
         </div>
-        <div *ngIf="isInfoMoreChecked">
+        @if (isInfoMoreChecked) {
           <div class="row row-margin">
             <div class="col-md-6">
               <p-floatlabel variant="on">
@@ -142,7 +142,7 @@
               </p-floatlabel>
             </div>
           </div>
-        </div>
+        }
       </div>
     </div>
 
@@ -167,7 +167,7 @@
       </div>
       <div class="card-body text-primary">
         <div class="container">
-          <div *ngFor="let experience of cv.experiences; let i=index">
+          @for (experience of cv.experiences; track $index; let i = $index) {
             <div class="row mb-1">
               <div class="col-md-1">
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
@@ -214,7 +214,7 @@
                 <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeExperience(i)"></p-button>
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -228,7 +228,7 @@
       </div>
       <div class="card-body text-primary">
         <div class="container">
-          <div *ngFor="let education of cv.educations; let i=index">
+          @for (education of cv.educations; track $index; let i = $index) {
             <div class="row mb-1">
               <div class="col-md-1">
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
@@ -275,7 +275,7 @@
                 <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeEducation(i)"></p-button>
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -289,7 +289,7 @@
       </div>
       <div class="card-body text-primary">
         <div class="container">
-          <div *ngFor="let socialMedia of cv.socialMedias; let i=index">
+          @for (socialMedia of cv.socialMedias; track $index; let i = $index) {
             <div class="row mb-1">
               <div class="col-md-1">
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
@@ -310,7 +310,7 @@
                 <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeSocialMedia(i)"></p-button>
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -324,7 +324,7 @@
       </div>
       <div class="card-body text-primary">
         <div class="container">
-          <div *ngFor="let skill of cv.skills; let i=index">
+          @for (skill of cv.skills; track $index; let i = $index) {
             <div class="row mb-1">
               <div class="col-md-1">
                 <span class="badge rounded-pill bg-primary">{{i+1}}</span>
@@ -339,7 +339,7 @@
                 <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" ariaLabel="Vaardigheid verwijderen" (onClick)="removeSkill(i)"></p-button>
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>

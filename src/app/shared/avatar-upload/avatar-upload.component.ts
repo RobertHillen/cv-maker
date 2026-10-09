@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { FileSelectEvent } from '@openng/optimus-ui/fileupload';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FileSelectEvent, FileUploadModule } from '@openng/optimus-ui/fileupload';
 
 @Component({
   selector: 'avatar-upload',
-  standalone: false,
+  imports: [CommonModule, ReactiveFormsModule, FileUploadModule],
   templateUrl: './avatar-upload.component.html',
   styleUrls: ['./avatar-upload.component.scss']
 })

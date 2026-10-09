@@ -1,15 +1,32 @@
 import { DatePipe } from '@angular/common'
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Cv } from './models/cv';
 import { Education, Experience, SocialMedia, Skill } from './models/modelCv';
 import { enumEducation, enumExperience, enumInfo, enumLanguage, enumPerson, enumSKill, enumSocialMedia } from './enums/enumCv';
 import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
 import { pdfCreator } from './pdf/pdfCreator';
 import { LocalizationFunctions } from './core/LocalizationFunctions';
+import { FormsModule } from '@angular/forms';
+import { RadioButtonModule } from '@openng/optimus-ui/radiobutton';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
+import { TextareaModule } from '@openng/optimus-ui/textarea';
+import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.component';
 
 @Component({
   selector: 'app-root',
-  standalone: false,
+  imports: [
+    FormsModule,
+    RadioButtonModule,
+    ButtonModule,
+    SelectButtonModule,
+    InputTextModule,
+    FloatLabelModule,
+    TextareaModule,
+    AvatarUploadComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -29,9 +46,10 @@ export class AppComponent implements OnInit {
   enumSkill = enumSKill;
   enumLanguage = enumLanguage;
 
-  constructor (public datepipe: DatePipe,
-               private localize: LocalizationFunctions,
-               private changeDetector: ChangeDetectorRef) { }
+  public datepipe = inject(DatePipe);
+
+  private localize = inject(LocalizationFunctions);
+  private changeDetector = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.resetCv();
@@ -42,8 +60,8 @@ export class AppComponent implements OnInit {
   }
 
   importCv(event) {
-    var f = event.target.files[0];
-    var reader = new FileReader();
+    const f = event.target.files[0];
+    const reader = new FileReader();
     reader.onload = e => {
       try {
         this.cv = JSON.parse(e.target.result as string);
