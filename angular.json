@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-pdfmake-invoice": {
+    "cvmaker": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -18,7 +18,7 @@
               "quill-delta"
             ],
             "outputPath": {
-              "base": "dist/angular-pdfmake-invoice",
+              "base": "dist/cvmaker",
               "browser": ""
             },
             "index": "src/index.html",
@@ -72,18 +72,18 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "buildTarget": "angular-pdfmake-invoice:build"
+            "buildTarget": "cvmaker:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "angular-pdfmake-invoice:build:production"
+              "buildTarget": "cvmaker:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular-pdfmake-invoice:build"
+            "buildTarget": "cvmaker:build"
           }
         },
         "test": {
@@ -107,11 +107,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular-pdfmake-invoice:serve"
+            "devServerTarget": "cvmaker:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular-pdfmake-invoice:serve:production"
+              "devServerTarget": "cvmaker:serve:production"
             }
           }
         }
