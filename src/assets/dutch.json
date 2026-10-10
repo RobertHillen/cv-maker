@@ -1,28 +1,44 @@
-[{
-  "id": 0,
-  "value": "Pagina "
-},
-{
-  "id": 1,
-  "value": " van "
-},
-{
-  "id": 2,
-  "value": "Werkervaring"
-},
-{
-  "id": 3,
-  "value": "Opleiding"
-},
-{
-  "id": 4,
-  "value": "Vaardigheden"
-},
-{
-  "id": 5,
-  "value": "Persoonlijke informatie"
-},
-{
-  "id": 6,
-  "value": "Profiel"
-}]
+[
+  { "id": "ability", "value": "Bekwaamheid" },
+  { "id": "addSkill", "value": "Vaardigheid toevoegen" },
+  { "id": "address", "value": "Adres" },
+  { "id": "birthCity", "value": "Geboorteplaats" },
+  { "id": "birthDate", "value": "Geboortedatum" },
+  { "id": "city", "value": "Woonplaats" },
+  { "id": "country", "value": "Land" },
+  { "id": "createPdf", "value": "Aanmaken PDF" },
+  { "id": "description", "value": "Omschrijving" },
+  { "id": "driverLicense", "value": "Rijbewijs" },
+  { "id": "dutch", "value": "Nederlands"},
+  { "id": "education", "value": "Opleiding" },
+  { "id": "email", "value": "E-mail" },
+  { "id": "employer", "value": "Werkgever" },
+  { "id": "endDate", "value": "Einddatum" },
+  { "id": "english", "value": "Engels" },
+  { "id": "export", "value": "Exporteren" },
+  { "id": "firstName", "value": "Voornaam" },
+  { "id": "function", "value": "Functie" },
+  { "id": "import", "value": "Importeren" },
+  { "id": "label", "value": "Label" },
+  { "id": "language", "value": "Taal" },
+  { "id": "lastName", "value": "Achternaam" },
+  { "id": "less", "value": "Minder" },
+  { "id": "link", "value": "Link" },
+  { "id": "more", "value": "Meer" },
+  { "id": "nationality", "value": "Nationaliteit" },
+  { "id": "of", "value": "van" },
+  { "id": "page", "value": "Pagina" },
+  { "id": "personalInformation", "value": "Persoonlijke informatie" },
+  { "id": "phone", "value": "Telefoon" },
+  { "id": "profile", "value": "Profiel" },
+  { "id": "removeSkill", "value": "Vaardigheid verwijderen" },
+  { "id": "reset", "value": "Herstellen" },
+  { "id": "school", "value": "School" },
+  { "id": "skills", "value": "Vaardigheden" },
+  { "id": "startDate", "value": "Startdatum" },
+  { "id": "study", "value": "Studierichting" },
+  { "id": "title", "value": "Titel" },
+  { "id": "websitesAndSocialMediaLinks", "value": "Websites & social media-links" },
+  { "id": "workExperience", "value": "Werkervaring" },
+  { "id": "zipCode", "value": "Postcode" }
+]

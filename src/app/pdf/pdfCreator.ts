@@ -13,13 +13,16 @@ pdfMake.addVirtualFileSystem(pdfFonts);
 
 export class PdfCreator {
   private static _instance = new PdfCreator();
+  private translations: Localization[] = [];
 
   static get instance() {
     return this._instance;
   }
 
   private getDocumentDefinition(cv: Cv): TDocumentDefinitions {
-    const sv: Localization[] = cv.info.language === enumLanguage.dutch ? DutchJson : EnglishJson;
+    this.translations = cv.info.language === enumLanguage.dutch ? DutchJson : EnglishJson;
+    const pageTranslation = this.getTranslation('page');
+    const ofTranslation = this.getTranslation('of');
 
     return {
       pageSize: 'A4',
@@ -28,9 +31,9 @@ export class PdfCreator {
         author: 'Robert Hillen',
         subject: 'CV dynamically created with CV Maker by Robert Hillen'
       },
-      footer: function (currentPage, pageCount) {
+      footer: (currentPage, pageCount) => {
         return {
-          text: sv[0].value + currentPage + sv[1].value + pageCount,
+          text: `${pageTranslation} ${currentPage} ${ofTranslation} ${pageCount}`,
           style: 'footer'
         }
       },
@@ -59,9 +62,9 @@ export class PdfCreator {
             ]
           }
         },
-        this.getPersonalAndSocialMedias(cv, sv),
+        this.getPersonalAndSocialMedias(cv),
         {
-          text: sv[2].value,
+          text: this.getTranslation('workExperience'),
           style: 'parHeader'
         },
         this.getExperience(cv.experiences),
@@ -75,12 +78,12 @@ export class PdfCreator {
           style: 'persTitle'
         },
         {
-          text: sv[3].value,
+          text: this.getTranslation('education'),
           style: 'parHeader'
         },
         this.getEducation(cv.educations),
         {
-          text: sv[4].value,
+          text: this.getTranslation('skills'),
           style: 'parHeader'
         },
         {
@@ -158,6 +161,10 @@ export class PdfCreator {
     }
   }
 
+  private getTranslation(id: string): string {
+    return this.translations.find(localization => localization.id === id)?.value ?? '';
+  }
+
   private getFullName(person: Person) {
     return this.createString([person.firstName.toUpperCase(), person.lastName.toUpperCase()], ' ');
   }
@@ -198,7 +205,7 @@ export class PdfCreator {
     };
   }
 
-  private getPersonalAndSocialMedias(cv: Cv, sv: Localization[]) {
+  private getPersonalAndSocialMedias(cv: Cv) {
     const pas = [];
 
     cv.socialMedias.forEach(socialMedia => {
@@ -220,11 +227,11 @@ export class PdfCreator {
           widths: ['70%', 'auto'],
           body: [
             [{
-              text: sv[6].value,
+              text: this.getTranslation('profile'),
               style: 'parHeader',
             },
             {
-              text: sv[5].value,
+              text: this.getTranslation('personalInformation'),
               style: 'parHeader'
             }],
             [{

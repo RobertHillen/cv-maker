@@ -1,28 +1,44 @@
-[{
-  "id": 0,
-  "value": "Page "
-},
-{
-  "id": 1,
-  "value": " of "
-},
-{
-  "id": 2,
-  "value": "Experience"
-},
-{
-  "id": 3,
-  "value": "Education"
-},
-{
-  "id": 4,
-  "value": "Skills"
-},
-{
-  "id": 5,
-  "value": "Personal information"
-},
-{
-  "id": 6,
-  "value": "Profile"
-}]
+[
+  { "id": "ability", "value": "Ability" },
+  { "id": "addSkill", "value": "Add skill" },
+  { "id": "address", "value": "Address" },
+  { "id": "birthCity", "value": "Birth city" },
+  { "id": "birthDate", "value": "Birth date" },
+  { "id": "city", "value": "City" },
+  { "id": "country", "value": "Country" },
+  { "id": "createPdf", "value": "Create PDF" },
+  { "id": "description", "value": "Description" },
+  { "id": "driverLicense", "value": "Driver license" },
+  { "id": "dutch", "value": "Dutch"},
+  { "id": "education", "value": "Education" },
+  { "id": "email", "value": "E-mail" },
+  { "id": "employer", "value": "Employer" },
+  { "id": "endDate", "value": "End date" },
+  { "id": "english", "value": "English" },
+  { "id": "export", "value": "Export" },
+  { "id": "firstName", "value": "First name" },
+  { "id": "function", "value": "Function" },
+  { "id": "import", "value": "Import" },
+  { "id": "label", "value": "Label" },
+  { "id": "language", "value": "Language" },
+  { "id": "lastName", "value": "Last name" },
+  { "id": "less", "value": "Less" },
+  { "id": "link", "value": "Link" },
+  { "id": "more", "value": "More" },
+  { "id": "nationality", "value": "Nationality" },
+  { "id": "of", "value": "of" },
+  { "id": "page", "value": "Page" },
+  { "id": "personalInformation", "value": "Personal information" },
+  { "id": "phone", "value": "Phone" },
+  { "id": "profile", "value": "Profile" },
+  { "id": "removeSkill", "value": "Remove skill" },
+  { "id": "reset", "value": "Reset" },
+  { "id": "school", "value": "School" },
+  { "id": "skills", "value": "Skills" },
+  { "id": "startDate", "value": "Start date" },
+  { "id": "study", "value": "Study" },
+  { "id": "title", "value": "Title" },
+  { "id": "websitesAndSocialMediaLinks", "value": "Websites & social media links" },
+  { "id": "workExperience", "value": "Work experience" },
+  { "id": "zipCode", "value": "Zip code" }
+]

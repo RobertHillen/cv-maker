@@ -1,6 +1,4 @@
-import { Injectable } from '@angular/core';
-
-import { Localization } from '../models/modelCv';
+import { computed, Injectable, signal } from '@angular/core';
 import { enumLanguage } from '../enums/enumCv';
 
 import DutchJson from '../../assets/dutch.json';
@@ -10,28 +8,16 @@ import EnglishJson from '../../assets/english.json';
   providedIn: 'root',
 })
 export class LocalizationFunctions {
-
-  private dutch: Localization[] = DutchJson;
-  private english: Localization[] = EnglishJson;
-
-  private language: enumLanguage;
-
-  constructor() {
-    this.language = enumLanguage.dutch;
-  }
+  private readonly dutch = new Map<number | string, string>(DutchJson.map(entry => [entry.id, entry.value]));
+  private readonly english = new Map<number | string, string>(EnglishJson.map(entry => [entry.id, entry.value]));
+  private readonly language = signal(enumLanguage.dutch);
+  private readonly values = computed(() => this.language() === enumLanguage.dutch ? this.dutch : this.english);
 
   public set current(value: enumLanguage) {
-    this.language = value;
+    this.language.set(value);
   }
 
-  public getValue(id: number) {
-    switch (this.language) {
-      case enumLanguage.dutch:
-        return this.dutch[id].value;
-      case enumLanguage.english:
-        return this.english[id].value;
-      default:
-        break;
-    }
+  public translate(id: string): string {
+    return this.values().get(id) ?? '';
   }
 }

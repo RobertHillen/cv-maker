@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common'
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, OnInit } from '@angular/core';
 import { Cv } from './models/cv';
 import { Education, Experience, SocialMedia, Skill } from './models/modelCv';
 import { enumEducation, enumExperience, enumInfo, enumLanguage, enumPerson, enumSKill, enumSocialMedia } from './enums/enumCv';
@@ -31,11 +31,16 @@ import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.comp
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  public datepipe = inject(DatePipe);
+
+  public localize = inject(LocalizationFunctions);
+  private changeDetector = inject(ChangeDetectorRef);
+
   isInfoMoreChecked = true;
-  infoVisibilityOptions = [
-    { label: 'Minder', value: false },
-    { label: 'Meer', value: true }
-  ];
+  readonly infoVisibilityOptions = computed(() => [
+    { label: this.localize.translate('less'), value: false },
+    { label: this.localize.translate('more'), value: true }
+  ]);
   cv: Cv;
 
   enumInfo = enumInfo;
@@ -46,16 +51,12 @@ export class AppComponent implements OnInit {
   enumSkill = enumSKill;
   enumLanguage = enumLanguage;
 
-  public datepipe = inject(DatePipe);
-
-  private localize = inject(LocalizationFunctions);
-  private changeDetector = inject(ChangeDetectorRef);
-
   ngOnInit(): void {
     this.resetCv();
-   }
+  }
 
   public changelanguage(language: enumLanguage) {
+    this.cv.info.language = language;
     this.localize.current = language;
   }
 
@@ -65,6 +66,7 @@ export class AppComponent implements OnInit {
     reader.onload = e => {
       try {
         this.cv = JSON.parse(e.target.result as string);
+        this.changelanguage(this.cv.info.language);
       } catch (ex) {
           alert('ex when trying to parse json = ' + ex);
           this.resetCv();
@@ -83,6 +85,7 @@ export class AppComponent implements OnInit {
 
   resetCv() {
     this.cv = new Cv();
+    this.changelanguage(this.cv.info.language);
   }
 
   createPdf() {
@@ -101,7 +104,7 @@ export class AppComponent implements OnInit {
         this.cv.info.profile = newValue;
         break;
       case enumInfo.language:
-        this.cv.info.language = newValue as enumLanguage;
+        this.changelanguage(newValue as enumLanguage);
         break;
       default:
         console.log('Cv Info for key [' + key + '] not found');

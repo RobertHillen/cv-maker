@@ -9,28 +9,28 @@
       <div class="p-2 d-flex flex-wrap gap-3">
         <div class="d-flex align-items-center gap-2">
           <p-radiobutton [(ngModel)]="cv.info.language" [inputId]="enumLanguage.dutch" [value]="enumLanguage.dutch" name="language" (ngModelChange)="changelanguage($event)"></p-radiobutton>
-          <label [for]="enumLanguage.dutch">Nederlands</label>
+          <label [for]="enumLanguage.dutch">{{ localize.translate('dutch') }}</label>
         </div>
         <div class="d-flex align-items-center gap-2">
           <p-radiobutton [(ngModel)]="cv.info.language" [inputId]="enumLanguage.english" [value]="enumLanguage.english" name="language" (ngModelChange)="changelanguage($event)"></p-radiobutton>
-          <label [for]="enumLanguage.english">Engels</label>
+          <label [for]="enumLanguage.english">{{ localize.translate('english') }}</label>
         </div>
       </div>
     </div>
 
     <div class="d-flex flex-row-reverse">
       <div class="p-2">
-        <p-button type="button" size="small" icon="bi bi-x-octagon" label="Herstellen" (onClick)="resetCv()"></p-button>
+        <p-button type="button" size="small" icon="bi bi-x-octagon" label="{{ localize.translate('reset') }}" (onClick)="resetCv()"></p-button>
       </div>
       <div class="p-2">
-        <p-button type="button" size="small" icon="bi bi-box-arrow-down" label="Exporteren" (onClick)="exportCv()"></p-button>
+        <p-button type="button" size="small" icon="bi bi-box-arrow-down" label="{{ localize.translate('export') }}" (onClick)="exportCv()"></p-button>
       </div>
       <div class="p-2">
-        <p-button type="button" size="small" icon="bi bi-box-arrow-up" label="Importeren" (onClick)="uploader.click()"></p-button>
+        <p-button type="button" size="small" icon="bi bi-box-arrow-up" label="{{ localize.translate('import') }}" (onClick)="uploader.click()"></p-button>
         <input hidden type="file" #uploader (change)="importCv($event)" />
       </div>
       <div class="p-2">
-        <p-button type="button" size="small" icon="bi bi-file-pdf" label="Aanmaken PDF" (onClick)="createPdf()"></p-button>
+        <p-button type="button" size="small" icon="bi bi-file-pdf" label="{{ localize.translate('createPdf') }}" (onClick)="createPdf()"></p-button>
       </div>
     </div>
   </div>
@@ -41,8 +41,8 @@
     <div class="card border-primary mt-3 mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between align-items-center flex-wrap gap-2">
-          <span id="personal-info-heading">Persoonlijke gegevens</span>
-          <p-selectbutton [options]="infoVisibilityOptions" optionLabel="label" optionValue="value" [(ngModel)]="isInfoMoreChecked" name="checked" [allowEmpty]="false" size="small" ariaLabelledBy="personal-info-heading"></p-selectbutton>
+          <span id="personal-info-heading">{{ localize.translate('personalInformation') }}</span>
+          <p-selectbutton [options]="infoVisibilityOptions()" optionLabel="label" optionValue="value" [(ngModel)]="isInfoMoreChecked" name="checked" [allowEmpty]="false" size="small"></p-selectbutton>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -50,7 +50,7 @@
           <div class="col-md-6">
             <p-floatlabel variant="on">
               <input pInputText type="text" pSize="small" [fluid]="true" name="title" id="title" required #titleField="ngModel" [ngModel]="cv.info.title" [invalid]="titleField.invalid" (blur)="changeInfo(enumInfo.title, titleField.value)">
-              <label for="title">Titel</label>
+              <label for="title">{{ localize.translate('title') }}</label>
             </p-floatlabel>
           </div>
           <div class="col-md-6">
@@ -61,13 +61,13 @@
           <div class="col-md-6">
             <p-floatlabel variant="on">
               <input pInputText type="text" pSize="small" [fluid]="true" name="firstName" id="firstName" required #firstNameField="ngModel" [ngModel]="cv.person.firstName" [invalid]="firstNameField.invalid" (blur)="changePerson(enumPerson.firstName, firstNameField.value)">
-              <label for="firstName">Voornaam</label>
+              <label for="firstName">{{ localize.translate('firstName') }}</label>
             </p-floatlabel>
           </div>
           <div class="col-md-6">
             <p-floatlabel variant="on">
               <input pInputText type="text" pSize="small" [fluid]="true" name="lastName" id="lastName" required #lastNameField="ngModel" [ngModel]="cv.person.lastName" [invalid]="lastNameField.invalid" (blur)="changePerson(enumPerson.lastName, lastNameField.value)">
-              <label for="lastName">Achternaam</label>
+              <label for="lastName">{{ localize.translate('lastName') }}</label>
             </p-floatlabel>
           </div>
         </div>
@@ -75,13 +75,13 @@
           <div class="col-md-6">
             <p-floatlabel variant="on">
               <input pInputText type="text" pSize="small" [fluid]="true" name="eMail" id="eMail" required #emailField="ngModel" [ngModel]="cv.person.email" [invalid]="emailField.invalid" (blur)="changePerson(enumPerson.email, emailField.value)">
-              <label for="eMail">E-mail</label>
+              <label for="eMail">{{ localize.translate('email') }}</label>
             </p-floatlabel>
           </div>
           <div class="col-md-6">
             <p-floatlabel variant="on">
               <input pInputText type="text" pSize="small" [fluid]="true" name="phone" id="phone" #phoneField="ngModel" [ngModel]="cv.person.phone" [invalid]="phoneField.invalid" (blur)="changePerson(enumPerson.phone, phoneField.value)">
-              <label for="phone">Telefoon</label>
+              <label for="phone">{{ localize.translate('phone') }}</label>
             </p-floatlabel>
           </div>
         </div>
@@ -90,13 +90,13 @@
             <div class="col-md-6">
               <p-floatlabel variant="on">
                 <input pInputText type="text" pSize="small" [fluid]="true" name="address" id="address" #addressField="ngModel" [ngModel]="cv.person.address" [invalid]="addressField.invalid" (blur)="changePerson(enumPerson.address, addressField.value)">
-                <label for="address">Adres</label>
+                <label for="address">{{ localize.translate('address') }}</label>
               </p-floatlabel>
             </div>
             <div class="col-md-6">
               <p-floatlabel variant="on">
                 <input pInputText type="text" pSize="small" [fluid]="true" name="zipCode" id="zipCode" #zipCodeField="ngModel" [ngModel]="cv.person.zipCode" [invalid]="zipCodeField.invalid" (blur)="changePerson(enumPerson.zipCode, zipCodeField.value)">
-                <label for="zipCode">Postcode</label>
+                <label for="zipCode">{{ localize.translate('zipCode') }}</label>
               </p-floatlabel>
             </div>
           </div>
@@ -104,13 +104,13 @@
             <div class="col-md-6">
               <p-floatlabel variant="on">
                 <input pInputText type="text" pSize="small" [fluid]="true" name="place" id="place" required #cityField="ngModel" [ngModel]="cv.person.city" [invalid]="cityField.invalid" (blur)="changePerson(enumPerson.city, cityField.value)">
-                <label for="place">Woonplaats</label>
+                <label for="place">{{ localize.translate('city') }}</label>
               </p-floatlabel>
             </div>
             <div class="col-md-6">
               <p-floatlabel variant="on">
                 <input pInputText type="text" pSize="small" [fluid]="true" name="country" id="country" #countryField="ngModel" [ngModel]="cv.person.country" [invalid]="countryField.invalid"  (blur)="changePerson(enumPerson.country, countryField.value)">
-                <label for="country">Land</label>
+                <label for="country">{{ localize.translate('country') }}</label>
               </p-floatlabel>
             </div>
           </div>
@@ -118,13 +118,13 @@
             <div class="col-md-6">
               <p-floatlabel variant="on">
                 <input pInputText type="text" pSize="small" [fluid]="true" name="birthDate" id="birthDate" #birthDateField="ngModel" [ngModel]="cv.person.birthDate" [invalid]="birthDateField.invalid" (blur)="changePerson(enumPerson.birthDate, birthDateField.value)">
-                <label for="birthDate">Geboortedatum</label>
+                <label for="birthDate">{{ localize.translate('birthDate') }}</label>
               </p-floatlabel>
             </div>
             <div class="col-md-6">
               <p-floatlabel variant="on">
                 <input pInputText type="text" pSize="small" [fluid]="true" name="birthCity" id="birthCity" #birthCityField="ngModel" [ngModel]="cv.person.birthCity" [invalid]="birthCityField.invalid" (blur)="changePerson(enumPerson.birthCity, birthCityField.value)">
-                <label for="birthCity">Geboorteplaats</label>
+                <label for="birthCity">{{ localize.translate('birthCity') }}</label>
               </p-floatlabel>
             </div>
           </div>
@@ -132,13 +132,13 @@
             <div class="col-md-6">
               <p-floatlabel variant="on">
                 <input pInputText type="text" pSize="small" [fluid]="true" name="driverLicense" id="driverLicense" #driverLicenseField="ngModel" [ngModel]="cv.person.driverLicense" [invalid]="driverLicenseField.invalid" (blur)="changePerson(enumPerson.driverLicense, driverLicenseField.value)">
-                <label for="driverLicense">Rijbewijs</label>
+                <label for="driverLicense">{{ localize.translate('driverLicense') }}</label>
               </p-floatlabel>
             </div>
             <div class="col-md-6">
               <p-floatlabel variant="on">
                 <input pInputText type="text" pSize="small" [fluid]="true" name="nationality" id="nationality" #nationalityField="ngModel" [ngModel]="cv.person.nationality" [invalid]="nationalityField.invalid" (blur)="changePerson(enumPerson.nationality, nationalityField.value)">
-                <label for="nationality">Nationaliteit</label>
+                <label for="nationality">{{ localize.translate('nationality') }}</label>
               </p-floatlabel>
             </div>
           </div>
@@ -148,12 +148,12 @@
 
     <div class="card border-primary mb-3">
       <div class="card-header">
-        <h4 class="card-title d-flex justify-content-between">Persoonlijk profiel</h4>
+        <h4 class="card-title d-flex justify-content-between">{{ localize.translate('profile') }}</h4>
       </div>
       <div class="card-body text-primary">
         <p-floatlabel variant="on">
           <textarea pTextarea pSize="small" [fluid]="true" name="profile" id="profile" rows="3" #profileField="ngModel" [ngModel]="cv.info.profile" [invalid]="profileField.invalid" (blur)="changeInfo(enumInfo.profile, profileField.value)"></textarea>
-          <label for="profile">Profiel</label>
+          <label for="profile">{{ localize.translate('profile') }}</label>
         </p-floatlabel>
       </div>
     </div>
@@ -161,7 +161,7 @@
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
-          <span>Werkervaring</span>
+          <span>{{ localize.translate('workExperience') }}</span>
           <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addExperience()"></p-button>
         </h4>
       </div>
@@ -175,25 +175,25 @@
               <div class="col-md-2">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expStartDate' + i" [id]="'expStartDate' + i" #expStartDateField="ngModel" [ngModel]="experience.startDate" [invalid]="expStartDateField.invalid" (blur)="changeExperience(i, enumExperience.startDate, expStartDateField.value)">
-                  <label [for]="'expStartDate' + i">Start datum</label>
+                  <label [for]="'expStartDate' + i">{{ localize.translate('startDate') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-2">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expEndDate' + i" [id]="'expEndDate' + i" #expEndDateField="ngModel" [ngModel]="experience.endDate" [invalid]="expEndDateField.invalid" (blur)="changeExperience(i, enumExperience.endDate, expEndDateField.value)">
-                  <label [for]="'expEndDate' + i">Einde datum</label>
+                  <label [for]="'expEndDate' + i">{{ localize.translate('endDate') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-4">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expEmployer' + i" [id]="'expEmployer' + i" #expEmployerField="ngModel" [ngModel]="experience.employer" [invalid]="expEmployerField.invalid" (blur)="changeExperience(i, enumExperience.employer, expEmployerField.value)">
-                  <label [for]="'expEmployer' + i">Werkgever</label>
+                  <label [for]="'expEmployer' + i">{{ localize.translate('employer') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-3">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expCity' + i" [id]="'expCity' + i" #expCityField="ngModel" [ngModel]="experience.city" [invalid]="expCityField.invalid" (blur)="changeExperience(i, enumExperience.city, expCityField.value)">
-                  <label [for]="'expCity' + i">Plaats</label>
+                  <label [for]="'expCity' + i">{{ localize.translate('city') }}</label>
                 </p-floatlabel>
               </div>
             </div>
@@ -201,13 +201,13 @@
               <div class="col-md-3">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'expFunction' + i" [id]="'expFunction' + i" #expFunctionField="ngModel" [ngModel]="experience.function" [invalid]="expFunctionField.invalid"  (blur)="changeExperience(i, enumExperience.function, expFunctionField.value)">
-                  <label [for]="'expFunction' + i">Functie</label>
+                  <label [for]="'expFunction' + i">{{ localize.translate('function') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-8">
                 <p-floatlabel variant="on">
                   <textarea pTextarea pSize="small" [fluid]="true" [name]="'expDescription' + i" [id]="'expDescription' + i" rows="3" #expDescriptionField="ngModel" [ngModel]="experience.description" [invalid]="expDescriptionField.invalid" (blur)="changeExperience(i, enumExperience.description, expDescriptionField.value)"></textarea>
-                  <label [for]="'expDescription' + i">Omschrijving</label>
+                  <label [for]="'expDescription' + i">{{ localize.translate('description') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-1">
@@ -222,7 +222,7 @@
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
-          <span>Opleiding</span>
+          <span>{{ localize.translate('education') }}</span>
           <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addEducation()"></p-button>
         </h4>
       </div>
@@ -236,25 +236,25 @@
               <div class="col-md-2">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduStartDate' + i" [id]="'eduStartDate' + i" #eduStartDateField="ngModel" [ngModel]="education.startDate" [invalid]="eduStartDateField.invalid" (blur)="changeEducation(i, enumEducation.startDate, eduStartDateField.value)">
-                  <label [for]="'eduStartDate' + i">Start datum</label>
+                  <label [for]="'eduStartDate' + i">{{ localize.translate('startDate') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-2">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduEndDate' + i" [id]="'eduEndDate' + i" #eduEndDateField="ngModel" [ngModel]="education.endDate" [invalid]="eduEndDateField.invalid"  (blur)="changeEducation(i, enumEducation.endDate, eduEndDateField.value)">
-                  <label [for]="'eduEndDate' + i">Einde datum</label>
+                  <label [for]="'eduEndDate' + i">{{ localize.translate('endDate') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-4">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduEmployer' + i" [id]="'eduEmployer' + i" #eduSchoolField="ngModel" [ngModel]="education.school" [invalid]="eduSchoolField.invalid" (blur)="changeEducation(i, enumEducation.school, eduSchoolField.value)">
-                  <label [for]="'eduEmployer' + i">School</label>
+                  <label [for]="'eduEmployer' + i">{{ localize.translate('school') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-3">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduCity' + i" [id]="'eduCity' + i" #eduCityField="ngModel" [ngModel]="education.city" [invalid]="eduCityField.invalid" (blur)="changeEducation(i, enumEducation.city, eduCityField.value)">
-                  <label [for]="'eduCity' + i">Plaats</label>
+                  <label [for]="'eduCity' + i">{{ localize.translate('city') }}</label>
                 </p-floatlabel>
               </div>
             </div>
@@ -262,13 +262,13 @@
               <div class="col-md-3">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'eduFunction' + i" [id]="'eduFunction' + i" #eduStudyField="ngModel" [ngModel]="education.study" [invalid]="eduStudyField.invalid" (blur)="changeEducation(i, enumEducation.study, eduStudyField.value)">
-                  <label [for]="'eduFunction' + i">Studierichting</label>
+                  <label [for]="'eduFunction' + i">{{ localize.translate('study') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-8">
                 <p-floatlabel variant="on">
                   <textarea pTextarea pSize="small" [fluid]="true" [name]="'eduDescription' + i" [id]="'eduDescription' + i" rows="3" #eduDescriptionField="ngModel" [ngModel]="education.description" [invalid]="eduDescriptionField.invalid" (blur)="changeEducation(i, enumEducation.description, eduDescriptionField.value)"></textarea>
-                  <label [for]="'eduDescription' + i">Omschrijving</label>
+                  <label [for]="'eduDescription' + i">{{ localize.translate('description') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-1">
@@ -283,7 +283,7 @@
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
-          <span>Websites & social media-links</span>
+          <span>{{ localize.translate('websitesAndSocialMediaLinks') }}</span>
           <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addSocialMedia()"></p-button>
         </h4>
       </div>
@@ -297,13 +297,13 @@
               <div class="col-md-5">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'smLabel' + i" [id]="'smLabel' + i" #smLabelField="ngModel" [ngModel]="socialMedia.label" [invalid]="smLabelField.invalid" (blur)="changeSocialMedia(i, enumSocialMedia.label, smLabelField.value)">
-                  <label [for]="'smLabel' + i">Label</label>
+                  <label [for]="'smLabel' + i">{{ localize.translate('label') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-5">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'smLink' + i" [id]="'smLink' + i" #smLinkField="ngModel" [ngModel]="socialMedia.link" [invalid]="smLinkField.invalid" (blur)="changeSocialMedia(i, enumSocialMedia.link, smLinkField.value)">
-                  <label [for]="'smLink' + i">Link</label>
+                  <label [for]="'smLink' + i">{{ localize.translate('link') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-1">
@@ -318,8 +318,8 @@
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
-          <span>Vaardigheden</span>
-          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" ariaLabel="Vaardigheid toevoegen" (onClick)="addSkill()"></p-button>
+          <span>{{ localize.translate('skills') }}</span>
+          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" ariaLabel="{{ localize.translate('addSkill') }}" (onClick)="addSkill()"></p-button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -332,11 +332,11 @@
               <div class="col-md-10">
                 <p-floatlabel variant="on">
                   <input pInputText type="text" pSize="small" [fluid]="true" [name]="'skiAbility' + i" [id]="'skiAbility' + i" #skillAbilityField="ngModel" [ngModel]="skill.ability" [invalid]="skillAbilityField.invalid" (blur)="changeSkill(i, enumSkill.ability, skillAbilityField.value)">
-                  <label [for]="'skiAbility' + i">Bekwaamheid</label>
+                  <label [for]="'skiAbility' + i">{{ localize.translate('ability') }}</label>
                 </p-floatlabel>
               </div>
               <div class="col-md-1">
-                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" ariaLabel="Vaardigheid verwijderen" (onClick)="removeSkill(i)"></p-button>
+                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" ariaLabel="{{ localize.translate('removeSkill') }}" (onClick)="removeSkill(i)"></p-button>
               </div>
             </div>
           }

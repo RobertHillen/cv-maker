@@ -26,7 +26,7 @@ class Info {
 }
 
 class Localization {
-  id: number;
+  id: string;
   value: string;
 }
 
