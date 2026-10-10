@@ -1,27 +1,27 @@
 import { enumLanguage } from '../enums/enumCv';
 
 class Education {
-  school: string;
-  study: string;
-  startDate: string;
-  endDate: string;
-  city: string;
-  description: string;
+  school = '';
+  study = '';
+  startDate = '';
+  endDate = '';
+  city = '';
+  description = '';
 }
 
 class Experience {
-  function: string;
-  employer: string;
-  startDate: string;
-  endDate: string;
-  city: string;
-  description: string;
+  function = '';
+  employer = '';
+  startDate = '';
+  endDate = '';
+  city = '';
+  description = '';
 }
 
 class Info {
-  title: string;
-  avatar: string;
-  profile: string;
+  title = '';
+  avatar = '';
+  profile = '';
   language: enumLanguage;
 }
 
@@ -31,27 +31,27 @@ class Localization {
 }
 
 class Person {
-  firstName: string;
-  lastName: string;
-  address: string;
-  zipCode: string;
-  city: string;
-  country: string;
-  email: string;
-  phone: string;
-  driverLicense: string;
-  nationality: string;
-  birthCity: string;
-  birthDate: string;
+  firstName = '';
+  lastName = '';
+  address = '';
+  zipCode = '';
+  city = '';
+  country = '';
+  email = '';
+  phone = '';
+  driverLicense = '';
+  nationality = '';
+  birthCity = '';
+  birthDate = '';
 }
 
 class Skill {
-  ability: string;
+  ability = '';
 }
 
 class SocialMedia {
-  label: string;
-  link: string;
+  label = '';
+  link = '';
 }
 
 export { Education, Experience, Info, Localization, Person, Skill, SocialMedia };

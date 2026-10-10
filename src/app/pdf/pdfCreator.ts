@@ -49,8 +49,7 @@ export class PdfCreator {
               },
               {
                 rowSpan: 2,
-                image: cv.info.avatar,
-                width: 100,
+                ...(cv.info.avatar ? { image: cv.info.avatar, width: 100 } : { text: '' })
               }],
               [{
                 text: cv.info.title,
@@ -166,7 +165,7 @@ export class PdfCreator {
   }
 
   private getFullName(person: Person) {
-    return this.createString([person.firstName.toUpperCase(), person.lastName.toUpperCase()], ' ');
+    return this.createString([person.firstName?.toUpperCase() ?? '', person.lastName?.toUpperCase() ?? ''], ' ');
   }
 
   private createString(array: string[], separator: string = ', ') {
@@ -247,7 +246,7 @@ export class PdfCreator {
               text: ''
             },
             {
-              text: this.createString([cv.person.zipCode, cv.person.city.toUpperCase()], ' '),
+              text: this.createString([cv.person.zipCode, cv.person.city?.toUpperCase() ?? ''], ' '),
               style: 'personalDetail'
             }],
             [{

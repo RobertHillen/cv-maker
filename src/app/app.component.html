@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light cv-navbar">
   <div class="container-fluid">
     <div class="d-flex align-items-center gap-2">
-      <div class="navbar-brand d-flex align-items-center gap- me-2">
+      <div class="navbar-brand d-flex align-items-center gap-2 me-2">
         <img class="brand-logo" src="assets/cv-logo.png" alt="CV logo" width="32" height="32">
         Curriculum Vitae
       </div>
@@ -152,7 +152,7 @@
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
           <span>{{ localize.translate('workExperience') }}</span>
-          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addExperience()"></p-button>
+          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" ariaLabel="{{ localize.translate('addExperience') }}" (onClick)="addExperience()"></p-button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -201,7 +201,7 @@
                 </p-floatlabel>
               </div>
               <div class="col-md-1">
-                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeExperience(i)"></p-button>
+                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" ariaLabel="{{ localize.translate('removeExperience') }}" (onClick)="removeExperience(i)"></p-button>
               </div>
             </div>
           }
@@ -213,7 +213,7 @@
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
           <span>{{ localize.translate('education') }}</span>
-          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addEducation()"></p-button>
+          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" ariaLabel="{{ localize.translate('addEducation') }}" (onClick)="addEducation()"></p-button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -262,7 +262,7 @@
                 </p-floatlabel>
               </div>
               <div class="col-md-1">
-                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeEducation(i)"></p-button>
+                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" ariaLabel="{{ localize.translate('removeEducation') }}" (onClick)="removeEducation(i)"></p-button>
               </div>
             </div>
           }
@@ -274,7 +274,7 @@
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between align-items-center gap-2 mb-0">
           <span>{{ localize.translate('websitesAndSocialMediaLinks') }}</span>
-          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" (onClick)="addSocialMedia()"></p-button>
+          <p-button type="button" class="add-entry-button" icon="bi bi-plus-lg" ariaLabel="{{ localize.translate('addSocialMedia') }}" (onClick)="addSocialMedia()"></p-button>
         </h4>
       </div>
       <div class="card-body text-primary">
@@ -297,7 +297,7 @@
                 </p-floatlabel>
               </div>
               <div class="col-md-1">
-                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" (onClick)="removeSocialMedia(i)"></p-button>
+                <p-button type="button" class="right remove-entry-button" icon="bi bi-dash-lg" ariaLabel="{{ localize.translate('removeSocialMedia') }}" (onClick)="removeSocialMedia(i)"></p-button>
               </div>
             </div>
           }

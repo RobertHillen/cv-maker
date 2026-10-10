@@ -1,10 +1,9 @@
-import { DatePipe } from '@angular/common'
+import { DOCUMENT, DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, inject, OnInit } from '@angular/core';
 import { Cv } from './models/cv';
 import { Education, Experience, SocialMedia, Skill } from './models/modelCv';
 import { enumEducation, enumExperience, enumInfo, enumLanguage, enumPerson, enumSKill, enumSocialMedia } from './enums/enumCv';
 import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
-import { pdfCreator } from './pdf/pdfCreator';
 import { LocalizationFunctions } from './core/LocalizationFunctions';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from '@openng/optimus-ui/button';
@@ -32,6 +31,7 @@ export class AppComponent implements OnInit {
   public datepipe = inject(DatePipe);
 
   public localize = inject(LocalizationFunctions);
+  private document = inject(DOCUMENT);
   private changeDetector = inject(ChangeDetectorRef);
 
   isInfoMoreChecked = true;
@@ -60,23 +60,110 @@ export class AppComponent implements OnInit {
   public changelanguage(language: enumLanguage) {
     this.cv.info.language = language;
     this.localize.current = language;
+    this.document.documentElement.lang = language;
   }
 
-  importCv(event) {
-    const f = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = e => {
-      try {
-        this.cv = JSON.parse(e.target.result as string);
-        this.changelanguage(this.cv.info.language);
-      } catch (ex) {
-          alert('ex when trying to parse json = ' + ex);
-          this.resetCv();
-      }
-      this.changeDetector.markForCheck();
+  importCv(event: Event) {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    if (!input || !file) {
+      return;
     }
 
-    reader.readAsText(f);
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const importedCv = this.normalizeCv(JSON.parse(reader.result as string));
+        this.cv = importedCv;
+        this.changelanguage(importedCv.info.language);
+      } catch {
+        alert(this.localize.translate('invalidCvFile'));
+      } finally {
+        input.value = '';
+        this.changeDetector.markForCheck();
+      }
+    };
+    reader.onerror = () => {
+      alert(this.localize.translate('invalidCvFile'));
+      input.value = '';
+      this.changeDetector.markForCheck();
+    };
+
+    reader.readAsText(file);
+  }
+
+  private normalizeCv(data: unknown): Cv {
+    const source = this.asRecord(data);
+    const info = this.asRecord(source['info']);
+    const person = this.asRecord(source['person']);
+    const language = info['language'];
+
+    if (language !== enumLanguage.dutch && language !== enumLanguage.english) {
+      throw new Error('Invalid CV language');
+    }
+
+    const cv = new Cv();
+    cv.info.title = this.readString(info, 'title');
+    cv.info.avatar = this.readString(info, 'avatar');
+    cv.info.profile = this.readString(info, 'profile');
+    cv.info.language = language;
+
+    cv.person.firstName = this.readString(person, 'firstName');
+    cv.person.lastName = this.readString(person, 'lastName');
+    cv.person.address = this.readString(person, 'address');
+    cv.person.zipCode = this.readString(person, 'zipCode');
+    cv.person.city = this.readString(person, 'city');
+    cv.person.country = this.readString(person, 'country');
+    cv.person.email = this.readString(person, 'email');
+    cv.person.phone = this.readString(person, 'phone');
+    cv.person.driverLicense = this.readString(person, 'driverLicense');
+    cv.person.nationality = this.readString(person, 'nationality');
+    cv.person.birthCity = this.readString(person, 'birthCity');
+    cv.person.birthDate = this.readString(person, 'birthDate');
+
+    cv.experiences = this.normalizeEntries(source['experiences'], () => new Experience(), [
+      'function', 'employer', 'startDate', 'endDate', 'city', 'description'
+    ]);
+    cv.educations = this.normalizeEntries(source['educations'], () => new Education(), [
+      'school', 'study', 'startDate', 'endDate', 'city', 'description'
+    ]);
+    cv.socialMedias = this.normalizeEntries(source['socialMedias'], () => new SocialMedia(), ['label', 'link']);
+    cv.skills = this.normalizeEntries(source['skills'], () => new Skill(), ['ability']);
+
+    return cv;
+  }
+
+  private asRecord(value: unknown): Record<string, unknown> {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+      throw new Error('Invalid CV data');
+    }
+    return value as Record<string, unknown>;
+  }
+
+  private readString(source: Record<string, unknown>, key: string): string {
+    const value = source[key];
+    if (value === undefined || value === null) {
+      return '';
+    }
+    if (typeof value !== 'string') {
+      throw new Error('Invalid CV field');
+    }
+    return value;
+  }
+
+  private normalizeEntries<T extends object>(value: unknown, create: () => T, fields: string[]): T[] {
+    if (!Array.isArray(value)) {
+      throw new Error('Invalid CV section');
+    }
+
+    return value.map(item => {
+      const source = this.asRecord(item);
+      const entry = create();
+      for (const field of fields) {
+        Object.assign(entry, { [field]: this.readString(source, field) });
+      }
+      return entry;
+    });
   }
 
   exportCv() {
@@ -90,8 +177,9 @@ export class AppComponent implements OnInit {
     this.changelanguage(this.cv.info.language);
   }
 
-  createPdf() {
-   pdfCreator.generatePDF(this.cv);
+  async createPdf() {
+    const { pdfCreator } = await import('./pdf/pdfCreator');
+    pdfCreator.generatePDF(this.cv);
   }
 
   changeInfo(key: enumInfo, newValue: string) {
