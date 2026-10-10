@@ -7,7 +7,7 @@ import { FileSelectEvent, FileUploadModule } from '@openng/optimus-ui/fileupload
   selector: 'avatar-upload',
   imports: [CommonModule, ReactiveFormsModule, FileUploadModule],
   templateUrl: './avatar-upload.component.html',
-  styleUrls: ['./avatar-upload.component.scss']
+  styleUrl: './avatar-upload.component.css'
 })
 
 export class AvatarUploadComponent {

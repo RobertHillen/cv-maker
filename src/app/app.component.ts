@@ -26,7 +26,7 @@ import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.comp
     AvatarUploadComponent,
   ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   public datepipe = inject(DatePipe);
