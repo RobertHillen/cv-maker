@@ -7,7 +7,6 @@ import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
 import { pdfCreator } from './pdf/pdfCreator';
 import { LocalizationFunctions } from './core/LocalizationFunctions';
 import { FormsModule } from '@angular/forms';
-import { RadioButtonModule } from '@openng/optimus-ui/radiobutton';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
@@ -19,7 +18,6 @@ import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.comp
   selector: 'app-root',
   imports: [
     FormsModule,
-    RadioButtonModule,
     ButtonModule,
     SelectButtonModule,
     InputTextModule,
@@ -40,6 +38,10 @@ export class AppComponent implements OnInit {
   readonly infoVisibilityOptions = computed(() => [
     { label: this.localize.translate('less'), value: false },
     { label: this.localize.translate('more'), value: true }
+  ]);
+  readonly languageOptions = computed(() => [
+    { label: this.localize.translate('dutch'), value: enumLanguage.dutch },
+    { label: this.localize.translate('english'), value: enumLanguage.english }
   ]);
   cv: Cv;
 
