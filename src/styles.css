@@ -6,3 +6,8 @@
 .card, .btn {
     border-radius: unset;
 }
+
+p-floatlabel {
+  font-style: italic;
+  font-size: 0.7rem;
+}
