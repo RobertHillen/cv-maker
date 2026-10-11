@@ -2,10 +2,17 @@ import { DOCUMENT, DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, inject, OnInit } from '@angular/core';
 import { Cv } from './models/cv';
 import { Education, Experience, SocialMedia, Skill } from './models/modelCv';
-import { enumEducation, enumExperience, enumInfo, enumLanguage, enumPerson, enumSKill, enumSocialMedia } from './enums/enumCv';
+import { enumLanguage } from './enums/enumCv';
 import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
 import { LocalizationFunctions } from './core/LocalizationFunctions';
-import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ButtonModule } from '@openng/optimus-ui/button';
 import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
@@ -16,7 +23,7 @@ import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.comp
 @Component({
   selector: 'app-root',
   imports: [
-    FormsModule,
+    ReactiveFormsModule,
     ButtonModule,
     SelectButtonModule,
     InputTextModule,
@@ -29,12 +36,17 @@ import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.comp
 })
 export class AppComponent implements OnInit {
   public datepipe = inject(DatePipe);
-
   public localize = inject(LocalizationFunctions);
+
   private document = inject(DOCUMENT);
   private changeDetector = inject(ChangeDetectorRef);
 
-  isInfoMoreChecked = true;
+  private formSubscription?: Subscription;
+
+  get isInfoMoreChecked(): boolean {
+    return this.visibilityControl.value;
+  }
+
   readonly infoVisibilityOptions = computed(() => [
     { label: this.localize.translate('less'), value: false },
     { label: this.localize.translate('more'), value: true }
@@ -43,24 +55,110 @@ export class AppComponent implements OnInit {
     { label: this.localize.translate('dutch'), value: enumLanguage.dutch },
     { label: this.localize.translate('english'), value: enumLanguage.english }
   ]);
-  cv: Cv;
 
-  enumInfo = enumInfo;
-  enumPerson = enumPerson;
-  enumExperience = enumExperience;
-  enumEducation = enumEducation;
-  enumSocialMedia = enumSocialMedia;
-  enumSkill = enumSKill;
+  cv: Cv;
+  cvForm: FormGroup;
+  visibilityControl = new FormControl(true, { nonNullable: true });
+
   enumLanguage = enumLanguage;
 
   ngOnInit(): void {
     this.resetCv();
   }
 
+  // INITIALIZE FORM
+  private initializeForm() {
+    this.formSubscription?.unsubscribe();
+    this.cvForm = new FormGroup({
+      language: new FormControl(this.cv.info.language, { nonNullable: true }),
+      title: new FormControl(this.cv.info.title, { nonNullable: true, validators: [Validators.required] }),
+      avatar: new FormControl(this.cv.info.avatar, { nonNullable: true }),
+      profile: new FormControl(this.cv.info.profile, { nonNullable: true }),
+      firstName: new FormControl(this.cv.person.firstName, { nonNullable: true, validators: [Validators.required] }),
+      lastName: new FormControl(this.cv.person.lastName, { nonNullable: true, validators: [Validators.required] }),
+      email: new FormControl(this.cv.person.email, { nonNullable: true, validators: [Validators.required] }),
+      city: new FormControl(this.cv.person.city, { nonNullable: true, validators: [Validators.required] }),
+      address: new FormControl(this.cv.person.address, { nonNullable: true }),
+      zipCode: new FormControl(this.cv.person.zipCode, { nonNullable: true }),
+      phone: new FormControl(this.cv.person.phone, { nonNullable: true }),
+      country: new FormControl(this.cv.person.country, { nonNullable: true }),
+      birthDate: new FormControl(this.cv.person.birthDate, { nonNullable: true }),
+      birthCity: new FormControl(this.cv.person.birthCity, { nonNullable: true }),
+      driverLicense: new FormControl(this.cv.person.driverLicense, { nonNullable: true }),
+      nationality: new FormControl(this.cv.person.nationality, { nonNullable: true }),
+      experiences: this.createFormArray(this.cv.experiences),
+      educations: this.createFormArray(this.cv.educations),
+      socialMedias: this.createFormArray(this.cv.socialMedias),
+      skills: this.createFormArray(this.cv.skills),
+    });
+    this.formSubscription = this.cvForm.valueChanges.subscribe(() => this.syncCvFromForm());
+  }
+
+  private createFormArray<T extends object>(entries: T[]): FormArray {
+    return new FormArray(entries.map(entry => this.createEntryGroup(entry)));
+  }
+
+  private createEntryGroup<T extends object>(entry: T): FormGroup {
+    return new FormGroup(Object.fromEntries(Object.entries(entry).map(([key, value]) => [
+      key,
+      new FormControl(value, { nonNullable: true }),
+    ])));
+  }
+
+  private syncCvFromForm() {
+    const value = this.cvForm.getRawValue();
+    this.cv.info.title = value.title;
+    this.cv.info.avatar = value.avatar;
+    this.cv.info.profile = value.profile;
+    this.cv.person.firstName = value.firstName;
+    this.cv.person.lastName = value.lastName;
+    this.cv.person.email = value.email;
+    this.cv.person.city = value.city;
+    this.cv.person.address = value.address;
+    this.cv.person.zipCode = value.zipCode;
+    this.cv.person.phone = value.phone;
+    this.cv.person.country = value.country;
+    this.cv.person.birthDate = value.birthDate;
+    this.cv.person.birthCity = value.birthCity;
+    this.cv.person.driverLicense = value.driverLicense;
+    this.cv.person.nationality = value.nationality;
+    this.cv.experiences = value.experiences.map((entry: Experience) => Object.assign(new Experience(), entry));
+    this.cv.educations = value.educations.map((entry: Education) => Object.assign(new Education(), entry));
+    this.cv.socialMedias = value.socialMedias.map((entry: SocialMedia) => Object.assign(new SocialMedia(), entry));
+    this.cv.skills = value.skills.map((entry: Skill) => Object.assign(new Skill(), entry));
+    if (this.cv.info.language !== value.language) {
+      this.changelanguage(value.language);
+    }
+  }
+
+  // CHANGE LANGUAGE
   public changelanguage(language: enumLanguage) {
     this.cv.info.language = language;
+    this.cvForm?.get('language')?.setValue(language, { emitEvent: false });
     this.localize.current = language;
     this.document.documentElement.lang = language;
+  }
+
+  // FORM CONTROL HELPERS
+  public control(name: string): FormControl {
+    return this.cvForm.get(name) as FormControl;
+  }
+
+  public entryControl(section: string, index: number, field: string): FormControl {
+    return (this.cvForm.get(section) as FormArray).at(index).get(field) as FormControl;
+  }
+
+  // ACTION BUTTONS
+  resetCv() {
+    this.cv = new Cv();
+    this.initializeForm();
+    this.changelanguage(this.cv.info.language);
+  }
+
+  exportCv() {
+    const filename = "cvmaker_" + this.datepipe.transform(new Date(), 'yyyyMMdd_HHmmss' ) + ".json";
+    const dataURI = "data:text/plain;base64," + encodeBase64(JSON.stringify(this.cv));
+    saveAs(dataURI, filename);
   }
 
   importCv(event: Event) {
@@ -75,6 +173,7 @@ export class AppComponent implements OnInit {
       try {
         const importedCv = this.normalizeCv(JSON.parse(reader.result as string));
         this.cv = importedCv;
+        this.initializeForm();
         this.changelanguage(importedCv.info.language);
       } catch {
         alert(this.localize.translate('invalidCvFile'));
@@ -92,6 +191,52 @@ export class AppComponent implements OnInit {
     reader.readAsText(file);
   }
 
+  async createPdf() {
+    const { pdfCreator } = await import('./pdf/pdfCreator');
+    pdfCreator.generatePDF(this.cv);
+  }
+
+  setAvatar(image: string) {
+    this.cvForm.get('avatar')?.setValue(image);
+  }
+
+  // WORK EXPERIENCE
+  addExperience() {
+    (this.cvForm.get('experiences') as FormArray).push(this.createEntryGroup(new Experience()));
+  }
+
+  removeExperience(key: number) {
+    (this.cvForm.get('experiences') as FormArray).removeAt(key);
+  }
+
+  // EDUCATION
+  addEducation() {
+    (this.cvForm.get('educations') as FormArray).push(this.createEntryGroup(new Education()));
+  }
+
+  removeEducation(key: number) {
+    (this.cvForm.get('educations') as FormArray).removeAt(key);
+  }
+
+  // SOCIAL MEDIA
+  addSocialMedia() {
+    (this.cvForm.get('socialMedias') as FormArray).push(this.createEntryGroup(new SocialMedia()));
+  }
+
+  removeSocialMedia(key: number) {
+    (this.cvForm.get('socialMedias') as FormArray).removeAt(key);
+  }
+
+  // SKILLS
+  addSkill() {
+    (this.cvForm.get('skills') as FormArray).push(this.createEntryGroup(new Skill()));
+  }
+
+  removeSkill(key: number) {
+    (this.cvForm.get('skills') as FormArray).removeAt(key);
+  }
+
+  // NORMALIZE CV DATA
   private normalizeCv(data: unknown): Cv {
     const source = this.asRecord(data);
     const info = this.asRecord(source['info']);
@@ -166,196 +311,5 @@ export class AppComponent implements OnInit {
     });
   }
 
-  exportCv() {
-    const filename = "cvmaker_" + this.datepipe.transform(new Date(), 'yyyyMMdd_HHmmss' ) + ".json";
-    const dataURI = "data:text/plain;base64," + encodeBase64(JSON.stringify(this.cv));
-    saveAs(dataURI, filename);
-  }
 
-  resetCv() {
-    this.cv = new Cv();
-    this.changelanguage(this.cv.info.language);
-  }
-
-  async createPdf() {
-    const { pdfCreator } = await import('./pdf/pdfCreator');
-    pdfCreator.generatePDF(this.cv);
-  }
-
-  changeInfo(key: enumInfo, newValue: string) {
-    switch (key) {
-      case enumInfo.title:
-        this.cv.info.title = newValue;
-        break;
-      case enumInfo.avatar:
-        this.cv.info.avatar = newValue;
-        break;
-      case enumInfo.profile:
-        this.cv.info.profile = newValue;
-        break;
-      case enumInfo.language:
-        this.changelanguage(newValue as enumLanguage);
-        break;
-      default:
-        console.log('Cv Info for key [' + key + '] not found');
-        break;
-    }
-  }
-
-  changePerson(key: enumPerson, newValue: string) {
-    switch (key) {
-      case enumPerson.firstName:
-        this.cv.person.firstName = newValue;
-        break;
-      case enumPerson.lastName:
-        this.cv.person.lastName = newValue;
-        break;
-      case enumPerson.email:
-        this.cv.person.email = newValue;
-        break;
-      case enumPerson.phone:
-        this.cv.person.phone = newValue;
-        break;
-      case enumPerson.address:
-        this.cv.person.address = newValue;
-        break;
-      case enumPerson.zipCode:
-        this.cv.person.zipCode = newValue;
-        break;
-      case enumPerson.city:
-        this.cv.person.city = newValue;
-        break;
-      case enumPerson.country:
-        this.cv.person.country = newValue;
-        break;
-      case enumPerson.birthCity:
-        this.cv.person.birthCity = newValue;
-        break;
-      case enumPerson.birthDate:
-        this.cv.person.birthDate = newValue;
-        break;
-      case enumPerson.driverLicense:
-        this.cv.person.driverLicense = newValue;
-        break;
-      case enumPerson.nationality:
-        this.cv.person.nationality = newValue;
-        break;
-      default:
-        console.log('Cv Person for key [' + key + '] not found');
-        break;
-    }
-  }
-
-  changeExperience(i: number, key: enumExperience, newValue: string) {
-    switch (key) {
-      case enumExperience.startDate:
-        this.cv.experiences[i].startDate = newValue;
-        break;
-      case enumExperience.endDate:
-        this.cv.experiences[i].endDate = newValue;
-        break;
-      case enumExperience.employer:
-        this.cv.experiences[i].employer = newValue;
-        break;
-      case enumExperience.city:
-        this.cv.experiences[i].city = newValue;
-        break;
-      case enumExperience.function:
-        this.cv.experiences[i].function = newValue;
-        break;
-      case enumExperience.description:
-        this.cv.experiences[i].description = newValue;
-        break;
-      default:
-        console.log('Cv Experience '+ i + ' for key [' + key + '] not found');
-        break;
-    }
-  }
-
-  changeEducation(i: number, key: enumEducation, newValue: string) {
-    switch (key) {
-      case enumEducation.startDate:
-        this.cv.educations[i].startDate = newValue;
-        break;
-      case enumEducation.endDate:
-        this.cv.educations[i].endDate = newValue;
-        break;
-      case enumEducation.school:
-        this.cv.educations[i].school = newValue;
-        break;
-      case enumEducation.city:
-        this.cv.educations[i].city = newValue;
-        break;
-      case enumEducation.study:
-        this.cv.educations[i].study = newValue;
-        break;
-      case enumEducation.description:
-        this.cv.educations[i].description = newValue;
-        break;
-      default:
-        console.log('Cv Education '+ i + ' for key [' + key + '] not found');
-        break;
-    }
-  }
-
-  changeSocialMedia(i: number, key: enumSocialMedia, newValue: string) {
-    switch (key) {
-      case enumSocialMedia.label:
-        this.cv.socialMedias[i].label = newValue;
-        break;
-      case enumSocialMedia.link:
-        this.cv.socialMedias[i].link = newValue;
-        break;
-      default:
-        console.log('Cv SocialMedia '+ i + ' for key [' + key + '] not found');
-        break;
-    }
-  }
-
-  changeSkill(i: number, key: enumSKill, newValue: string) {
-    switch (key) {
-      case enumSKill.ability:
-        this.cv.skills[i].ability = newValue;
-        break;
-      default:
-        console.log('Cv Skill '+ i + ' for key [' + key + '] not found');
-        break;
-    }
-  }
-
-  onProfileChanged(event) {
-    console.log('content changed', event.html);
-  }
-
-  addExperience() {
-    this.cv.experiences.push(new Experience());
-  }
-
-  removeExperience(key: number) {
-    this.cv.experiences.splice(key, 1);
-  }
-
-  addEducation() {
-    this.cv.educations.push(new Education());
-  }
-
-  removeEducation(key: number) {
-    this.cv.educations.splice(key, 1);
-  }
-
-  addSocialMedia() {
-    this.cv.socialMedias.push(new SocialMedia());
-  }
-
-  removeSocialMedia(key: number) {
-    this.cv.socialMedias.splice(key, 1);
-  }
-
-  addSkill() {
-    this.cv.skills.push(new Skill());
-  }
-
-  removeSkill(key: number) {
-    this.cv.skills.splice(key, 1);
-  }
 }

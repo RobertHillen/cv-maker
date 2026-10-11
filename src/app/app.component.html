@@ -1,5 +1,7 @@
 <nav class="navbar navbar-light cv-navbar">
   <div class="container-fluid">
+
+    <!-- BRAND AND LANGUAGE SELECTOR -->
     <div class="d-flex align-items-center gap-2">
       <div class="navbar-brand d-flex align-items-center gap-2 me-2">
         <img
@@ -15,14 +17,13 @@
         [options]="languageOptions()"
         optionLabel="label"
         optionValue="value"
-        [(ngModel)]="cv.info.language"
-        name="language"
-        (ngModelChange)="changelanguage($event)"
+        [formControl]="control('language')"
         [allowEmpty]="false"
         size="small"
       ></p-selectbutton>
     </div>
 
+    <!-- ACTION BUTTONS -->
     <div class="d-flex flex-row-reverse">
       <div class="p-2">
         <p-button
@@ -65,8 +66,10 @@
   </div>
 </nav>
 
-<form #cvForm="ngForm">
+<form [formGroup]="cvForm">
   <div class="container">
+
+    <!-- PERSONAL INFORMATION -->
     <div class="card border-primary mt-3 mb-3">
       <div class="card-header">
         <h4
@@ -79,8 +82,7 @@
             [options]="infoVisibilityOptions()"
             optionLabel="label"
             optionValue="value"
-            [(ngModel)]="isInfoMoreChecked"
-            name="checked"
+            [formControl]="visibilityControl"
             [allowEmpty]="false"
             size="small"
           ></p-selectbutton>
@@ -98,10 +100,8 @@
                 name="title"
                 id="title"
                 required
-                #titleField="ngModel"
-                [ngModel]="cv.info.title"
-                [invalid]="titleField.invalid"
-                (blur)="changeInfo(enumInfo.title, titleField.value)"
+                formControlName="title"
+                [invalid]="cvForm.controls['title'].invalid"
               />
               <label for="title">{{ localize.translate("title") }}</label>
             </p-floatlabel>
@@ -109,7 +109,7 @@
           <div class="col-md-6">
             <avatar-upload
               [imageURL]="cv.info.avatar"
-              (imageLoaded)="changeInfo(enumInfo.avatar, $event)"
+              (imageLoaded)="setAvatar($event)"
             ></avatar-upload>
           </div>
         </div>
@@ -124,12 +124,8 @@
                 name="firstName"
                 id="firstName"
                 required
-                #firstNameField="ngModel"
-                [ngModel]="cv.person.firstName"
-                [invalid]="firstNameField.invalid"
-                (blur)="
-                  changePerson(enumPerson.firstName, firstNameField.value)
-                "
+                formControlName="firstName"
+                [invalid]="cvForm.controls['firstName'].invalid"
               />
               <label for="firstName">{{
                 localize.translate("firstName")
@@ -146,10 +142,8 @@
                 name="lastName"
                 id="lastName"
                 required
-                #lastNameField="ngModel"
-                [ngModel]="cv.person.lastName"
-                [invalid]="lastNameField.invalid"
-                (blur)="changePerson(enumPerson.lastName, lastNameField.value)"
+                formControlName="lastName"
+                [invalid]="cvForm.controls['lastName'].invalid"
               />
               <label for="lastName">{{ localize.translate("lastName") }}</label>
             </p-floatlabel>
@@ -166,10 +160,8 @@
                 name="eMail"
                 id="eMail"
                 required
-                #emailField="ngModel"
-                [ngModel]="cv.person.email"
-                [invalid]="emailField.invalid"
-                (blur)="changePerson(enumPerson.email, emailField.value)"
+                formControlName="email"
+                [invalid]="cvForm.controls['email'].invalid"
               />
               <label for="eMail">{{ localize.translate("email") }}</label>
             </p-floatlabel>
@@ -184,10 +176,8 @@
                 name="place"
                 id="place"
                 required
-                #cityField="ngModel"
-                [ngModel]="cv.person.city"
-                [invalid]="cityField.invalid"
-                (blur)="changePerson(enumPerson.city, cityField.value)"
+                formControlName="city"
+                [invalid]="cvForm.controls['city'].invalid"
               />
               <label for="place">{{ localize.translate("city") }}</label>
             </p-floatlabel>
@@ -204,10 +194,8 @@
                   [fluid]="true"
                   name="address"
                   id="address"
-                  #addressField="ngModel"
-                  [ngModel]="cv.person.address"
-                  [invalid]="addressField.invalid"
-                  (blur)="changePerson(enumPerson.address, addressField.value)"
+                  formControlName="address"
+                  [invalid]="cvForm.controls['address'].invalid"
                 />
                 <label for="address">{{ localize.translate("address") }}</label>
               </p-floatlabel>
@@ -221,10 +209,8 @@
                   [fluid]="true"
                   name="zipCode"
                   id="zipCode"
-                  #zipCodeField="ngModel"
-                  [ngModel]="cv.person.zipCode"
-                  [invalid]="zipCodeField.invalid"
-                  (blur)="changePerson(enumPerson.zipCode, zipCodeField.value)"
+                  formControlName="zipCode"
+                  [invalid]="cvForm.controls['zipCode'].invalid"
                 />
                 <label for="zipCode">{{ localize.translate("zipCode") }}</label>
               </p-floatlabel>
@@ -240,10 +226,8 @@
                   [fluid]="true"
                   name="phone"
                   id="phone"
-                  #phoneField="ngModel"
-                  [ngModel]="cv.person.phone"
-                  [invalid]="phoneField.invalid"
-                  (blur)="changePerson(enumPerson.phone, phoneField.value)"
+                  formControlName="phone"
+                  [invalid]="cvForm.controls['phone'].invalid"
                 />
                 <label for="phone">{{ localize.translate("phone") }}</label>
               </p-floatlabel>
@@ -257,10 +241,8 @@
                   [fluid]="true"
                   name="country"
                   id="country"
-                  #countryField="ngModel"
-                  [ngModel]="cv.person.country"
-                  [invalid]="countryField.invalid"
-                  (blur)="changePerson(enumPerson.country, countryField.value)"
+                  formControlName="country"
+                  [invalid]="cvForm.controls['country'].invalid"
                 />
                 <label for="country">{{ localize.translate("country") }}</label>
               </p-floatlabel>
@@ -276,12 +258,8 @@
                   [fluid]="true"
                   name="birthDate"
                   id="birthDate"
-                  #birthDateField="ngModel"
-                  [ngModel]="cv.person.birthDate"
-                  [invalid]="birthDateField.invalid"
-                  (blur)="
-                    changePerson(enumPerson.birthDate, birthDateField.value)
-                  "
+                  formControlName="birthDate"
+                  [invalid]="cvForm.controls['birthDate'].invalid"
                 />
                 <label for="birthDate">{{
                   localize.translate("birthDate")
@@ -297,12 +275,8 @@
                   [fluid]="true"
                   name="birthCity"
                   id="birthCity"
-                  #birthCityField="ngModel"
-                  [ngModel]="cv.person.birthCity"
-                  [invalid]="birthCityField.invalid"
-                  (blur)="
-                    changePerson(enumPerson.birthCity, birthCityField.value)
-                  "
+                  formControlName="birthCity"
+                  [invalid]="cvForm.controls['birthCity'].invalid"
                 />
                 <label for="birthCity">{{
                   localize.translate("birthCity")
@@ -320,15 +294,8 @@
                   [fluid]="true"
                   name="driverLicense"
                   id="driverLicense"
-                  #driverLicenseField="ngModel"
-                  [ngModel]="cv.person.driverLicense"
-                  [invalid]="driverLicenseField.invalid"
-                  (blur)="
-                    changePerson(
-                      enumPerson.driverLicense,
-                      driverLicenseField.value
-                    )
-                  "
+                  formControlName="driverLicense"
+                  [invalid]="cvForm.controls['driverLicense'].invalid"
                 />
                 <label for="driverLicense">{{
                   localize.translate("driverLicense")
@@ -344,12 +311,8 @@
                   [fluid]="true"
                   name="nationality"
                   id="nationality"
-                  #nationalityField="ngModel"
-                  [ngModel]="cv.person.nationality"
-                  [invalid]="nationalityField.invalid"
-                  (blur)="
-                    changePerson(enumPerson.nationality, nationalityField.value)
-                  "
+                  formControlName="nationality"
+                  [invalid]="cvForm.controls['nationality'].invalid"
                 />
                 <label for="nationality">{{
                   localize.translate("nationality")
@@ -361,6 +324,7 @@
       </div>
     </div>
 
+    <!-- PROFILE -->
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4 class="card-title d-flex justify-content-between">
@@ -376,16 +340,15 @@
             name="profile"
             id="profile"
             rows="3"
-            #profileField="ngModel"
-            [ngModel]="cv.info.profile"
-            [invalid]="profileField.invalid"
-            (blur)="changeInfo(enumInfo.profile, profileField.value)"
+            formControlName="profile"
+            [invalid]="cvForm.controls['profile'].invalid"
           ></textarea>
           <label for="profile">{{ localize.translate("profile") }}</label>
         </p-floatlabel>
       </div>
     </div>
 
+    <!-- WORK EXPERIENCE -->
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4
@@ -417,15 +380,9 @@
                     [fluid]="true"
                     [name]="'expStartDate' + i"
                     [id]="'expStartDate' + i"
-                    #expStartDateField="ngModel"
-                    [ngModel]="experience.startDate"
-                    [invalid]="expStartDateField.invalid"
-                    (blur)="
-                      changeExperience(
-                        i,
-                        enumExperience.startDate,
-                        expStartDateField.value
-                      )
+                    [formControl]="entryControl('experiences', i, 'startDate')"
+                    [invalid]="
+                      entryControl('experiences', i, 'startDate').invalid
                     "
                   />
                   <label [for]="'expStartDate' + i">{{
@@ -442,15 +399,9 @@
                     [fluid]="true"
                     [name]="'expEndDate' + i"
                     [id]="'expEndDate' + i"
-                    #expEndDateField="ngModel"
-                    [ngModel]="experience.endDate"
-                    [invalid]="expEndDateField.invalid"
-                    (blur)="
-                      changeExperience(
-                        i,
-                        enumExperience.endDate,
-                        expEndDateField.value
-                      )
+                    [formControl]="entryControl('experiences', i, 'endDate')"
+                    [invalid]="
+                      entryControl('experiences', i, 'endDate').invalid
                     "
                   />
                   <label [for]="'expEndDate' + i">{{
@@ -467,15 +418,9 @@
                     [fluid]="true"
                     [name]="'expEmployer' + i"
                     [id]="'expEmployer' + i"
-                    #expEmployerField="ngModel"
-                    [ngModel]="experience.employer"
-                    [invalid]="expEmployerField.invalid"
-                    (blur)="
-                      changeExperience(
-                        i,
-                        enumExperience.employer,
-                        expEmployerField.value
-                      )
+                    [formControl]="entryControl('experiences', i, 'employer')"
+                    [invalid]="
+                      entryControl('experiences', i, 'employer').invalid
                     "
                   />
                   <label [for]="'expEmployer' + i">{{
@@ -492,16 +437,8 @@
                     [fluid]="true"
                     [name]="'expCity' + i"
                     [id]="'expCity' + i"
-                    #expCityField="ngModel"
-                    [ngModel]="experience.city"
-                    [invalid]="expCityField.invalid"
-                    (blur)="
-                      changeExperience(
-                        i,
-                        enumExperience.city,
-                        expCityField.value
-                      )
-                    "
+                    [formControl]="entryControl('experiences', i, 'city')"
+                    [invalid]="entryControl('experiences', i, 'city').invalid"
                   />
                   <label [for]="'expCity' + i">{{
                     localize.translate("city")
@@ -519,15 +456,9 @@
                     [fluid]="true"
                     [name]="'expFunction' + i"
                     [id]="'expFunction' + i"
-                    #expFunctionField="ngModel"
-                    [ngModel]="experience.function"
-                    [invalid]="expFunctionField.invalid"
-                    (blur)="
-                      changeExperience(
-                        i,
-                        enumExperience.function,
-                        expFunctionField.value
-                      )
+                    [formControl]="entryControl('experiences', i, 'function')"
+                    [invalid]="
+                      entryControl('experiences', i, 'function').invalid
                     "
                   />
                   <label [for]="'expFunction' + i">{{
@@ -544,15 +475,11 @@
                     [name]="'expDescription' + i"
                     [id]="'expDescription' + i"
                     rows="3"
-                    #expDescriptionField="ngModel"
-                    [ngModel]="experience.description"
-                    [invalid]="expDescriptionField.invalid"
-                    (blur)="
-                      changeExperience(
-                        i,
-                        enumExperience.description,
-                        expDescriptionField.value
-                      )
+                    [formControl]="
+                      entryControl('experiences', i, 'description')
+                    "
+                    [invalid]="
+                      entryControl('experiences', i, 'description').invalid
                     "
                   ></textarea>
                   <label [for]="'expDescription' + i">{{
@@ -575,6 +502,7 @@
       </div>
     </div>
 
+    <!-- EDUCATION -->
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4
@@ -606,15 +534,9 @@
                     [fluid]="true"
                     [name]="'eduStartDate' + i"
                     [id]="'eduStartDate' + i"
-                    #eduStartDateField="ngModel"
-                    [ngModel]="education.startDate"
-                    [invalid]="eduStartDateField.invalid"
-                    (blur)="
-                      changeEducation(
-                        i,
-                        enumEducation.startDate,
-                        eduStartDateField.value
-                      )
+                    [formControl]="entryControl('educations', i, 'startDate')"
+                    [invalid]="
+                      entryControl('educations', i, 'startDate').invalid
                     "
                   />
                   <label [for]="'eduStartDate' + i">{{
@@ -631,16 +553,8 @@
                     [fluid]="true"
                     [name]="'eduEndDate' + i"
                     [id]="'eduEndDate' + i"
-                    #eduEndDateField="ngModel"
-                    [ngModel]="education.endDate"
-                    [invalid]="eduEndDateField.invalid"
-                    (blur)="
-                      changeEducation(
-                        i,
-                        enumEducation.endDate,
-                        eduEndDateField.value
-                      )
-                    "
+                    [formControl]="entryControl('educations', i, 'endDate')"
+                    [invalid]="entryControl('educations', i, 'endDate').invalid"
                   />
                   <label [for]="'eduEndDate' + i">{{
                     localize.translate("endDate")
@@ -656,16 +570,8 @@
                     [fluid]="true"
                     [name]="'eduEmployer' + i"
                     [id]="'eduEmployer' + i"
-                    #eduSchoolField="ngModel"
-                    [ngModel]="education.school"
-                    [invalid]="eduSchoolField.invalid"
-                    (blur)="
-                      changeEducation(
-                        i,
-                        enumEducation.school,
-                        eduSchoolField.value
-                      )
-                    "
+                    [formControl]="entryControl('educations', i, 'school')"
+                    [invalid]="entryControl('educations', i, 'school').invalid"
                   />
                   <label [for]="'eduEmployer' + i">{{
                     localize.translate("school")
@@ -681,12 +587,8 @@
                     [fluid]="true"
                     [name]="'eduCity' + i"
                     [id]="'eduCity' + i"
-                    #eduCityField="ngModel"
-                    [ngModel]="education.city"
-                    [invalid]="eduCityField.invalid"
-                    (blur)="
-                      changeEducation(i, enumEducation.city, eduCityField.value)
-                    "
+                    [formControl]="entryControl('educations', i, 'city')"
+                    [invalid]="entryControl('educations', i, 'city').invalid"
                   />
                   <label [for]="'eduCity' + i">{{
                     localize.translate("city")
@@ -704,16 +606,8 @@
                     [fluid]="true"
                     [name]="'eduFunction' + i"
                     [id]="'eduFunction' + i"
-                    #eduStudyField="ngModel"
-                    [ngModel]="education.study"
-                    [invalid]="eduStudyField.invalid"
-                    (blur)="
-                      changeEducation(
-                        i,
-                        enumEducation.study,
-                        eduStudyField.value
-                      )
-                    "
+                    [formControl]="entryControl('educations', i, 'study')"
+                    [invalid]="entryControl('educations', i, 'study').invalid"
                   />
                   <label [for]="'eduFunction' + i">{{
                     localize.translate("study")
@@ -729,15 +623,9 @@
                     [name]="'eduDescription' + i"
                     [id]="'eduDescription' + i"
                     rows="3"
-                    #eduDescriptionField="ngModel"
-                    [ngModel]="education.description"
-                    [invalid]="eduDescriptionField.invalid"
-                    (blur)="
-                      changeEducation(
-                        i,
-                        enumEducation.description,
-                        eduDescriptionField.value
-                      )
+                    [formControl]="entryControl('educations', i, 'description')"
+                    [invalid]="
+                      entryControl('educations', i, 'description').invalid
                     "
                   ></textarea>
                   <label [for]="'eduDescription' + i">{{
@@ -760,6 +648,7 @@
       </div>
     </div>
 
+    <!-- SOCIAL MEDIA -->
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4
@@ -791,16 +680,8 @@
                     [fluid]="true"
                     [name]="'smLabel' + i"
                     [id]="'smLabel' + i"
-                    #smLabelField="ngModel"
-                    [ngModel]="socialMedia.label"
-                    [invalid]="smLabelField.invalid"
-                    (blur)="
-                      changeSocialMedia(
-                        i,
-                        enumSocialMedia.label,
-                        smLabelField.value
-                      )
-                    "
+                    [formControl]="entryControl('socialMedias', i, 'label')"
+                    [invalid]="entryControl('socialMedias', i, 'label').invalid"
                   />
                   <label [for]="'smLabel' + i">{{
                     localize.translate("label")
@@ -816,16 +697,8 @@
                     [fluid]="true"
                     [name]="'smLink' + i"
                     [id]="'smLink' + i"
-                    #smLinkField="ngModel"
-                    [ngModel]="socialMedia.link"
-                    [invalid]="smLinkField.invalid"
-                    (blur)="
-                      changeSocialMedia(
-                        i,
-                        enumSocialMedia.link,
-                        smLinkField.value
-                      )
-                    "
+                    [formControl]="entryControl('socialMedias', i, 'link')"
+                    [invalid]="entryControl('socialMedias', i, 'link').invalid"
                   />
                   <label [for]="'smLink' + i">{{
                     localize.translate("link")
@@ -847,6 +720,7 @@
       </div>
     </div>
 
+    <!-- SKILLS -->
     <div class="card border-primary mb-3">
       <div class="card-header">
         <h4
@@ -878,12 +752,8 @@
                     [fluid]="true"
                     [name]="'skiAbility' + i"
                     [id]="'skiAbility' + i"
-                    #skillAbilityField="ngModel"
-                    [ngModel]="skill.ability"
-                    [invalid]="skillAbilityField.invalid"
-                    (blur)="
-                      changeSkill(i, enumSkill.ability, skillAbilityField.value)
-                    "
+                    [formControl]="entryControl('skills', i, 'ability')"
+                    [invalid]="entryControl('skills', i, 'ability').invalid"
                   />
                   <label [for]="'skiAbility' + i">{{
                     localize.translate("ability")
