@@ -23,6 +23,7 @@
   { "id": "function", "value": "Function" },
   { "id": "import", "value": "Import" },
   { "id": "invalidCvFile", "value": "This file is not a valid CV." },
+  { "id": "invalidPdfInput", "value": "Complete all required personal information with a valid email address, and fill every field in each experience, education, social link, and skill entry." },
   { "id": "label", "value": "Label" },
   { "id": "language", "value": "Language" },
   { "id": "lastName", "value": "Last name" },

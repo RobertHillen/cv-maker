@@ -66,6 +66,14 @@
   </div>
 </nav>
 
+@if (pdfValidationError) {
+  <div class="container mt-2">
+    <div class="alert alert-danger mb-0" role="alert">
+      {{ localize.translate("invalidPdfInput") }}
+    </div>
+  </div>
+}
+
 <form [formGroup]="cvForm">
   <div class="container">
 
@@ -154,7 +162,7 @@
             <p-floatlabel variant="on">
               <input
                 pInputText
-                type="text"
+                type="email"
                 pSize="small"
                 [fluid]="true"
                 name="eMail"
@@ -375,7 +383,7 @@
                 <p-floatlabel variant="on">
                   <input
                     pInputText
-                    type="text"
+                    type="month"
                     pSize="small"
                     [fluid]="true"
                     [name]="'expStartDate' + i"
@@ -394,7 +402,7 @@
                 <p-floatlabel variant="on">
                   <input
                     pInputText
-                    type="text"
+                    type="month"
                     pSize="small"
                     [fluid]="true"
                     [name]="'expEndDate' + i"
@@ -529,7 +537,7 @@
                 <p-floatlabel variant="on">
                   <input
                     pInputText
-                    type="text"
+                    type="year"
                     pSize="small"
                     [fluid]="true"
                     [name]="'eduStartDate' + i"
@@ -548,7 +556,7 @@
                 <p-floatlabel variant="on">
                   <input
                     pInputText
-                    type="text"
+                    type="year"
                     pSize="small"
                     [fluid]="true"
                     [name]="'eduEndDate' + i"

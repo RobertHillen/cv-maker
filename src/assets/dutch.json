@@ -23,6 +23,7 @@
   { "id": "function", "value": "Functie" },
   { "id": "import", "value": "Importeren" },
   { "id": "invalidCvFile", "value": "Dit bestand bevat geen geldige cv." },
+  { "id": "invalidPdfInput", "value": "Vul alle verplichte persoonlijke gegevens met een geldig e-mailadres in en vul elk veld van iedere werkervaring, opleiding, sociale link en vaardigheid in." },
   { "id": "label", "value": "Label" },
   { "id": "language", "value": "Taal" },
   { "id": "lastName", "value": "Achternaam" },

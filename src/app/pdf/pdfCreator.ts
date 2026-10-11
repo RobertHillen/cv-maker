@@ -66,7 +66,7 @@ export class PdfCreator {
           text: this.getTranslation('workExperience'),
           style: 'parHeader'
         },
-        this.getExperience(cv.experiences),
+        this.getExperience(cv.experiences, cv.info.language),
         {
           text: this.getFullName(cv.person),
           style: 'persName',
@@ -80,7 +80,7 @@ export class PdfCreator {
           text: this.getTranslation('education'),
           style: 'parHeader'
         },
-        this.getEducation(cv.educations),
+        this.getEducation(cv.educations, cv.info.language),
         {
           text: this.getTranslation('skills'),
           style: 'parHeader'
@@ -169,11 +169,24 @@ export class PdfCreator {
   }
 
   private createString(array: string[], separator: string = ', ') {
-    const checker = [null, undefined];
-    return array.filter((item) => !checker.includes(item)).join(separator)
+    return array.filter(item => item.trim().length > 0).join(separator)
   }
 
-  private getExperience(experiences: Experience[]) {
+  private formatMonthYear(value: string, language: enumLanguage): string {
+    const match = /^(\d{4})-(0[1-9]|1[0-2])$/.exec(value);
+    if (!match) {
+      return value;
+    }
+
+    const locale = language === enumLanguage.dutch ? 'nl-NL' : 'en-US';
+    return new Intl.DateTimeFormat(locale, {
+      month: 'short',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(`${value}-01T00:00:00Z`));
+  }
+
+  private getExperience(experiences: Experience[], language: enumLanguage) {
     const exp = [];
 
     experiences.forEach(experience => {
@@ -183,7 +196,10 @@ export class PdfCreator {
               style: 'parTitle'
             }],
             [{
-              text: this.createString([experience.startDate, experience.endDate], ' - '),
+              text: this.createString([
+                this.formatMonthYear(experience.startDate, language),
+                this.formatMonthYear(experience.endDate, language),
+              ], ' - '),
               style: 'parPeriod'
             }],
             [{
@@ -270,7 +286,7 @@ export class PdfCreator {
       }
   }
 
-  private getEducation(educations: Education[]) {
+  private getEducation(educations: Education[], language: enumLanguage) {
     const edu = [];
 
     educations.forEach(education => {
@@ -280,14 +296,21 @@ export class PdfCreator {
               style: 'parTitle'
             }],
             [{
-              text: this.createString([education.startDate, education.endDate], ' - '),
+              text: [
+                this.formatMonthYear(education.startDate, language),
+                this.formatMonthYear(education.endDate, language),
+              ].filter(Boolean).join(' - '),
+              margin: [10, 0, 0, education.description.trim() ? 0 : 10],
               style: 'parPeriod'
             }],
-            [{
-              text: education.description,
-              style: 'parDescription',
-            }]
       );
+
+      if (education.description.trim()) {
+        edu.push([{
+          text: education.description,
+          style: 'parDescription',
+        }]);
+      }
     });
 
     return {

@@ -59,6 +59,7 @@ export class AppComponent implements OnInit {
   cv: Cv;
   cvForm: FormGroup;
   visibilityControl = new FormControl(true, { nonNullable: true });
+  pdfValidationError = false;
 
   enumLanguage = enumLanguage;
 
@@ -76,7 +77,7 @@ export class AppComponent implements OnInit {
       profile: new FormControl(this.cv.info.profile, { nonNullable: true }),
       firstName: new FormControl(this.cv.person.firstName, { nonNullable: true, validators: [Validators.required] }),
       lastName: new FormControl(this.cv.person.lastName, { nonNullable: true, validators: [Validators.required] }),
-      email: new FormControl(this.cv.person.email, { nonNullable: true, validators: [Validators.required] }),
+      email: new FormControl(this.cv.person.email, { nonNullable: true, validators: [Validators.required, Validators.email] }),
       city: new FormControl(this.cv.person.city, { nonNullable: true, validators: [Validators.required] }),
       address: new FormControl(this.cv.person.address, { nonNullable: true }),
       zipCode: new FormControl(this.cv.person.zipCode, { nonNullable: true }),
@@ -87,21 +88,24 @@ export class AppComponent implements OnInit {
       driverLicense: new FormControl(this.cv.person.driverLicense, { nonNullable: true }),
       nationality: new FormControl(this.cv.person.nationality, { nonNullable: true }),
       experiences: this.createFormArray(this.cv.experiences),
-      educations: this.createFormArray(this.cv.educations),
+      educations: this.createFormArray(this.cv.educations, ['endDate', 'school', 'city', 'description']),
       socialMedias: this.createFormArray(this.cv.socialMedias),
       skills: this.createFormArray(this.cv.skills),
     });
     this.formSubscription = this.cvForm.valueChanges.subscribe(() => this.syncCvFromForm());
   }
 
-  private createFormArray<T extends object>(entries: T[]): FormArray {
-    return new FormArray(entries.map(entry => this.createEntryGroup(entry)));
+  private createFormArray<T extends object>(entries: T[], optionalFields: string[] = []): FormArray {
+    return new FormArray(entries.map(entry => this.createEntryGroup(entry, optionalFields)));
   }
 
-  private createEntryGroup<T extends object>(entry: T): FormGroup {
+  private createEntryGroup<T extends object>(entry: T, optionalFields: string[] = []): FormGroup {
     return new FormGroup(Object.fromEntries(Object.entries(entry).map(([key, value]) => [
       key,
-      new FormControl(value, { nonNullable: true }),
+      new FormControl(value, {
+        nonNullable: true,
+        validators: optionalFields.includes(key) ? [] : [Validators.required],
+      }),
     ])));
   }
 
@@ -126,9 +130,17 @@ export class AppComponent implements OnInit {
     this.cv.educations = value.educations.map((entry: Education) => Object.assign(new Education(), entry));
     this.cv.socialMedias = value.socialMedias.map((entry: SocialMedia) => Object.assign(new SocialMedia(), entry));
     this.cv.skills = value.skills.map((entry: Skill) => Object.assign(new Skill(), entry));
+    if (this.pdfValidationError && this.hasValidPdfInput()) {
+      this.pdfValidationError = false;
+    }
     if (this.cv.info.language !== value.language) {
       this.changelanguage(value.language);
     }
+  }
+
+  private hasValidPdfInput(): boolean {
+    const sections = ['experiences', 'educations', 'socialMedias', 'skills'];
+    return this.cvForm.valid && sections.every(section => (this.cvForm.get(section) as FormArray).length > 0);
   }
 
   // CHANGE LANGUAGE
@@ -151,6 +163,7 @@ export class AppComponent implements OnInit {
   // ACTION BUTTONS
   resetCv() {
     this.cv = new Cv();
+    this.pdfValidationError = false;
     this.initializeForm();
     this.changelanguage(this.cv.info.language);
   }
@@ -192,6 +205,13 @@ export class AppComponent implements OnInit {
   }
 
   async createPdf() {
+    this.cvForm.markAllAsTouched();
+    if (!this.hasValidPdfInput()) {
+      this.pdfValidationError = true;
+      return;
+    }
+
+    this.pdfValidationError = false;
     const { pdfCreator } = await import('./pdf/pdfCreator');
     pdfCreator.generatePDF(this.cv);
   }
