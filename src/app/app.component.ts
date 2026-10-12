@@ -52,28 +52,36 @@ export class AppComponent implements OnInit {
   private uploader = viewChild.required<ElementRef<HTMLInputElement>>('uploader');
 
   private formSubscription?: Subscription;
-  readonly menuItems = computed<MenuItem[]>(() => [
+  private readonly baseMenuItems: MenuItem[] = [
     {
-      label: this.localize.translate('open'),
+      label: '',
       icon: 'fa-solid fa-folder-open',
       command: () => this.importCv()
     },
     {
-      label: this.localize.translate('save'),
+      label: '',
       icon: 'fa-solid fa-floppy-disk',
       command: () => this.exportCv()
     },
     {
-      label: this.localize.translate('reset'),
+      label: '',
       icon: 'fa-solid fa-circle-xmark',
       command: () => this.resetCv()
     },
     {
-      label: this.localize.translate('exportPdf'),
+      label: '',
       icon: 'fa-solid fa-file-pdf',
       command: () => this.createPdf()
     }
-  ]);
+  ];
+
+  readonly menuItems = computed<MenuItem[]>(() => {
+    this.baseMenuItems[0].label = this.localize.translate('open');
+    this.baseMenuItems[1].label = this.localize.translate('save');
+    this.baseMenuItems[2].label = this.localize.translate('reset');
+    this.baseMenuItems[3].label = this.localize.translate('exportPdf');
+    return this.baseMenuItems;
+  });
 
   get isInfoMoreChecked(): boolean {
     return this.visibilityControl.value;
