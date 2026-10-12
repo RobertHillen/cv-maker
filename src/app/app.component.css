@@ -2,8 +2,15 @@
   background-color: #73C2FB;
 }
 
+.personal-info-card,
+.cv-section-card {
+  --p-card-body-padding: 0;
+  --p-card-body-gap: 0;
+  --p-card-shadow: none;
+}
+
 .cv-navbar p-menubar {
-  font-weight: 700;
+  font-weight: 500;
   --p-menubar-background: transparent;
   --p-menubar-border-color: transparent;
   --p-menubar-color: #0F52BA;

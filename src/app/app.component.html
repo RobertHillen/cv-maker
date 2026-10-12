@@ -1,6 +1,7 @@
-<nav class="cv-navbar flex flex-wrap items-center justify-between gap-3 px-4 py-2">
+<nav
+  class="cv-navbar flex flex-wrap items-center justify-between gap-3 px-4 py-2"
+>
   <div class="flex w-full flex-wrap items-center justify-between gap-3">
-
     <!-- BRAND AND LANGUAGE SELECTOR -->
     <div class="flex items-center gap-2">
       <div class="mr-2 flex items-center gap-2 font-semibold">
@@ -24,14 +25,17 @@
     </div>
 
     <!-- MENU BAR -->
-    <p-menubar [model]="menuItems" />
+    <p-menubar [model]="menuItems()" />
     <input hidden type="file" #uploader (change)="importCv($event)" />
   </div>
 </nav>
 
 @if (pdfValidationError) {
   <div class="mx-auto mt-2 w-full max-w-6xl px-4">
-    <div class="mb-0 rounded border border-red-300 bg-red-50 p-3 text-red-800" role="alert">
+    <div
+      class="mb-0 rounded border border-red-300 bg-red-50 p-3 text-red-800"
+      role="alert"
+    >
       {{ localize.translate("invalidPdfInput") }}
     </div>
   </div>
@@ -41,24 +45,28 @@
   <div class="mx-auto w-full max-w-6xl px-4">
 
     <!-- PERSONAL INFORMATION -->
-    <div class="mb-3 mt-3 overflow-hidden rounded border border-blue-700">
-      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-        <h4
-          class="m-0 flex flex-wrap items-center justify-between gap-2 text-lg font-semibold"
-        >
-          <span id="personal-info-heading">{{
-            localize.translate("personalInformation")
-          }}</span>
-          <p-selectbutton
-            [options]="infoVisibilityOptions()"
-            optionLabel="label"
-            optionValue="value"
-            [formControl]="visibilityControl"
-            [allowEmpty]="false"
-            size="small"
-          ></p-selectbutton>
-        </h4>
-      </div>
+    <p-card
+      class="personal-info-card mb-3 mt-3 block overflow-hidden rounded border border-blue-700"
+    >
+      <ng-template #header>
+        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
+          <h4
+            class="m-0 flex flex-wrap items-center justify-between gap-2 text-lg font-semibold"
+          >
+            <span id="personal-info-heading">{{
+              localize.translate("personalInformation")
+            }}</span>
+            <p-selectbutton
+              [options]="infoVisibilityOptions()"
+              optionLabel="label"
+              optionValue="value"
+              [formControl]="visibilityControl"
+              [allowEmpty]="false"
+              size="small"
+            ></p-selectbutton>
+          </h4>
+        </div>
+      </ng-template>
       <div class="space-y-3 p-4 text-blue-900">
         <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
           <div class="min-w-0">
@@ -292,15 +300,19 @@
           </div>
         }
       </div>
-    </div>
+    </p-card>
 
     <!-- PROFILE -->
-    <div class="mb-3 overflow-hidden rounded border border-blue-700">
-      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-        <h4 class="m-0 flex justify-between text-lg font-semibold">
-          {{ localize.translate("profile") }}
-        </h4>
-      </div>
+    <p-card
+      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
+    >
+      <ng-template #header>
+        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
+          <h4 class="m-0 flex justify-between text-lg font-semibold">
+            {{ localize.translate("profile") }}
+          </h4>
+        </div>
+      </ng-template>
       <div class="space-y-3 p-4 text-blue-900">
         <p-floatlabel variant="on">
           <textarea
@@ -316,30 +328,37 @@
           <label for="profile">{{ localize.translate("profile") }}</label>
         </p-floatlabel>
       </div>
-    </div>
+    </p-card>
 
     <!-- WORK EXPERIENCE -->
-    <div class="mb-3 overflow-hidden rounded border border-blue-700">
-      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-        <h4
-          class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
-        >
-          <span>{{ localize.translate("workExperience") }}</span>
-          <p-button
-            type="button"
-            class="add-entry-button"
-            icon="fa-solid fa-plus"
-            ariaLabel="{{ localize.translate('addExperience') }}"
-            (onClick)="addExperience()"
-          ></p-button>
-        </h4>
-      </div>
+    <p-card
+      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
+    >
+      <ng-template #header>
+        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
+          <h4
+            class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
+          >
+            <span>{{ localize.translate("workExperience") }}</span>
+            <p-button
+              type="button"
+              class="add-entry-button"
+              icon="fa-solid fa-plus"
+              ariaLabel="{{ localize.translate('addExperience') }}"
+              (onClick)="addExperience()"
+            ></p-button>
+          </h4>
+        </div>
+      </ng-template>
       <div class="space-y-3 p-4 text-blue-900">
         <div class="mx-auto w-full max-w-6xl px-4">
           @for (experience of cv.experiences; track $index; let i = $index) {
             <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
-                <span class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white">{{ i + 1 }}</span>
+                <span
+                  class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white"
+                  >{{ i + 1 }}</span
+                >
               </div>
               <div class="min-w-0 md:col-span-2">
                 <p-floatlabel variant="on">
@@ -470,30 +489,37 @@
           }
         </div>
       </div>
-    </div>
+    </p-card>
 
     <!-- EDUCATION -->
-    <div class="mb-3 overflow-hidden rounded border border-blue-700">
-      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-        <h4
-          class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
-        >
-          <span>{{ localize.translate("education") }}</span>
-          <p-button
-            type="button"
-            class="add-entry-button"
-            icon="fa-solid fa-plus"
-            ariaLabel="{{ localize.translate('addEducation') }}"
-            (onClick)="addEducation()"
-          ></p-button>
-        </h4>
-      </div>
+    <p-card
+      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
+    >
+      <ng-template #header>
+        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
+          <h4
+            class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
+          >
+            <span>{{ localize.translate("education") }}</span>
+            <p-button
+              type="button"
+              class="add-entry-button"
+              icon="fa-solid fa-plus"
+              ariaLabel="{{ localize.translate('addEducation') }}"
+              (onClick)="addEducation()"
+            ></p-button>
+          </h4>
+        </div>
+      </ng-template>
       <div class="space-y-3 p-4 text-blue-900">
         <div class="mx-auto w-full max-w-6xl px-4">
           @for (education of cv.educations; track $index; let i = $index) {
             <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
-                <span class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white">{{ i + 1 }}</span>
+                <span
+                  class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white"
+                  >{{ i + 1 }}</span
+                >
               </div>
               <div class="min-w-0 md:col-span-2">
                 <p-floatlabel variant="on">
@@ -616,30 +642,37 @@
           }
         </div>
       </div>
-    </div>
+    </p-card>
 
     <!-- SOCIAL MEDIA -->
-    <div class="mb-3 overflow-hidden rounded border border-blue-700">
-      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-        <h4
-          class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
-        >
-          <span>{{ localize.translate("websitesAndSocialMediaLinks") }}</span>
-          <p-button
-            type="button"
-            class="add-entry-button"
-            icon="fa-solid fa-plus"
-            ariaLabel="{{ localize.translate('addSocialMedia') }}"
-            (onClick)="addSocialMedia()"
-          ></p-button>
-        </h4>
-      </div>
+    <p-card
+      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
+    >
+      <ng-template #header>
+        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
+          <h4
+            class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
+          >
+            <span>{{ localize.translate("websitesAndSocialMediaLinks") }}</span>
+            <p-button
+              type="button"
+              class="add-entry-button"
+              icon="fa-solid fa-plus"
+              ariaLabel="{{ localize.translate('addSocialMedia') }}"
+              (onClick)="addSocialMedia()"
+            ></p-button>
+          </h4>
+        </div>
+      </ng-template>
       <div class="space-y-3 p-4 text-blue-900">
         <div class="mx-auto w-full max-w-6xl px-4">
           @for (socialMedia of cv.socialMedias; track $index; let i = $index) {
             <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
-                <span class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white">{{ i + 1 }}</span>
+                <span
+                  class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white"
+                  >{{ i + 1 }}</span
+                >
               </div>
               <div class="min-w-0 md:col-span-5">
                 <p-floatlabel variant="on">
@@ -688,30 +721,37 @@
           }
         </div>
       </div>
-    </div>
+    </p-card>
 
     <!-- SKILLS -->
-    <div class="mb-3 overflow-hidden rounded border border-blue-700">
-      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-        <h4
-          class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
-        >
-          <span>{{ localize.translate("skills") }}</span>
-          <p-button
-            type="button"
-            class="add-entry-button"
-            icon="fa-solid fa-plus"
-            ariaLabel="{{ localize.translate('addSkill') }}"
-            (onClick)="addSkill()"
-          ></p-button>
-        </h4>
-      </div>
+    <p-card
+      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
+    >
+      <ng-template #header>
+        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
+          <h4
+            class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
+          >
+            <span>{{ localize.translate("skills") }}</span>
+            <p-button
+              type="button"
+              class="add-entry-button"
+              icon="fa-solid fa-plus"
+              ariaLabel="{{ localize.translate('addSkill') }}"
+              (onClick)="addSkill()"
+            ></p-button>
+          </h4>
+        </div>
+      </ng-template>
       <div class="space-y-3 p-4 text-blue-900">
         <div class="mx-auto w-full max-w-6xl px-4">
           @for (skill of cv.skills; track $index; let i = $index) {
             <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
-                <span class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white">{{ i + 1 }}</span>
+                <span
+                  class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white"
+                  >{{ i + 1 }}</span
+                >
               </div>
               <div class="min-w-0 md:col-span-10">
                 <p-floatlabel variant="on">
@@ -743,6 +783,6 @@
           }
         </div>
       </div>
-    </div>
+    </p-card>
   </div>
 </form>

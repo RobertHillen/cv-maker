@@ -22,6 +22,7 @@ import { DatePickerModule } from '@openng/optimus-ui/datepicker';
 import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.component';
 import { MenubarModule } from '@openng/optimus-ui/menubar';
 import { MenuItem } from '@openng/optimus-ui/api';
+import { CardModule } from '@openng/optimus-ui/card';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,8 @@ import { MenuItem } from '@openng/optimus-ui/api';
     TextareaModule,
     DatePickerModule,
     AvatarUploadComponent,
-    MenubarModule
+    MenubarModule,
+    CardModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -48,7 +50,28 @@ export class AppComponent implements OnInit {
   private uploader = viewChild.required<ElementRef<HTMLInputElement>>('uploader');
 
   private formSubscription?: Subscription;
-  menuItems: MenuItem[] | undefined;
+  readonly menuItems = computed<MenuItem[]>(() => [
+    {
+      label: this.localize.translate('open'),
+      icon: 'fa-solid fa-folder-open',
+      command: () => this.importCv()
+    },
+    {
+      label: this.localize.translate('save'),
+      icon: 'fa-solid fa-floppy-disk',
+      command: () => this.exportCv()
+    },
+    {
+      label: this.localize.translate('reset'),
+      icon: 'fa-solid fa-circle-xmark',
+      command: () => this.resetCv()
+    },
+    {
+      label: this.localize.translate('exportPdf'),
+      icon: 'fa-solid fa-file-pdf',
+      command: () => this.createPdf()
+    }
+  ]);
 
   get isInfoMoreChecked(): boolean {
     return this.visibilityControl.value;
@@ -71,29 +94,6 @@ export class AppComponent implements OnInit {
   enumLanguage = enumLanguage;
 
   ngOnInit(): void {
-    this.menuItems = [
-      {
-        label: this.localize.translate('createPdf'),
-        icon: 'fa-solid fa-file-pdf',
-        command: () => this.createPdf()
-      },
-      {
-        label: this.localize.translate('import'),
-        icon: 'fa-solid fa-upload',
-        command: () => this.importCv()
-      },
-      {
-        label: this.localize.translate('export'),
-        icon: 'fa-solid fa-download',
-        command: () => this.exportCv()
-      },
-      {
-        label: this.localize.translate('reset'),
-        icon: 'fa-solid fa-circle-xmark',
-        command: () => this.resetCv()
-      }
-    ];
-
     this.resetCv();
   }
 
