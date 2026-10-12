@@ -1,5 +1,5 @@
 import { DOCUMENT, DatePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, computed, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { Cv } from './models/cv';
 import { Education, Experience, SocialMedia, Skill } from './models/modelCv';
 import { enumLanguage } from './enums/enumCv';
@@ -20,6 +20,8 @@ import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
 import { TextareaModule } from '@openng/optimus-ui/textarea';
 import { DatePickerModule } from '@openng/optimus-ui/datepicker';
 import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.component';
+import { MenubarModule } from '@openng/optimus-ui/menubar';
+import { MenuItem } from '@openng/optimus-ui/api';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +34,7 @@ import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.comp
     TextareaModule,
     DatePickerModule,
     AvatarUploadComponent,
+    MenubarModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -42,8 +45,10 @@ export class AppComponent implements OnInit {
 
   private document = inject(DOCUMENT);
   private changeDetector = inject(ChangeDetectorRef);
+  private uploader = viewChild.required<ElementRef<HTMLInputElement>>('uploader');
 
   private formSubscription?: Subscription;
+  menuItems: MenuItem[] | undefined;
 
   get isInfoMoreChecked(): boolean {
     return this.visibilityControl.value;
@@ -66,6 +71,29 @@ export class AppComponent implements OnInit {
   enumLanguage = enumLanguage;
 
   ngOnInit(): void {
+    this.menuItems = [
+      {
+        label: this.localize.translate('createPdf'),
+        icon: 'fa-solid fa-file-pdf',
+        command: () => this.createPdf()
+      },
+      {
+        label: this.localize.translate('import'),
+        icon: 'fa-solid fa-upload',
+        command: () => this.importCv()
+      },
+      {
+        label: this.localize.translate('export'),
+        icon: 'fa-solid fa-download',
+        command: () => this.exportCv()
+      },
+      {
+        label: this.localize.translate('reset'),
+        icon: 'fa-solid fa-circle-xmark',
+        command: () => this.resetCv()
+      }
+    ];
+
     this.resetCv();
   }
 
@@ -176,8 +204,13 @@ export class AppComponent implements OnInit {
     saveAs(dataURI, filename);
   }
 
-  importCv(event: Event) {
-    const input = event.target as HTMLInputElement | null;
+  importCv(event?: Event) {
+    if (!event) {
+      this.uploader().nativeElement.click();
+      return;
+    }
+
+    const input = event?.target as HTMLInputElement | null;
     const file = input?.files?.[0];
     if (!input || !file) {
       return;

@@ -23,46 +23,9 @@
       ></p-selectbutton>
     </div>
 
-    <!-- ACTION BUTTONS -->
-    <div class="flex flex-row-reverse flex-wrap">
-      <div class="p-2">
-        <p-button
-          type="button"
-          size="small"
-          icon="fa-solid fa-circle-xmark"
-          label="{{ localize.translate('reset') }}"
-          (onClick)="resetCv()"
-        ></p-button>
-      </div>
-      <div class="p-2">
-        <p-button
-          type="button"
-          size="small"
-          icon="fa-solid fa-download"
-          label="{{ localize.translate('export') }}"
-          (onClick)="exportCv()"
-        ></p-button>
-      </div>
-      <div class="p-2">
-        <p-button
-          type="button"
-          size="small"
-          icon="fa-solid fa-upload"
-          label="{{ localize.translate('import') }}"
-          (onClick)="uploader.click()"
-        ></p-button>
-        <input hidden type="file" #uploader (change)="importCv($event)" />
-      </div>
-      <div class="p-2">
-        <p-button
-          type="button"
-          size="small"
-          icon="fa-solid fa-file-pdf"
-          label="{{ localize.translate('createPdf') }}"
-          (onClick)="createPdf()"
-        ></p-button>
-      </div>
-    </div>
+    <!-- MENU BAR -->
+    <p-menubar [model]="menuItems" />
+    <input hidden type="file" #uploader (change)="importCv($event)" />
   </div>
 </nav>
 

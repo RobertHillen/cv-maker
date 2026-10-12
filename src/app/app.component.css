@@ -2,6 +2,23 @@
   background-color: #73C2FB;
 }
 
+.cv-navbar p-menubar {
+  font-weight: 700;
+  --p-menubar-background: transparent;
+  --p-menubar-border-color: transparent;
+  --p-menubar-color: #0F52BA;
+  --p-menubar-item-color: #0F52BA;
+  --p-menubar-item-focus-color: #0F52BA;
+  --p-menubar-item-active-color: #0F52BA;
+  --p-menubar-item-focus-background: #e8f1ff;
+  --p-menubar-item-active-background: #d6e7ff;
+  --p-menubar-item-icon-color: #0F52BA;
+  --p-menubar-item-icon-focus-color: #0F52BA;
+  --p-menubar-item-icon-active-color: #0F52BA;
+  --p-menubar-mobile-button-color: #0F52BA;
+  --p-menubar-mobile-button-hover-color: #0F52BA;
+}
+
 .cv-navbar p-button {
   --p-button-primary-background: #0F52BA;
   --p-button-primary-border-color: #0F52BA;
