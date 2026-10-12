@@ -355,10 +355,7 @@
           @for (experience of cv.experiences; track $index; let i = $index) {
             <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
-                <span
-                  class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white"
-                  >{{ i + 1 }}</span
-                >
+                <p-badge class="entry-number" [value]="i + 1" severity="info" />
               </div>
               <div class="min-w-0 md:col-span-2">
                 <p-floatlabel variant="on">
@@ -516,10 +513,7 @@
           @for (education of cv.educations; track $index; let i = $index) {
             <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
-                <span
-                  class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white"
-                  >{{ i + 1 }}</span
-                >
+                <p-badge class="entry-number" [value]="i + 1" severity="info" />
               </div>
               <div class="min-w-0 md:col-span-2">
                 <p-floatlabel variant="on">
@@ -669,10 +663,7 @@
           @for (socialMedia of cv.socialMedias; track $index; let i = $index) {
             <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
-                <span
-                  class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white"
-                  >{{ i + 1 }}</span
-                >
+                <p-badge class="entry-number" [value]="i + 1" severity="info" />
               </div>
               <div class="min-w-0 md:col-span-5">
                 <p-floatlabel variant="on">
@@ -748,10 +739,7 @@
           @for (skill of cv.skills; track $index; let i = $index) {
             <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
-                <span
-                  class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white"
-                  >{{ i + 1 }}</span
-                >
+                <p-badge class="entry-number" [value]="i + 1" severity="info" />
               </div>
               <div class="min-w-0 md:col-span-10">
                 <p-floatlabel variant="on">

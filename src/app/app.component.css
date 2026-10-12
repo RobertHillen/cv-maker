@@ -9,6 +9,15 @@
   --p-card-shadow: none;
 }
 
+p-badge.entry-number {
+  --p-badge-info-background: #1d4ed8;
+  --p-badge-info-color: #ffffff;
+  --p-badge-min-width: 1.5rem;
+  --p-badge-height: 1.5rem;
+  --p-badge-font-size: 0.875rem;
+  --p-badge-border-radius: 9999px;
+}
+
 .cv-navbar p-menubar {
   font-weight: 500;
   --p-menubar-background: transparent;

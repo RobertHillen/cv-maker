@@ -23,6 +23,7 @@ import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.comp
 import { MenubarModule } from '@openng/optimus-ui/menubar';
 import { MenuItem } from '@openng/optimus-ui/api';
 import { CardModule } from '@openng/optimus-ui/card';
+import { BadgeModule } from '@openng/optimus-ui/badge';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +37,8 @@ import { CardModule } from '@openng/optimus-ui/card';
     DatePickerModule,
     AvatarUploadComponent,
     MenubarModule,
-    CardModule
+    CardModule,
+    BadgeModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
