@@ -1,12 +1,12 @@
 <form [formGroup]="avatarForm">
-  <div class="container px-0">
-    <div class="row">
-      <div class="col-md-4">
-        <p-fileupload #avatarUploader mode="basic" chooseLabel="Avatar" chooseIcon="bi bi-image" accept="image/*" [multiple]="false" [auto]="false" [customUpload]="true" [chooseButtonProps]="{ size: 'small' }" (onSelect)="showPreview($event); avatarUploader.clear()">
+  <div class="w-full">
+    <div class="grid grid-cols-1 gap-3 md:grid-cols-12">
+      <div class="min-w-0 md:col-span-4">
+        <p-fileupload #avatarUploader mode="basic" chooseLabel="Avatar" chooseIcon="fa-solid fa-image" accept="image/*" [multiple]="false" [auto]="false" [customUpload]="true" [chooseButtonProps]="{ size: 'small' }" (onSelect)="showPreview($event); avatarUploader.clear()">
           <ng-template #filelabel></ng-template>
         </p-fileupload>
       </div>
-      <div class="col-md-4">
+      <div class="min-w-0 md:col-span-4">
         @if (imageURL && imageURL !== '') {
           <div class="imagePreview">
             <img [src]="imageURL" [alt]="avatarForm.value.name" height="60px" decoding="async">

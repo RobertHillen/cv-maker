@@ -18,6 +18,7 @@ import { SelectButtonModule } from '@openng/optimus-ui/selectbutton';
 import { InputTextModule } from '@openng/optimus-ui/inputtext';
 import { FloatLabelModule } from '@openng/optimus-ui/floatlabel';
 import { TextareaModule } from '@openng/optimus-ui/textarea';
+import { DatePickerModule } from '@openng/optimus-ui/datepicker';
 import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.component';
 
 @Component({
@@ -29,6 +30,7 @@ import { AvatarUploadComponent } from './shared/avatar-upload/avatar-upload.comp
     InputTextModule,
     FloatLabelModule,
     TextareaModule,
+    DatePickerModule,
     AvatarUploadComponent,
   ],
   templateUrl: './app.component.html',
@@ -284,14 +286,14 @@ export class AppComponent implements OnInit {
     cv.person.driverLicense = this.readString(person, 'driverLicense');
     cv.person.nationality = this.readString(person, 'nationality');
     cv.person.birthCity = this.readString(person, 'birthCity');
-    cv.person.birthDate = this.readString(person, 'birthDate');
+    cv.person.birthDate = this.normalizeDate(this.readString(person, 'birthDate'), 'dd-MM-yyyy');
 
     cv.experiences = this.normalizeEntries(source['experiences'], () => new Experience(), [
       'function', 'employer', 'startDate', 'endDate', 'city', 'description'
-    ]);
+    ], 'MMM yyyy');
     cv.educations = this.normalizeEntries(source['educations'], () => new Education(), [
       'school', 'study', 'startDate', 'endDate', 'city', 'description'
-    ]);
+    ], 'yyyy');
     cv.socialMedias = this.normalizeEntries(source['socialMedias'], () => new SocialMedia(), ['label', 'link']);
     cv.skills = this.normalizeEntries(source['skills'], () => new Skill(), ['ability']);
 
@@ -316,7 +318,15 @@ export class AppComponent implements OnInit {
     return value;
   }
 
-  private normalizeEntries<T extends object>(value: unknown, create: () => T, fields: string[]): T[] {
+  private normalizeDate(value: string, format: string): string {
+    if (!/^\d{4}-\d{2}(?:-\d{2}(?:T.*)?)?$/.test(value)) {
+      return value;
+    }
+    const dateValue = value.length === 7 ? `${value}-01` : value.slice(0, 10);
+    return this.datepipe.transform(dateValue, format) ?? '';
+  }
+
+  private normalizeEntries<T extends object>(value: unknown, create: () => T, fields: string[], dateFormat?: string): T[] {
     if (!Array.isArray(value)) {
       throw new Error('Invalid CV section');
     }
@@ -325,7 +335,11 @@ export class AppComponent implements OnInit {
       const source = this.asRecord(item);
       const entry = create();
       for (const field of fields) {
-        Object.assign(entry, { [field]: this.readString(source, field) });
+        let fieldValue = this.readString(source, field);
+        if (dateFormat && (field === 'startDate' || field === 'endDate')) {
+          fieldValue = this.normalizeDate(fieldValue, dateFormat);
+        }
+        Object.assign(entry, { [field]: fieldValue });
       }
       return entry;
     });

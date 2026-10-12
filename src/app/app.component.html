@@ -1,9 +1,9 @@
-<nav class="navbar navbar-light cv-navbar">
-  <div class="container-fluid">
+<nav class="cv-navbar flex flex-wrap items-center justify-between gap-3 px-4 py-2">
+  <div class="flex w-full flex-wrap items-center justify-between gap-3">
 
     <!-- BRAND AND LANGUAGE SELECTOR -->
-    <div class="d-flex align-items-center gap-2">
-      <div class="navbar-brand d-flex align-items-center gap-2 me-2">
+    <div class="flex items-center gap-2">
+      <div class="mr-2 flex items-center gap-2 font-semibold">
         <img
           class="brand-logo"
           src="assets/cv-logo.png"
@@ -24,12 +24,12 @@
     </div>
 
     <!-- ACTION BUTTONS -->
-    <div class="d-flex flex-row-reverse">
+    <div class="flex flex-row-reverse flex-wrap">
       <div class="p-2">
         <p-button
           type="button"
           size="small"
-          icon="bi bi-x-octagon"
+          icon="fa-solid fa-circle-xmark"
           label="{{ localize.translate('reset') }}"
           (onClick)="resetCv()"
         ></p-button>
@@ -38,7 +38,7 @@
         <p-button
           type="button"
           size="small"
-          icon="bi bi-box-arrow-down"
+          icon="fa-solid fa-download"
           label="{{ localize.translate('export') }}"
           (onClick)="exportCv()"
         ></p-button>
@@ -47,7 +47,7 @@
         <p-button
           type="button"
           size="small"
-          icon="bi bi-box-arrow-up"
+          icon="fa-solid fa-upload"
           label="{{ localize.translate('import') }}"
           (onClick)="uploader.click()"
         ></p-button>
@@ -57,7 +57,7 @@
         <p-button
           type="button"
           size="small"
-          icon="bi bi-file-pdf"
+          icon="fa-solid fa-file-pdf"
           label="{{ localize.translate('createPdf') }}"
           (onClick)="createPdf()"
         ></p-button>
@@ -67,21 +67,21 @@
 </nav>
 
 @if (pdfValidationError) {
-  <div class="container mt-2">
-    <div class="alert alert-danger mb-0" role="alert">
+  <div class="mx-auto mt-2 w-full max-w-6xl px-4">
+    <div class="mb-0 rounded border border-red-300 bg-red-50 p-3 text-red-800" role="alert">
       {{ localize.translate("invalidPdfInput") }}
     </div>
   </div>
 }
 
 <form [formGroup]="cvForm">
-  <div class="container">
+  <div class="mx-auto w-full max-w-6xl px-4">
 
     <!-- PERSONAL INFORMATION -->
-    <div class="card border-primary mt-3 mb-3">
-      <div class="card-header">
+    <div class="mb-3 mt-3 overflow-hidden rounded border border-blue-700">
+      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
         <h4
-          class="card-title d-flex justify-content-between align-items-center flex-wrap gap-2"
+          class="m-0 flex flex-wrap items-center justify-between gap-2 text-lg font-semibold"
         >
           <span id="personal-info-heading">{{
             localize.translate("personalInformation")
@@ -96,9 +96,9 @@
           ></p-selectbutton>
         </h4>
       </div>
-      <div class="card-body text-primary">
-        <div class="row row-margin">
-          <div class="col-md-6">
+      <div class="space-y-3 p-4 text-blue-900">
+        <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div class="min-w-0">
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -114,15 +114,15 @@
               <label for="title">{{ localize.translate("title") }}</label>
             </p-floatlabel>
           </div>
-          <div class="col-md-6">
+          <div class="min-w-0">
             <avatar-upload
               [imageURL]="cv.info.avatar"
               (imageLoaded)="setAvatar($event)"
             ></avatar-upload>
           </div>
         </div>
-        <div class="row row-margin">
-          <div class="col-md-6">
+        <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div class="min-w-0">
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -140,7 +140,7 @@
               }}</label>
             </p-floatlabel>
           </div>
-          <div class="col-md-6">
+          <div class="min-w-0">
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -157,8 +157,8 @@
             </p-floatlabel>
           </div>
         </div>
-        <div class="row row-margin">
-          <div class="col-md-6">
+        <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div class="min-w-0">
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -174,7 +174,7 @@
               <label for="eMail">{{ localize.translate("email") }}</label>
             </p-floatlabel>
           </div>
-          <div class="col-md-6">
+          <div class="min-w-0">
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -192,8 +192,8 @@
           </div>
         </div>
         @if (isInfoMoreChecked) {
-          <div class="row row-margin">
-            <div class="col-md-6">
+          <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div class="min-w-0">
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -208,7 +208,7 @@
                 <label for="address">{{ localize.translate("address") }}</label>
               </p-floatlabel>
             </div>
-            <div class="col-md-6">
+            <div class="min-w-0">
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -224,8 +224,8 @@
               </p-floatlabel>
             </div>
           </div>
-          <div class="row row-margin">
-            <div class="col-md-6">
+          <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div class="min-w-0">
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -240,7 +240,7 @@
                 <label for="phone">{{ localize.translate("phone") }}</label>
               </p-floatlabel>
             </div>
-            <div class="col-md-6">
+            <div class="min-w-0">
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -256,25 +256,24 @@
               </p-floatlabel>
             </div>
           </div>
-          <div class="row row-margin">
-            <div class="col-md-6">
+          <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div class="min-w-0">
               <p-floatlabel variant="on">
-                <input
-                  pInputText
-                  type="text"
-                  pSize="small"
+                <p-datepicker
+                  dateFormat="dd-mm-yy"
+                  dataType="string"
+                  [appendTo]="'body'"
                   [fluid]="true"
-                  name="birthDate"
-                  id="birthDate"
+                  inputId="birthDate"
                   formControlName="birthDate"
                   [invalid]="cvForm.controls['birthDate'].invalid"
-                />
+                ></p-datepicker>
                 <label for="birthDate">{{
                   localize.translate("birthDate")
                 }}</label>
               </p-floatlabel>
             </div>
-            <div class="col-md-6">
+            <div class="min-w-0">
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -292,8 +291,8 @@
               </p-floatlabel>
             </div>
           </div>
-          <div class="row row-margin">
-            <div class="col-md-6">
+          <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div class="min-w-0">
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -310,7 +309,7 @@
                 }}</label>
               </p-floatlabel>
             </div>
-            <div class="col-md-6">
+            <div class="min-w-0">
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -333,13 +332,13 @@
     </div>
 
     <!-- PROFILE -->
-    <div class="card border-primary mb-3">
-      <div class="card-header">
-        <h4 class="card-title d-flex justify-content-between">
+    <div class="mb-3 overflow-hidden rounded border border-blue-700">
+      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
+        <h4 class="m-0 flex justify-between text-lg font-semibold">
           {{ localize.translate("profile") }}
         </h4>
       </div>
-      <div class="card-body text-primary">
+      <div class="space-y-3 p-4 text-blue-900">
         <p-floatlabel variant="on">
           <textarea
             pTextarea
@@ -357,67 +356,67 @@
     </div>
 
     <!-- WORK EXPERIENCE -->
-    <div class="card border-primary mb-3">
-      <div class="card-header">
+    <div class="mb-3 overflow-hidden rounded border border-blue-700">
+      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
         <h4
-          class="card-title d-flex justify-content-between align-items-center gap-2 mb-0"
+          class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
         >
           <span>{{ localize.translate("workExperience") }}</span>
           <p-button
             type="button"
             class="add-entry-button"
-            icon="bi bi-plus-lg"
+            icon="fa-solid fa-plus"
             ariaLabel="{{ localize.translate('addExperience') }}"
             (onClick)="addExperience()"
           ></p-button>
         </h4>
       </div>
-      <div class="card-body text-primary">
-        <div class="container">
+      <div class="space-y-3 p-4 text-blue-900">
+        <div class="mx-auto w-full max-w-6xl px-4">
           @for (experience of cv.experiences; track $index; let i = $index) {
-            <div class="row mb-1">
-              <div class="col-md-1">
-                <span class="badge rounded-pill bg-primary">{{ i + 1 }}</span>
+            <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
+              <div class="min-w-0 md:col-span-1">
+                <span class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white">{{ i + 1 }}</span>
               </div>
-              <div class="col-md-2">
+              <div class="min-w-0 md:col-span-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    type="month"
-                    pSize="small"
+                  <p-datepicker
+                    view="month"
+                    dateFormat="M yy"
+                    dataType="string"
+                    [appendTo]="'body'"
                     [fluid]="true"
-                    [name]="'expStartDate' + i"
-                    [id]="'expStartDate' + i"
+                    [inputId]="'expStartDate' + i"
                     [formControl]="entryControl('experiences', i, 'startDate')"
                     [invalid]="
                       entryControl('experiences', i, 'startDate').invalid
                     "
-                  />
+                  ></p-datepicker>
                   <label [for]="'expStartDate' + i">{{
                     localize.translate("startDate")
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-2">
+              <div class="min-w-0 md:col-span-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    type="month"
-                    pSize="small"
+                  <p-datepicker
+                    view="month"
+                    dateFormat="M yy"
+                    dataType="string"
+                    [appendTo]="'body'"
                     [fluid]="true"
-                    [name]="'expEndDate' + i"
-                    [id]="'expEndDate' + i"
+                    [inputId]="'expEndDate' + i"
                     [formControl]="entryControl('experiences', i, 'endDate')"
                     [invalid]="
                       entryControl('experiences', i, 'endDate').invalid
                     "
-                  />
+                  ></p-datepicker>
                   <label [for]="'expEndDate' + i">{{
                     localize.translate("endDate")
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-4">
+              <div class="min-w-0 md:col-span-4">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -436,7 +435,7 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-3">
+              <div class="min-w-0 md:col-span-3">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -454,8 +453,8 @@
                 </p-floatlabel>
               </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-md-3">
+            <div class="mb-3 grid grid-cols-1 gap-3 md:grid-cols-12">
+              <div class="min-w-0 md:col-span-3">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -474,7 +473,7 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-8">
+              <div class="min-w-0 md:col-span-8">
                 <p-floatlabel variant="on">
                   <textarea
                     pTextarea
@@ -495,11 +494,11 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-1">
+              <div class="min-w-0 md:col-span-1">
                 <p-button
                   type="button"
-                  class="right remove-entry-button"
-                  icon="bi bi-dash-lg"
+                  class="justify-self-end remove-entry-button"
+                  icon="fa-solid fa-minus"
                   ariaLabel="{{ localize.translate('removeExperience') }}"
                   (onClick)="removeExperience(i)"
                 ></p-button>
@@ -511,65 +510,65 @@
     </div>
 
     <!-- EDUCATION -->
-    <div class="card border-primary mb-3">
-      <div class="card-header">
+    <div class="mb-3 overflow-hidden rounded border border-blue-700">
+      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
         <h4
-          class="card-title d-flex justify-content-between align-items-center gap-2 mb-0"
+          class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
         >
           <span>{{ localize.translate("education") }}</span>
           <p-button
             type="button"
             class="add-entry-button"
-            icon="bi bi-plus-lg"
+            icon="fa-solid fa-plus"
             ariaLabel="{{ localize.translate('addEducation') }}"
             (onClick)="addEducation()"
           ></p-button>
         </h4>
       </div>
-      <div class="card-body text-primary">
-        <div class="container">
+      <div class="space-y-3 p-4 text-blue-900">
+        <div class="mx-auto w-full max-w-6xl px-4">
           @for (education of cv.educations; track $index; let i = $index) {
-            <div class="row mb-1">
-              <div class="col-md-1">
-                <span class="badge rounded-pill bg-primary">{{ i + 1 }}</span>
+            <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
+              <div class="min-w-0 md:col-span-1">
+                <span class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white">{{ i + 1 }}</span>
               </div>
-              <div class="col-md-2">
+              <div class="min-w-0 md:col-span-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    type="year"
-                    pSize="small"
+                  <p-datepicker
+                    view="year"
+                    dateFormat="yy"
+                    dataType="string"
+                    [appendTo]="'body'"
                     [fluid]="true"
-                    [name]="'eduStartDate' + i"
-                    [id]="'eduStartDate' + i"
+                    [inputId]="'eduStartDate' + i"
                     [formControl]="entryControl('educations', i, 'startDate')"
                     [invalid]="
                       entryControl('educations', i, 'startDate').invalid
                     "
-                  />
+                  ></p-datepicker>
                   <label [for]="'eduStartDate' + i">{{
                     localize.translate("startDate")
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-2">
+              <div class="min-w-0 md:col-span-2">
                 <p-floatlabel variant="on">
-                  <input
-                    pInputText
-                    type="year"
-                    pSize="small"
+                  <p-datepicker
+                    view="year"
+                    dateFormat="yy"
+                    dataType="string"
+                    [appendTo]="'body'"
                     [fluid]="true"
-                    [name]="'eduEndDate' + i"
-                    [id]="'eduEndDate' + i"
+                    [inputId]="'eduEndDate' + i"
                     [formControl]="entryControl('educations', i, 'endDate')"
                     [invalid]="entryControl('educations', i, 'endDate').invalid"
-                  />
+                  ></p-datepicker>
                   <label [for]="'eduEndDate' + i">{{
                     localize.translate("endDate")
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-4">
+              <div class="min-w-0 md:col-span-4">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -586,7 +585,7 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-3">
+              <div class="min-w-0 md:col-span-3">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -604,8 +603,8 @@
                 </p-floatlabel>
               </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-md-3">
+            <div class="mb-3 grid grid-cols-1 gap-3 md:grid-cols-12">
+              <div class="min-w-0 md:col-span-3">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -622,7 +621,7 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-8">
+              <div class="min-w-0 md:col-span-8">
                 <p-floatlabel variant="on">
                   <textarea
                     pTextarea
@@ -641,11 +640,11 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-1">
+              <div class="min-w-0 md:col-span-1">
                 <p-button
                   type="button"
-                  class="right remove-entry-button"
-                  icon="bi bi-dash-lg"
+                  class="justify-self-end remove-entry-button"
+                  icon="fa-solid fa-minus"
                   ariaLabel="{{ localize.translate('removeEducation') }}"
                   (onClick)="removeEducation(i)"
                 ></p-button>
@@ -657,29 +656,29 @@
     </div>
 
     <!-- SOCIAL MEDIA -->
-    <div class="card border-primary mb-3">
-      <div class="card-header">
+    <div class="mb-3 overflow-hidden rounded border border-blue-700">
+      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
         <h4
-          class="card-title d-flex justify-content-between align-items-center gap-2 mb-0"
+          class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
         >
           <span>{{ localize.translate("websitesAndSocialMediaLinks") }}</span>
           <p-button
             type="button"
             class="add-entry-button"
-            icon="bi bi-plus-lg"
+            icon="fa-solid fa-plus"
             ariaLabel="{{ localize.translate('addSocialMedia') }}"
             (onClick)="addSocialMedia()"
           ></p-button>
         </h4>
       </div>
-      <div class="card-body text-primary">
-        <div class="container">
+      <div class="space-y-3 p-4 text-blue-900">
+        <div class="mx-auto w-full max-w-6xl px-4">
           @for (socialMedia of cv.socialMedias; track $index; let i = $index) {
-            <div class="row mb-1">
-              <div class="col-md-1">
-                <span class="badge rounded-pill bg-primary">{{ i + 1 }}</span>
+            <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
+              <div class="min-w-0 md:col-span-1">
+                <span class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white">{{ i + 1 }}</span>
               </div>
-              <div class="col-md-5">
+              <div class="min-w-0 md:col-span-5">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -696,7 +695,7 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-5">
+              <div class="min-w-0 md:col-span-5">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -713,11 +712,11 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-1">
+              <div class="min-w-0 md:col-span-1">
                 <p-button
                   type="button"
-                  class="right remove-entry-button"
-                  icon="bi bi-dash-lg"
+                  class="justify-self-end remove-entry-button"
+                  icon="fa-solid fa-minus"
                   ariaLabel="{{ localize.translate('removeSocialMedia') }}"
                   (onClick)="removeSocialMedia(i)"
                 ></p-button>
@@ -729,29 +728,29 @@
     </div>
 
     <!-- SKILLS -->
-    <div class="card border-primary mb-3">
-      <div class="card-header">
+    <div class="mb-3 overflow-hidden rounded border border-blue-700">
+      <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
         <h4
-          class="card-title d-flex justify-content-between align-items-center gap-2 mb-0"
+          class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
         >
           <span>{{ localize.translate("skills") }}</span>
           <p-button
             type="button"
             class="add-entry-button"
-            icon="bi bi-plus-lg"
+            icon="fa-solid fa-plus"
             ariaLabel="{{ localize.translate('addSkill') }}"
             (onClick)="addSkill()"
           ></p-button>
         </h4>
       </div>
-      <div class="card-body text-primary">
-        <div class="container">
+      <div class="space-y-3 p-4 text-blue-900">
+        <div class="mx-auto w-full max-w-6xl px-4">
           @for (skill of cv.skills; track $index; let i = $index) {
-            <div class="row mb-1">
-              <div class="col-md-1">
-                <span class="badge rounded-pill bg-primary">{{ i + 1 }}</span>
+            <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
+              <div class="min-w-0 md:col-span-1">
+                <span class="inline-flex size-6 items-center justify-center rounded-full bg-blue-700 text-sm text-white">{{ i + 1 }}</span>
               </div>
-              <div class="col-md-10">
+              <div class="min-w-0 md:col-span-10">
                 <p-floatlabel variant="on">
                   <input
                     pInputText
@@ -768,11 +767,11 @@
                   }}</label>
                 </p-floatlabel>
               </div>
-              <div class="col-md-1">
+              <div class="min-w-0 md:col-span-1">
                 <p-button
                   type="button"
-                  class="right remove-entry-button"
-                  icon="bi bi-dash-lg"
+                  class="justify-self-end remove-entry-button"
+                  icon="fa-solid fa-minus"
                   ariaLabel="{{ localize.translate('removeSkill') }}"
                   (onClick)="removeSkill(i)"
                 ></p-button>

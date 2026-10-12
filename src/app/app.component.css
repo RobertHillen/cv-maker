@@ -50,15 +50,3 @@ p-button.remove-entry-button {
   flex-shrink: 0;
 }
 
-.right {
-  float: right;
-  font-size: smaller;
-}
-
-.row-margin {
-  margin-bottom: 10px;
-}
-
-.white {
-  color: white
-}
