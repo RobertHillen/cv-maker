@@ -45,14 +45,10 @@
   <div class="mx-auto w-full max-w-6xl px-4">
 
     <!-- PERSONAL INFORMATION -->
-    <p-card
-      class="personal-info-card mb-3 mt-3 block overflow-hidden rounded border border-blue-700"
-    >
+    <p-card class="cv-card">
       <ng-template #header>
-        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-          <h4
-            class="m-0 flex flex-wrap items-center justify-between gap-2 text-lg font-semibold"
-          >
+        <div class="cv-card-header">
+          <h4>
             <span id="personal-info-heading">{{
               localize.translate("personalInformation")
             }}</span>
@@ -67,9 +63,9 @@
           </h4>
         </div>
       </ng-template>
-      <div class="space-y-3 p-4 text-blue-900">
-        <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div class="min-w-0">
+      <div class="cv-card-body">
+        <div class="form-row">
+          <div>
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -85,15 +81,15 @@
               <label for="title">{{ localize.translate("title") }}</label>
             </p-floatlabel>
           </div>
-          <div class="min-w-0">
+          <div>
             <avatar-upload
               [imageURL]="cv.info.avatar"
               (imageLoaded)="setAvatar($event)"
             ></avatar-upload>
           </div>
         </div>
-        <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div class="min-w-0">
+        <div class="form-row">
+          <div>
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -111,7 +107,7 @@
               }}</label>
             </p-floatlabel>
           </div>
-          <div class="min-w-0">
+          <div>
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -128,8 +124,8 @@
             </p-floatlabel>
           </div>
         </div>
-        <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
-          <div class="min-w-0">
+        <div class="form-row">
+          <div>
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -145,7 +141,7 @@
               <label for="eMail">{{ localize.translate("email") }}</label>
             </p-floatlabel>
           </div>
-          <div class="min-w-0">
+          <div>
             <p-floatlabel variant="on">
               <input
                 pInputText
@@ -163,8 +159,8 @@
           </div>
         </div>
         @if (isInfoMoreChecked) {
-          <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div class="min-w-0">
+          <div class="form-row">
+            <div>
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -179,7 +175,7 @@
                 <label for="address">{{ localize.translate("address") }}</label>
               </p-floatlabel>
             </div>
-            <div class="min-w-0">
+            <div>
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -195,8 +191,8 @@
               </p-floatlabel>
             </div>
           </div>
-          <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div class="min-w-0">
+          <div class="form-row">
+            <div>
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -211,7 +207,7 @@
                 <label for="phone">{{ localize.translate("phone") }}</label>
               </p-floatlabel>
             </div>
-            <div class="min-w-0">
+            <div>
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -227,8 +223,8 @@
               </p-floatlabel>
             </div>
           </div>
-          <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div class="min-w-0">
+          <div class="form-row">
+            <div>
               <p-floatlabel variant="on">
                 <p-datepicker
                   dateFormat="dd-mm-yy"
@@ -244,7 +240,7 @@
                 }}</label>
               </p-floatlabel>
             </div>
-            <div class="min-w-0">
+            <div>
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -262,8 +258,8 @@
               </p-floatlabel>
             </div>
           </div>
-          <div class="mb-[10px] grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div class="min-w-0">
+          <div class="form-row">
+            <div>
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -280,7 +276,7 @@
                 }}</label>
               </p-floatlabel>
             </div>
-            <div class="min-w-0">
+            <div>
               <p-floatlabel variant="on">
                 <input
                   pInputText
@@ -303,17 +299,15 @@
     </p-card>
 
     <!-- PROFILE -->
-    <p-card
-      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
-    >
+    <p-card class="cv-card">
       <ng-template #header>
-        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-          <h4 class="m-0 flex justify-between text-lg font-semibold">
+        <div class="cv-card-header">
+          <h4>
             {{ localize.translate("profile") }}
           </h4>
         </div>
       </ng-template>
-      <div class="space-y-3 p-4 text-blue-900">
+      <div class="cv-card-body">
         <p-floatlabel variant="on">
           <textarea
             pTextarea
@@ -331,14 +325,10 @@
     </p-card>
 
     <!-- WORK EXPERIENCE -->
-    <p-card
-      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
-    >
+    <p-card class="cv-card">
       <ng-template #header>
-        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-          <h4
-            class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
-          >
+        <div class="cv-card-header">
+          <h4>
             <span>{{ localize.translate("workExperience") }}</span>
             <p-button
               type="button"
@@ -350,10 +340,9 @@
           </h4>
         </div>
       </ng-template>
-      <div class="space-y-3 p-4 text-blue-900">
-        <div class="mx-auto w-full max-w-6xl px-4">
-          @for (experience of cv.experiences; track $index; let i = $index) {
-            <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
+      <div class="cv-card-body">
+        @for (experience of cv.experiences; track $index; let i = $index) {
+          <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
                 <p-badge class="entry-number" [value]="i + 1" severity="info" />
               </div>
@@ -484,19 +473,14 @@
               </div>
             </div>
           }
-        </div>
       </div>
     </p-card>
 
     <!-- EDUCATION -->
-    <p-card
-      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
-    >
+    <p-card class="cv-card">
       <ng-template #header>
-        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-          <h4
-            class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
-          >
+        <div class="cv-card-header">
+          <h4>
             <span>{{ localize.translate("education") }}</span>
             <p-button
               type="button"
@@ -508,10 +492,9 @@
           </h4>
         </div>
       </ng-template>
-      <div class="space-y-3 p-4 text-blue-900">
-        <div class="mx-auto w-full max-w-6xl px-4">
-          @for (education of cv.educations; track $index; let i = $index) {
-            <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
+      <div class="cv-card-body">
+        @for (education of cv.educations; track $index; let i = $index) {
+          <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
                 <p-badge class="entry-number" [value]="i + 1" severity="info" />
               </div>
@@ -634,19 +617,14 @@
               </div>
             </div>
           }
-        </div>
       </div>
     </p-card>
 
     <!-- SOCIAL MEDIA -->
-    <p-card
-      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
-    >
+    <p-card class="cv-card">
       <ng-template #header>
-        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-          <h4
-            class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
-          >
+        <div class="cv-card-header">
+          <h4>
             <span>{{ localize.translate("websitesAndSocialMediaLinks") }}</span>
             <p-button
               type="button"
@@ -658,10 +636,9 @@
           </h4>
         </div>
       </ng-template>
-      <div class="space-y-3 p-4 text-blue-900">
-        <div class="mx-auto w-full max-w-6xl px-4">
-          @for (socialMedia of cv.socialMedias; track $index; let i = $index) {
-            <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
+      <div class="cv-card-body">
+        @for (socialMedia of cv.socialMedias; track $index; let i = $index) {
+          <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
                 <p-badge class="entry-number" [value]="i + 1" severity="info" />
               </div>
@@ -710,19 +687,14 @@
               </div>
             </div>
           }
-        </div>
       </div>
     </p-card>
 
     <!-- SKILLS -->
-    <p-card
-      class="cv-section-card mb-3 block overflow-hidden rounded border border-blue-700"
-    >
+    <p-card class="cv-card">
       <ng-template #header>
-        <div class="border-b border-blue-200 bg-blue-50 px-4 py-3">
-          <h4
-            class="m-0 flex items-center justify-between gap-2 text-lg font-semibold"
-          >
+        <div class="cv-card-header">
+          <h4>
             <span>{{ localize.translate("skills") }}</span>
             <p-button
               type="button"
@@ -734,10 +706,9 @@
           </h4>
         </div>
       </ng-template>
-      <div class="space-y-3 p-4 text-blue-900">
-        <div class="mx-auto w-full max-w-6xl px-4">
-          @for (skill of cv.skills; track $index; let i = $index) {
-            <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
+      <div class="cv-card-body">
+        @for (skill of cv.skills; track $index; let i = $index) {
+          <div class="mb-1 grid grid-cols-1 gap-3 md:grid-cols-12">
               <div class="min-w-0 md:col-span-1">
                 <p-badge class="entry-number" [value]="i + 1" severity="info" />
               </div>
@@ -769,7 +740,6 @@
               </div>
             </div>
           }
-        </div>
       </div>
     </p-card>
   </div>
