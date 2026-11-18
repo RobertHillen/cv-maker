@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
     {
       label: '',
       icon: 'fa-solid fa-folder-open',
-      command: () => this.importCv()
+      command: () => this.openCvFilePicker()
     },
     {
       label: '',
@@ -209,18 +209,17 @@ export class AppComponent implements OnInit {
   }
 
   exportCv() {
-    const filename = "cvmaker_" + this.datepipe.transform(new Date(), 'yyyyMMdd_HHmmss' ) + ".json";
+    const filename = "cv_" + this.datepipe.transform(new Date(), 'yyyyMMdd_HHmmss' ) + ".json";
     const dataURI = "data:text/plain;base64," + encodeBase64(JSON.stringify(this.cv));
     saveAs(dataURI, filename);
   }
 
-  importCv(event?: Event) {
-    if (!event) {
-      this.uploader().nativeElement.click();
-      return;
-    }
+  openCvFilePicker() {
+    this.uploader().nativeElement.click();
+  }
 
-    const input = event?.target as HTMLInputElement | null;
+  onCvFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement | null;
     const file = input?.files?.[0];
     if (!input || !file) {
       return;

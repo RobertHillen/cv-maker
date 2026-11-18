@@ -67,15 +67,14 @@ export class PdfCreator {
           style: 'parHeader'
         },
         this.getExperience(cv.experiences, cv.info.language),
-        {
-          text: this.getFullName(cv.person),
-          style: 'persName',
-          pageBreak: 'before'
-        },
-        {
-          text: cv.info.title,
-          style: 'persTitle'
-        },
+        // {
+        //   text: this.getFullName(cv.person),
+        //   style: 'persName',
+        // },
+        // {
+        //   text: cv.info.title,
+        //   style: 'persTitle'
+        // },
         {
           text: this.getTranslation('education'),
           style: 'parHeader'
